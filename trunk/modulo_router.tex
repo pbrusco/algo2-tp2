@@ -10,10 +10,12 @@
 \textbf{genero} \textit{router}\\
 \textbf{operaciones}
 
+
 %REPRESENTACION
 \subsection*{Representaci\'on}
 \textit{enrutador} \textbf{se representa con} \textit{estr}\\
 \textbf{donde} \textit{estr} \textbf{es} \textit{tupla$\langle$\ versiones: nat\ 	$\times$\ eventos: secu(evento)\ $\times$\ reglas: secu(regla)\ $\times$\ tiempoCaida: dicc(interfaz,nat)\ $\times$\ estaCaida: dicc(interfaz,bool)$\rangle$}
+
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante\ de \ Representaci\'on}
@@ -24,7 +26,6 @@
 \otrasops
 
 \alinearfuncs{tiempoCaidaConInterValida}{\hspace{7.5cm}}
-\alinearaxiomas{tiempoCaidaConInterValida(dn,n)}
 ``Todas las versiones de las dirIP de las reglas tienen que pertenecer al conjunto de versiones del router''
 \func{dirIpDeReglaValida}{secu(regla),conj(version)}{bool}{}
 
@@ -44,11 +45,9 @@
 ``La cantidad de claves de estaCaida? es igual a la cantidad de interfaces''
 \func{estaCaidaConInterValidas}{dicc(interfaz,bool),nat}{bool}{}
 
-
 \vspace{22pt}
+\alinearaxiomas{tiempoCaidaConInterValida(dn,n)}
 \axiomas{($\forall$ i: interfaz)($\forall$ n: nat)($\forall$ sev:secu(evento))($\forall$ s: secu(regla))($\forall$ c: conj(evento))($\forall$ d: dicc(interfaz,bool))($\forall$ dn: dicc(interfaz,nat))($\forall$ u: dirIP)($\forall$ cv: conj(version))}
-
-
 
 \axioma{dirIpDeReglaValida(s,cv)}{if vacia?(s) then true \\
 								  else dirIP(prim(s)) $\in$ cv $\wedge$ dirIpDeReglaValida(fin(s),c)}
@@ -73,18 +72,17 @@
 
 \axioma{estaCaidaConInterValida(d,n)}{($\forall$ i : interfaz) ((i $<$ n) $\impluego$ def?(i,d))}
 
+
 %FUNCION DE ABSTRACCION
 \subsection*{Funci\'on\ de\ Abstracci\'on}
-\alinearfuncs{salidaPorInterfaz}{\hspace{10.6cm}}
-\alinearaxiomas{salidaPorInterfaz(s,u)}
-
-\vspace{11pt}
+\alinearfuncs{Abs}{\hspace{1cm}}
 \func{Abs}{estr/e}{enrutador}{Rep(e)}
-
+\vspace{11pt}
 ($\forall$ e: estr) Abs(e) = r: router/ ((versiones(r) $\igobs$\ $\widehat{e.versiones}$) $\wedge$ (interfaces(r) $\igobs$ $\widehat{e.interfaces}$) $\wedge$ ($\forall$ i: interfaz) (eventos(r,i) $\igobs$ filtrarEventos(i,$\widehat{e.eventos}$)) $\yluego$ (($\forall$ d:dirIp) (enrutar(r,d) $\igobs$ aplicarRegla($\widehat{e.reglas}$,$\widehat{e.versiones}$,$\widehat{e.estaCaida}$,d)))
 
-\otrasops
 \vspace{33pt}
+\textbf{funciones auxiliares}
+\alinearfuncs{salidaPorInterfaz}{\hspace{10.6cm}}
 
 \func{filtrarEventos}{interfaz,secu(evento)/s}{secu(evento)}{ordenadosPorTimestamp(s)}
 
@@ -95,8 +93,8 @@
 \func{salidaPorInterfaz}{secu(regla)/s,dirIP/s}{interfaz}{($\exists$ r:regla)(esta?(r,s)\ $\wedge$\ (version(dirIP) = version(r))}
 
 \vspace{22pt}
+\alinearaxiomas{salidaPorInterfaz(s,u)}
 \axiomas{($\forall$ i: interfaz)($\forall$ sev:secu(evento))($\forall$ s: secu(regla))($\forall$ c: conj(evento))($\forall$ d: dicc(interfaz,bool))($\forall$ u: dirIP)}
-
 
 \axioma{filtrarEventos(i,sev)}{ if\ vacia?(sev)\ then\ $\secuvacia$\\
 else\ if\ (inter(prim(sev)) = i)\ then\\ \hspace*{1cm}filtrarEventos(i,fin(sev)) $\circulito$ prim(sev)\\ else\ filtrarEventos(i,fin(sev))\\fi}
@@ -107,6 +105,7 @@ else\ if\ ($\neg$ hayRegla(s,u))\ then\\ \hspace*{1cm}interfazDeSalidaNoEncontra
 \axioma{hayRegla(s,u)}{ if\ vacia?(s)\ then\ false\\ else\ primerosBitsIguales(dirIP(prim(s),u,cantBits(prim(s)))\\ \hspace*{1cm} $\oluego$ hayRegla(fin(s),d))\\fi}
 
 \axioma{salidaPorInterfaz(s,u)}{ if\ vacia?(fin(s))\ then\ inter(prim(s))\\ else\ if\ primerosBitsIguales(dirIP(prim(s)),u,cantBits(prim(s)))\ then\\ \hspace*{1cm}inter(prim(s))\\ else\ salePorInterfaz(fin(s),u)\\fi}
+
 
 %ALGORITMOS
 \subsection*{Algoritmos}
