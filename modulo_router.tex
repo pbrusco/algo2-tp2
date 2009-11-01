@@ -1,0 +1,58 @@
+\section*{Modulo \nombretad{Router}}
+
+\vspace{22pt}
+
+%INTERFAZ	
+\subsection*{Interfaz}
+\textbf{interfaz} \textit{Router}\\
+\textbf{se explica con la especificaci\'on de} \textit{router}\\
+\textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}, 		\nombretad{Conjunto($\alpha$)}, \nombretad{Secuencia($\alpha$)}\\
+\textbf{genero} \textit{router}\\
+\textbf{operaciones}\\
+
+%REPRESENTACION
+\subsection*{Representaci\'on}
+\textit{enrutador} \textbf{se representa con} \textit{estr}\\
+\textbf{donde} \textit{estr} \textbf{es} \textit{puntero(nodo)}\\
+\textbf{donde} \textit{nodo} \textbf{es} \textit{tupla\langle\ versiones: nat\ 	\times\ eventos: secu(evento)\ \times\ reglas: secu(regla)\ \times\ tiempoCaida: dicc(interfaz,nat)\ \times\ estaCaida: dicc(interfaz,bool)\rangle}\\
+
+%INVARIANTE DE REPRESENTACION
+\subsection*{Invariante\ de \ Representaci\'on}
+\func{Rep}{estr}{bool}{}
+\vspace{11pt}
+\vspace{33pt}
+
+%FUNCION DE ABSTRACCION
+\subsection*{Funci\'on\ de\ Abstracci\'on}
+\func{Abs}{estr/e}{enrutador}{Rep(e)}
+\vspace{11pt}
+(\forall e:\ estr)\ Abs(e)\ =\ r:\ router/\ ((versiones(r)\ \igobs\ \widehat{e.versiones})\ \wedge\ (interfaces(r)\ \igobs\ \widehat{e.interfaces})\ \wedge\ (\forall i:\ interfaz)\ (eventos(r,i)\ \igobs\ filtrarEventos(i,\widehat{e.eventos}))\ \yluego\ ((\forall d:dirIp)\ (enrutar(r,d)\ \igobs\ aplicarRegla(\widehat{e.reglas},\widehat{e.versiones},\widehat{e.estaCaida},d)))
+
+\otrasop
+\vspace{33pt}
+\alinearfuncs{\hspace{12cm}}
+
+\func{filtrarEventos}{interfaz,secu(evento)/s}{secu(evento)}{ordenadaPorTimestamp(s)}
+
+\func{aplicarRegla}{secu(regla)/s,conj(version)/v,dicc(interfaz,bool),dirIP}{respuestaDir}{(\forall r: regla)(esta?(r,s))\impluego\(version(dirIP(r)) \in\ v)}
+
+\func{hayRegla}{secu(regla),dirIP}{bool}{}
+
+\func{salePorInterfaz}{secu(regla)/s,dirIP/s}{interfaz}{(\exists r:regla)(esta?(r,s)\ \wedge\ (version(dirIP) = version(\Pi_1(r)))}
+
+\vspace{22pt}
+\axiomas{(\forall i: interfaz)(\forall sev:secu(evento))(\forall s: secu(regla))(\forall c: conj(evento))(\forall d: dicc(interfaz,bool))(\forall u: dirIP)}\\
+\alinearaxiomas{\hspace{4cm}}
+
+\axioma{filtrarEventos(i,sev)}{ if\ vacia?(sev)\ then\ \secuvacia\\
+else\ if\ (\Pi_2(prim(sev)) = i)\ then\\ \hspace*{1cm}filtrarEventos(i,fin(sev)) \circulito prim(sev)\\ else\ filtrarEventos(i,fin(sev))\\fi}\\
+
+\axioma{aplicarRegla(s,c,d,u)}{ if\ (version(d) \nin c)\ then\\DireccionNoSoportada\\
+else\ if\ (\neg hayRegla(s,u))\ then\\ \hspace*{1cm}interfazDeSalidaNoEncontrada\\ else\ if\ obtener(salePorInterfaz(s,u),c)\ then\\ \hspace*{1cm}interfazDeSalidaCaida\\ else\ SalidaPorInterfaz(salePorInterfaz(s,u))\\fi}\\
+
+\axioma{hayRegla(s,u)}{ if\ vacia?(s)\ then\ false\\ else\ primerosBitsIguales(dirIP(prim(s),u,cantBits(prim(s)))\\ \hspace*{1cm}\oluego\ hayRegla(fin(s),d))\\fi}\\
+
+\axioma{salidaPorInterfaz(s,u)}{ if\ vacia?(fin(s))\ then\ inter(prim(s))\\ else\ if\ primerosBitsIguales(dirIP(prim(s)),u,cantBits(prim(s)))\ then\\ \hspace*{1cm}inter(prim(s))\\ else\ salePorInterfaz(fin(s),u)\\fi}\\
+
+%ALGORITMOS
+\subsection*{Algoritmos}
