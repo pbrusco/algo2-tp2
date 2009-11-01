@@ -1,0 +1,34 @@
+\section*{Modulo \nombretad{Conjunto($\alpha$)}}
+
+\vspace{22pt}
+
+%INTERFAZ
+\subsection*{Interfaz}
+\textbf{interfaz}\ \nombretad{Conjunto($\alpha$)}\\
+\textbf{se explica con la especificaci\'on de}\ \nombretad{conjunto($\alpha$)}\\
+\textbf{usa interfaces}\ \nombretad{Bool}, \nombretad{Nat}\\
+\textbf{genero}\ \nombretad{conj($\alpha$)}\\
+\textbf{operaciones}\\
+
+%REPRESENTACION
+\subsection*{Representaci\'on}
+\textit{conjunto(($\alpha$)} \textbf{se representa con} \textit{estr}\\
+\textbf{donde} \textit{estr} \textbf{es} \textit{puntero(nodo)}\\
+\textbf{donde} \textit{nodo} \textbf{es} \textit{...}\\
+
+%INVARIANTE DE REPRESENTACION
+\subsection*{Invariante\ de \ Representaci\'on}
+\func{Rep}{estr}{bool}{}
+\vspace{11pt}
+(\forall e: estr)\ Rep(e)\ =\ ...
+\vspace{33pt}
+
+%FUNCION DE ABSTRACCION
+\subsection*{Funci\'on\ de\ Abstracci\'on}
+\func{Abs}{estr/e}{conj($\alpha$)}{Rep(e)}
+\vspace{11pt}
+(\forall e:\ estr)\ Abs(e)\ =\ c:\ conj($\alpha$)/\ ...
+\vspace{33pt}
+
+%ALGORITMOS
+\subsection*{Algoritmos}
