@@ -4,6 +4,7 @@
 
 %INTERFAZ	
 \subsection*{Interfaz}
+\hspace{-0.75cm}
 \textbf{interfaz} \textit{Router}\\
 \textbf{se explica con la especificaci\'on de} \textit{router}\\
 \textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}, 		\nombretad{Conjunto($\alpha$)}, \nombretad{Secuencia($\alpha$)}\\
@@ -13,66 +14,95 @@
 
 %REPRESENTACION
 \subsection*{Representaci\'on}
+\hspace{-0.75cm}
 \textit{enrutador} \textbf{se representa con} \textit{estr}\\
-\textbf{donde} \textit{estr} \textbf{es} \textit{tupla$\langle$\ versiones: nat\ 	$\times$\ eventos: secu(evento)\ $\times$\ reglas: secu(regla)\ $\times$\ tiempoCaida: dicc(interfaz,nat)\ $\times$\ estaCaida: dicc(interfaz,bool)$\rangle$}
+\textbf{donde} \textit{estr} \textbf{es} \textit{tupla$ \\ \langle$\ \\ \textbf{versiones:} nat\ 	$\times$\  \\ \textbf{eventos:} secu(evento)\ $\times$\ \\ \textbf{reglas:} secu(regla)\ $\times$\ \\ \textbf{tiempoCaida:} dicc(interfaz,nat)\ $\times$\ \\ \textbf{estaCaida:} dicc(interfaz,bool) \\ $\rangle$}
 
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante\ de \ Representaci\'on}
-\func{Rep}{estr}{bool}{}
-\vspace{11pt}
 
-\vspace{33pt}
-\otrasops
+\textbf{\func{Rep}{estr}{bool}{}} 
+\hspace{-0.75cm}($\forall$ e:estr)Rep(e)=\\
+%sobre versiones:
+versionesReglasEnVersiones(e)\\
+%sobre Interfaces:
+$\wedge$ interfacesDeEventosCorrectas(e)\\
+$\wedge$ interfacesDeReglasCorrectas(e)\\
+$\wedge$ interfacesCaidaYTiempoCorrectas(e) \\
+%sobre eventos
+$\wedge$ ordenadosPorTimestamp(e.eventos)\\
+$\wedge$ eventosValidos(?)\\
+$\wedge$ tiempoCaidaCorrecto(e)  \\
+%sobre reglas:
+$\wedge$ dirIpDeReglaValida(e.reglas)\\
+$\wedge$ cantBitsValida(e.reglas)\\
 
-\alinearfuncs{tiempoCaidaConInterValida}{\hspace{7.5cm}}
-``Todas las versiones de las dirIP de las reglas tienen que pertenecer al conjunto de versiones del router''
-\func{dirIpDeReglaValida}{secu(regla),conj(version)}{bool}{}
+\newpage
 
-``Los eventos estan ordenados por timestamp''
-\func{ordenadosPorTimestamp}{secu(evento)}{bool}{}
+\textbf{funciones Utilizadas:} 
 
-``Los eventos se condicen con estaCaida?''
-\func{eventosValidos}{secu(evento),dicc(interfaz,bool),nat}{bool}{}
-\func{seCayo?}{nat,secu(evento)}{bool}{}
+\alinearaxiomas{interfacesCaidaYTiempoCorrectas(e)}
 
-``El valor de CantBits de una regla no es mayor a 8 veces el valor de la version de la dirIp de la misma''
-\func{cantBitsValida}{secu(regla)}{bool}{}
+\textbf{\func{versionesReglasEnVersiones}{estr}{bool}{}}
+\axioma{versionesReglasEnVersiones(e)}{($\forall$ r:regla)esta?(r,e.reglas) $\impluego$ version(dirIp(r)) $\in$ e.versiones}
 
-``La cantidad de claves de tiempoCaida es igual a la cantidad de interfaces''
-\func{tiempoCaidaConInterValida}{dicc(inter,nat),nat}{bool}{}
 
-``La cantidad de claves de estaCaida? es igual a la cantidad de interfaces''
-\func{estaCaidaConInterValidas}{dicc(interfaz,bool),nat}{bool}{}
+\textbf{\func{tiempoCaidaCorrecto}{estr}{bool}{}}
+\axioma{tiempoCaidaCorrecto(e)}{($\forall$ i:interfaz)( i $\in$ claves(e.tiempoCaida) $\impluego$
+\hspace{10pt} obtener(i,e.tiempoCaida) = sumarTiempo(i,filtrarPorInterfaz(i,e.eventos)))}
 
-\vspace{22pt}
-\alinearaxiomas{tiempoCaidaConInterValida(dn,n)}
-\axiomas{($\forall$ i: interfaz)($\forall$ n: nat)($\forall$ sev:secu(evento))($\forall$ s: secu(regla))($\forall$ c: conj(evento))($\forall$ d: dicc(interfaz,bool))($\forall$ dn: dicc(interfaz,nat))($\forall$ u: dirIP)($\forall$ cv: conj(version))}
+\textbf{\func{interfacesCaidaYTiempoCorrectas}{estr}{bool}{}}
+\axioma{interfacesCaidaYTiempoCorrectas(e)}{(($\forall$ i:interfaz) i $\in$ claves(e.tiempoCaida) $\vee$ i $\in$ claves(e.estaCaida?)   $\impluego$ i $<$ e.cantInterfaces)}
 
+\textbf{\func{interfacesDeReglasCorrectas}{estr}{bool}{}}
+\axioma{interfacesDeReglasCorrectas(e)}{($\forall$ r:regla) esta?(r,e.reglas) $\impluego$ inter(r) $<$ e.cantInterfaces}
+
+\textbf{\func{interfacesDeEventosCorrectas}{estr}{bool}{}}
+\axioma{interfacesDeEventosCorrectas(e)}{($\forall$ ev:evento) esta?(ev,e.eventos) $\impluego$ inter(ev) $<$} e.cantInterfaces
+
+
+
+\textbf{\func{dirIpDeReglaValida}{secu(regla),conj(version)}{bool}{}}
 \axioma{dirIpDeReglaValida(s,cv)}{if vacia?(s) then true \\
 								  else dirIP(prim(s)) $\in$ cv $\wedge$ dirIpDeReglaValida(fin(s),c)}
 
+\textbf{\func{ordenadosPorTimestamp}{secu(evento)}{bool}{}}
 \axioma{ordenadosPorTimestamp(sev)}{if long(sev) $\leq$ 1 then true\\
 									else timestamp(prim(sev)) $<$ timestamp(prim(fin(sev))) \\
 									$\wedge$ ordenadosPorTimestamp(fin(sev))}
 
+\textbf{\func{eventosValidos}{secu(evento),dicc(interfaz,bool),nat}{bool}{}}
 \axioma{eventosValidos(sev,d,n)}{if n=0? then seCayo?(n,sev) $=$ obtener(n,d) \\
 								 else seCayo?(n,sev) $=$ obtener(n,d) $\wedge$ \\
 								 eventosValidos(sev,d,n-1)}
 
+\textbf{\func{seCayo?}{nat,secu(evento)}{bool}{}}
 \axioma{seCayo?(n,sev)}{if vacia?(sev) then false \\
 						else if inter(ult(sev)) $=$ n then caida?(ult(sev)) \\
 						else seCayo?(n,com(sev))}
-						
+
+\textbf{\func{cantBitsValida}{secu(regla)}{bool}{}						}
 \axioma{cantBitsValida(s)}{if vacia?(s) then true \\
-						   else cantBitsValida(prim(s)) $\leq$ 8 * version(prim(s)) \\
+						   else cantBits(prim(s)) $\leq$ 8 * version(prim(s)) \\
 						   $\wedge$\ cantBitsValida(fin(s))}
-						   
-\axioma{tiempoCaidaConInterValida(dn,n)}{($\forall$ i : interfaz) ((i $<$ n) $\impluego$ def?(i,dn))}
-
-\axioma{estaCaidaConInterValida(d,n)}{($\forall$ i : interfaz) ((i $<$ n) $\impluego$ def?(i,d))}
 
 
+\axioma{filtrarPorInterfaz(i,s)}{
+\LIF { vacia?(s)} \LTHEN{ $<>$} 
+\\ \LELSE{  
+\LIF{ i = inter(prim(s)} 
+\LTHEN{ prim(s) $\puntito$ filtrarPorInterfaz(i,fin(s))} \\ 
+\LELSE{ filtrarPorInterfaz(i,fin(s))}} \LFI
+}
+
+\axioma{sumarCaidas(i,s)}{
+\LIF { vacia?(s) $\oluego$ vacia?(fin(s))} \LTHEN{ 0} 
+\\ \LELSE{  
+\LIF{caida?(fin(s) } 
+\LTHEN{ timestamp(prim(fin(s))) - timestamp(prim(s))} \\ 
+\LELSE{ 0}} \LFI + sumarCaidas(fin(s))
+}
 %FUNCION DE ABSTRACCION
 \subsection*{Funci\'on\ de\ Abstracci\'on}
 \alinearfuncs{Abs}{\hspace{1cm}}
