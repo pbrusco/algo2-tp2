@@ -1,4 +1,20 @@
-\section*{Modulo \nombretad{Router}}
+\documentclass[11pt, a4paper]{article}
+\usepackage[left=2cm,right=2cm,top=2cm, bottom=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{tad}
+\usepackage{algo2symb}
+\usepackage{caratula}
+\usepackage{itef}
+
+\parskip=1.5ex
+
+
+\begin{document}
+
+
+\section{Modulo \nombretad{Router}}
 
 \vspace{22pt}
 
@@ -7,16 +23,66 @@
 \hspace{-0.75cm}
 \textbf{interfaz} \textit{Router}\\
 \textbf{se explica con la especificaci\'on de} \textit{router}\\
-\textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}, 		\nombretad{Conjunto($\alpha$)}, \nombretad{Secuencia($\alpha$)}\\
+\textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}, \nombretad{Conjunto(versi\'on)}, \nombretad{Secuencia(Evento)} , \nombretad{ReglaDir} , \nombretad{RespuestaDir}, \nombretad{Evento}, \nombretad{versi\'on}, \nombretad{DirIp}\\
 \textbf{genero} \textit{router}\\
 \textbf{operaciones}
+
+
+
+nuevo(in $n:nat)\rightarrow res$: router\\
+$\{true\}$\\
+$\{\widehat{res}=$nuevo$(\widehat{n})\}$\\
+
+agversi\'on(inout $r$:router, in $v$:versi\'on)\\
+$\{\widehat{r}= r_0 \wedge \widehat{v} \notin $versiones$(\widehat{r})\}$\\
+$\{\widehat{r}=$agVersi\'on$(r_0,\widehat{v})\}$\\
+
+agRegla(inout $r$:router, in $u$:reglaDir)\\
+$\{\widehat{r}=r_0 \wedge $versi\'on$(dirIp(\widehat{u}))\in $versiones$(\widehat{r}) \wedge $inter$(\widehat{u}) < $interfaces$(\widehat{r})\}$\\
+$\{\widehat{r}=$agRegla$(r_0,\widehat{u})\}$\\
+
+agEvento(inout $r$:router, in $e$:evento)\\
+$\{\widehat{r}=r_0 \wedge (\neg \exists i: $interfaz$, i < $interfaces$(\widehat{r}) \wedge_L $existeTimestamp?$($eventos$(\widehat{r},i),$timestamp$(\widehat{e})))\}$\\
+$\{\widehat{r}=$agEvento$(r_0,\widehat{e})\}$\\
+
+versiones(in $r$:router)$\longrightarrow res$:conj(versi\'on)\\
+$\{true\}$\\
+$\{\widehat{res}=$versiones$(\widehat{r})\}$\\
+
+interfaces(in $r$:router)$\longrightarrow res$:nat\\
+$\{true\}$\\
+$\{\widehat{res}=$interfaces$(\widehat{r})\}$\\
+
+enrutar(in $r$:router, in $d$:dirIp)$\longrightarrow res$:RespDir\\
+$\{true\}$\\
+$\{\widehat{res}=$enrutar$(\widehat{r},\widehat{d})\}$\\
+
+eventos(in $r$:router, in $i$:interfaz)$\longrightarrow res$:secu(eventos)\\
+$\{true\}$\\
+$\{\widehat{res}=$eventos$(\widehat{r},\widehat{i})\}$\\
+
+estacaida?(in $r$:router, in $i$:interfaz)$\longrightarrow res$:bool\\
+$\{\widehat{i} < $interfaces$(\widehat{r})\}$\\
+$\{\widehat{res}=$estacaida$(\widehat{r},\widehat{i})\}$\\
+
+tiempoCaida(in $r$:router, in $i$:interfaz)$\longrightarrow res$:nat\\
+$\{\widehat{i} < $interfaces$(\widehat{r})\}$\\
+$\{\widehat{res}=$tiempocaida$(\widehat{r},\widehat{i})\}$\\
+
+fin interfaz\\
+
+\section{Representaci\'on.}
+
+
+
+
 
 
 %REPRESENTACION
 \subsection*{Representaci\'on}
 \hspace{-0.75cm}
 \textit{enrutador} \textbf{se representa con} \textit{estr}\\
-\textbf{donde} \textit{estr} \textbf{es} \textit{tupla$ \\ \langle$\ \\ \textbf{versiones:} nat\ 	$\times$\  \\ \textbf{eventos:} secu(evento)\ $\times$\ \\ \textbf{reglas:} secu(regla)\ $\times$\ \\ \textbf{tiempoCaida:} dicc(interfaz,nat)\ $\times$\ \\ \textbf{estaCaida:} dicc(interfaz,bool) \\ $\rangle$}
+\textbf{donde} \textit{estr} \textbf{es} \textit{tupla$ \\ \langle$\ \\ \textbf{cantInterfaces:} nat\ 	$\times$\   \\ \textbf{versiones:} cto(versi\'on)\ 	$\times$\  \\ \textbf{eventos:} secu(evento)\ $\times$\ \\ \textbf{reglas:} dicc(dirIp,interfaz)\ $\times$\ \\ \textbf{tiempoCaida:} dicc(interfaz,nat)\ $\times$\ \\ \textbf{estaCaida:} dicc(interfaz,bool) \\ $\rangle$}
 
 
 %INVARIANTE DE REPRESENTACION
@@ -28,44 +94,44 @@
 versionesReglasEnVersiones(e)\\
 %sobre Interfaces:
 $\wedge$ interfacesDeEventosCorrectas(e)\\
-$\wedge$ interfacesDeReglasCorrectas(e)\\
-$\wedge$ interfacesCaidaYTiempoCorrectas(e) \\
+$\wedge$ interCaidaYTiempoCorrectas(e) \\
+$\wedge$ interfazDeReglaV\'alida(e.reglas,e.cantInterfaces)\\
 %sobre eventos
 $\wedge$ ordenadosPorTimestamp(e.eventos)\\
-$\wedge$ eventosValidos(?)\\
+$\wedge$ eventosValidos(e.eventos,e.estaCaida,e.cantInterfaces -1)\\
 $\wedge$ tiempoCaidaCorrecto(e)  \\
 %sobre reglas:
-$\wedge$ dirIpDeReglaValida(e.reglas)\\
-$\wedge$ cantBitsValida(e.reglas)\\
+$\wedge$ dirIpDeReglaV\'alida(e.reglas,e.versiones)\\
 
 \newpage
 
 \textbf{funciones Utilizadas:} 
 
-\alinearaxiomas{interfacesCaidaYTiempoCorrectas(e)}
+\alinearaxiomas{interCaidaYTiempoCorrectas(e)}
 
 \textbf{\func{versionesReglasEnVersiones}{estr}{bool}{}}
 \axioma{versionesReglasEnVersiones(e)}{($\forall$ r:regla)esta?(r,e.reglas) $\impluego$ version(dirIp(r)) $\in$ e.versiones}
 
 
 \textbf{\func{tiempoCaidaCorrecto}{estr}{bool}{}}
-\axioma{tiempoCaidaCorrecto(e)}{($\forall$ i:interfaz)( i $\in$ claves(e.tiempoCaida) $\impluego$
-\hspace{10pt} obtener(i,e.tiempoCaida) = sumarTiempo(i,filtrarPorInterfaz(i,e.eventos)))}
+\axioma{tiempoCaidaCorrecto(e)}{($\forall$ i:interfaz)( i $\in$ claves(e.tiempoCaida)
+ $\impluego$\\ obtener(i,e.tiempoCaida) = \\sumarTiempo(i,filtrarPorInterfaz(i,e.eventos)))}
 
-\textbf{\func{interfacesCaidaYTiempoCorrectas}{estr}{bool}{}}
-\axioma{interfacesCaidaYTiempoCorrectas(e)}{(($\forall$ i:interfaz) i $\in$ claves(e.tiempoCaida) $\vee$ i $\in$ claves(e.estaCaida?)   $\impluego$ i $<$ e.cantInterfaces)}
+\textbf{\func{interCaidaYTiempoCorrectas}{estr}{bool}{}}
+\axioma{interCaidaYTiempoCorrectas(e)}{(($\forall$ i:interfaz) i $\in$ claves(e.tiempoCaida) $\vee$ i $\in$ claves(e.estaCaida?)   $\impluego$ i $<$ e.cantInterfaces)}
 
-\textbf{\func{interfacesDeReglasCorrectas}{estr}{bool}{}}
-\axioma{interfacesDeReglasCorrectas(e)}{($\forall$ r:regla) esta?(r,e.reglas) $\impluego$ inter(r) $<$ e.cantInterfaces}
+
+\textbf{\func{ interfazDeReglaV\'alida}{dicc(dirIp,interfaz),nat}{bool}{}}
+\axioma{interfazDeReglaV\'alida(dicc,n)}{($\forall d:dirIp$) d $\in$ claves(dicc) $\impluego$ obtener(d,dicc) $<$ n}
+
 
 \textbf{\func{interfacesDeEventosCorrectas}{estr}{bool}{}}
 \axioma{interfacesDeEventosCorrectas(e)}{($\forall$ ev:evento) esta?(ev,e.eventos) $\impluego$ inter(ev) $<$} e.cantInterfaces
 
 
 
-\textbf{\func{dirIpDeReglaValida}{secu(regla),conj(version)}{bool}{}}
-\axioma{dirIpDeReglaValida(s,cv)}{if vacia?(s) then true \\
-								  else dirIP(prim(s)) $\in$ cv $\wedge$ dirIpDeReglaValida(fin(s),c)}
+\textbf{\func{dirIpDeReglaValida}{dicc(dirIp,interfaz),conj(version)}{bool}{}}
+\axioma{dirIpDeReglaValida(dicc,cv)}{($\forall d:dirIp$) d $\in$ claves(dicc) $\impluego$ versi\'on(d) $\in$ cv}
 
 \textbf{\func{ordenadosPorTimestamp}{secu(evento)}{bool}{}}
 \axioma{ordenadosPorTimestamp(sev)}{if long(sev) $\leq$ 1 then true\\
@@ -87,7 +153,7 @@ $\wedge$ cantBitsValida(e.reglas)\\
 						   else cantBits(prim(s)) $\leq$ 8 * version(prim(s)) \\
 						   $\wedge$\ cantBitsValida(fin(s))}
 
-
+\textbf{\func{filtrarPorInterfaz}{interfaz,secu(evento)}{secu(evento)}{}						}
 \axioma{filtrarPorInterfaz(i,s)}{
 \LIF { vacia?(s)} \LTHEN{ $<>$} 
 \\ \LELSE{  
@@ -96,6 +162,7 @@ $\wedge$ cantBitsValida(e.reglas)\\
 \LELSE{ filtrarPorInterfaz(i,fin(s))}} \LFI
 }
 
+\textbf{\func{sumarCaidas}{interfaz,secu(evento)}{nat}{}						}
 \axioma{sumarCaidas(i,s)}{
 \LIF { vacia?(s) $\oluego$ vacia?(fin(s))} \LTHEN{ 0} 
 \\ \LELSE{  
@@ -139,3 +206,6 @@ else\ if\ ($\neg$ hayRegla(s,u))\ then\\ \hspace*{1cm}interfazDeSalidaNoEncontra
 
 %ALGORITMOS
 \subsection*{Algoritmos}
+
+
+\end{document} 
