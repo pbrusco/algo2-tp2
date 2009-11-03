@@ -1,20 +1,49 @@
-\section*{Modulo \nombretad{Secuencia($\alpha$)}}
+\section*{Modulo \nombretad{SecuenciaOrdSinRep($\alpha$)}}
 
 \vspace{22pt}
-
+\hspace{-0.75cm}
 %INTERFAZ
 \subsection*{Interfaz}
-\textbf{interfaz}\ \nombretad{Secuencia($\alpha$)}\\
-\textbf{se explica con la especificaci\'on de}\ \nombretad{secuencia($\alpha$)}\\
-\textbf{usa interfaces}\ \nombretad{Bool}, \nombretad{Nat}\\
-\textbf{genero}\ \nombretad{secu($\alpha$)}\\
+\textbf{interfaz}\ \nombretad{SecuenciaOrdSinRep($\alpha$)}\\
+\textbf{se explica con la especificaci\'on de}\ \nombretad{Secuencia($\alpha$) extendido, itOrd}\\
+\textbf{usa interfaces}\ \nombretad{Bool}, \nombretad{$\alpha$}, iterSecu($\alpha$)\\
+\textbf{genero}\ \nombretad{secuOrdSinRepe($\alpha$), iterSecu($\alpha$)}\\
 \textbf{operaciones}\\
+
+$<>$()$\rightarrow$ res: secuOrdSinRep($\alpha$)\\
+$\{$true$\}$\\
+$\{\widehat{res}\}$\\
+
+agregar(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$))\\
+$\{$true$\}$\\
+$\{\widehat{s}\igobs$ agregarOrdenado($\widehat{a}$,$s_0$)$\}$\\
+
+vacia?(in s: secuOrdSinRep($\alpha$))$rightarrow$ res: bool\\
+$\{$true$\}$\\
+$\{\widehat{res}\igobs$ esta?($\widehat{a}$,$\widehat{s}$)$\}$\\
+
+esta?(in a: $\alpha$, in s: secuOrdSinRep($\alpha$))$rightarrow$ res: bool\\
+$\{$true$\}$\\
+$\{\widehat{res}\igobs$ esta?($\widehat{a}$,$\widehat{s}$)$\}$\\
+
+crearIt(in s: secuOrdSinRep($\alpha$))$rightarrow$ res: itSecu\\
+$\{$true$\}$\\
+$\{\widehat{res}\igobs$ crearIt($\widehat{s}$)$\}$\\
+
+actual(in it: iterSecu($\alpha$))$rightarrow$ res: $\alpha$\\
+$\{\neg$vacia?(verSecuSuby(it))$\}$\\
+$\{$prim(verSecuSuby(it)$\}$\\
+
+
 
 %REPRESENTACION
 \subsection*{Representaci\'on}
-\textit{secuencia(($\alpha$)} \textbf{se representa con} \textit{estr}\\
-\textbf{donde} \textit{estr} \textbf{es} \textit{puntero(nodo)}\\
-\textbf{donde} \textit{nodo} \textbf{es} \textit{...}\\
+\textit{secuencia($\alpha$)} \textbf{se representa con} \textit{estrSecuOrdSinRep}\\
+\textbf{donde} \textit{estrSecuOrdSinRep} \textbf{es} \textit{puntero(nodo)}\\
+\textbf{donde} \textit{nodo} \textbf{es} \textit{tupla $\langle$ dato: $\alpha$, proximo: puntero(nodo)$\rangle$}\\
+
+\textit{iterSecu($\alpha$)} \textbf{se representa con} \textit{estrIterSecu}\\
+\textbf{donde} \textit{estrIterSecu} \textbf{es} \textit{puntero(nodo)}\\
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante de Representaci\'on}
