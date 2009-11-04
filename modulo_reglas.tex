@@ -1,0 +1,20 @@
+\section*{Modulo \nombretad{ArbolDeReglas}}
+
+%INTERFAZ
+\subsection*{TAD ArbolDeReglas}
+
+generadores:
+\alinearfuncs{existeReglaQueCumple}{\hspace{7cm}}
+\alinearaxiomas{existeReglaQueCumple(agRegla(a,r),d)}
+\textbf{\func{nuevo}{}{ArbolDeReglas}{}}
+
+\textbf{\func{agRegla}{ArbolDeReglas,Regla}{ArbolDeReglas}{}}
+
+observadores:
+
+\textbf{\func{interfazDeSalida}{ArbolDeReglas/a,dirIp/d}{nat}{not(vacio?(a) $\wedge$ existeReglaQueCumple(a,d)}}
+\axioma{interfazDeSalida(agRegla(a,r),d)}{If coincidenEnBits(cantBits(r),dirIp(r),d) then inter(r) else interfazDeSalida(a,d)}
+
+\textbf{\func{existeReglaQueCumple}{ArbolDeReglas/a,dirIp/d}{bool}{}}
+\axioma{existeReglaQueCumple(nuevo(),d)}{false}
+\axioma{existeReglaQueCumple(agRegla(a,r),d)}{If coincidenEnBits(cantBits(r),dirIp(r),d) then true else existeReglaQueCumple(a,d)}
