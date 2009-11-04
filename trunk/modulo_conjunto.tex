@@ -6,31 +6,48 @@
 \textbf{se explica con la especificaci\'on de} \textit{Conjunto($\alpha$)}\\
 \textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}\\
 \textbf{genero} \textit{conj($\alpha$)}\\
-\textbf{operaciones}\\
 
+\textbf{operaciones}\\
+$Vacio$()$\longrightarrow res$: conj($\alpha$)\\
+$\{$true$\}$\\
+$\{\widehat{res} \igobs \phi()\}$\\
+
+$agregar$(in $a$: $\alpha$, inout $C$: conj($\alpha$))\\
+$\{\widehat{C}\ \igobs\ C_0\}$\\
+$\{\widehat{C}\ \igobs$ Ag($\widehat{a}$,$C_0$)$\}$\\
+
+$pertenece$(in $a$: $\alpha$, in $C$: conj($\alpha$))$\longrightarrow res$: bool\\
+$\{$true$\}$\\
+$\{\widehat{res}\ \igobs \widehat{a}\in \widehat{C}\}$\\
 
 %REPRESENTACION
 \subsection*{Representaci\'on}
-\textit{conjunto(($\alpha$)} \textbf{se representa con} \textit{estr}\\
-\textbf{donde} \textit{estr} \textbf{es} \textit{puntero(nodo)}\\
-\textbf{donde} \textit{nodo} \textbf{es} \textit{...}\\
-
+\textit{conjunto($\alpha$)} \textbf{se representa con} \textit{estr}\\
+\textbf{donde} \textit{estr} \textbf{es} \textit{SecuOrdSinRep($\alpha$)}\\
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante\ de \ Representaci\'on}
-\func{Rep}{estr}{bool}{}
+\func{Rep}{estr}{boolean}{}
 \vspace{11pt}
-($\forall$ e: estr) Rep(e) = ...
+($\forall$ e: estr) Rep(e) = true
 \vspace{33pt}
-
 
 %FUNCION DE ABSTRACCION
 \subsection*{Funci\'on de Abstracci\'on}
 \func{Abs}{estr/e}{conj($\alpha$)}{Rep(e)}
 \vspace{11pt}
-($\forall$ e: estr) Abs(e) = c: conj($\alpha$)/ ...
+($\forall$ e: estr) Abs(e) = C: conj($\alpha$)/($\forall a:\alpha$)($a\in C\igobs esta?(a,\widehat{e}$))
 \vspace{33pt}
 
 
 %ALGORITMOS
 \subsection*{Algoritmos}
+
+$iVacio$()$\longrightarrow res$: SecuOrdSinRep($\alpha$)\\
+$res\longleftarrow <>$\\
+
+$iagregar$(in $a$: $\alpha$, inout $s$: SecuOrdSinRep($\alpha$)\\
+$agregarOdenado(n,s)$\\
+
+$ipertenece$(in $a$: $\alpha$, in $s$: SecuOrdSinRep($\alpha$)\\
+$res\longleftarrow esta?(a,s)$\\
