@@ -4,7 +4,7 @@
 \subsection*{Interfaz}
 \textbf{interfaz} \textit{SecuenciaOrdSinRep($\alpha$)}\\
 \textbf{se explica con la especificaci\'on de} \textit{SecuenciaOrdSinRep($\alpha$), itOrdConReferencia($\alpha$)}\\
-\textbf{usa interfaces} \nombretad{Bool}, \nombretad{$\alpha$}, \nombretad{itOrdRefSecu($\alpha$)}\\
+\textbf{usa interfaces} \nombretad{Bool}, \nombretad{$\alpha$}, \nombretad{itOrdRef($\alpha$)}\\
 \textbf{genero} \textit{secuOrdSinRep($\alpha$), itOrdRef($\alpha$)}\\
 \textbf{operaciones}\\
 
@@ -41,24 +41,25 @@ $\{\widehat{it}\ \igobs\ it_0\ \wedge\ \neg$vacia?(verSecuSuby(it))$\}$\\
 $\{$verSecuSuby(it) $\igobs$ fin(verSecuSuby($it_0$))$\}$\\
 
 insertar(in a: $\alpha$, inout it: itOrdRef($\alpha$))$\longrightarrow$ res: bool\\
-$\{\widehat{it}\ \igobs\ it_0\ \wedge$ verSecu($\widehat{it}$) $\igobs\ s_0\ \wedge$ verSecuSuby($\widehat{it}$) $\igobs\ i_0\ \wedge$ ordenada($s_0$) $\wedge$ ($\forall$ b: $\alpha$)(esta?(b,$i_0$))$impluego\ (a < b)$\\
-$\{$verSecu($\widehat{it}$) $\igobs$ (take($s_0$,$long_(s_0)$ - $long(i_0)$)$\circulito$ a) $\&$ verSecuSuby($it_0$) $\wedge\ \widehat{res}\ \igobs\ \neg$esta?(verSecuSuby($it_0$))$\}$
+$\{$($\widehat{it}\ \igobs\ it_0$) $\wedge$ (verSecu($\widehat{it}$) $\igobs\ s_0$) $\wedge$ (verSecuSuby($\widehat{it}$) $\igobs\ i_0$) $\wedge$ ordenada($s_0$) $\wedge$ (($\forall$ b: $\alpha$)(esta?(b,$i_0$)) $\impluego$ (a $<$b))\\
+$\{$($\widehat{res}\ \igobs$ esta?(a,$s_0$)) $\yluego$ verSecu($\widehat{it}$) $\igobs$ if(res) then $s_0$ else (tomar($s_0$,long($s_0$) - long($i_0$)) $\circulito$ a) $\&$ verSecuSuby($it_0$)))$\}$
 
 
 %REPRESENTACION
 \subsection*{Representaci\'on}
-\textit{secuencia($\alpha$)} \textbf{se representa con} \textit{estrSecuOrdSinRep}\\
+\textit{secuOrdSinRep($\alpha$)} \textbf{se representa con} \textit{estrSecuOrdSinRep}\\
 \textbf{donde} \textit{estrSecuOrdSinRep} \textbf{es} \textit{puntero(nodo)}\\
 \textbf{donde} \textit{nodo} \textbf{es} \textit{tupla $\langle$ dato: $\alpha$, proximo: puntero(nodo)$\rangle$}\\
 
-\textit{iterSecu($\alpha$)} \textbf{se representa con} \textit{estrIterSecu}\\
+\textit{itOrdRef($\alpha$)} \textbf{se representa con} \textit{estrIterOrdConRef}\\
 \textbf{donde} \textit{estrIterSecu} \textbf{es} \textit{puntero(nodo)}\\
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante de Representaci\'on}
 \func{Rep}{estr}{bool}{}
 \vspace{11pt}
-($\forall$ e: estr) Rep(e) = ...
+($\forall$ e: estrSecuOrdSinRep) Rep(e) = 
+
 \vspace{33pt}
 
 %FUNCION DE ABSTRACCION

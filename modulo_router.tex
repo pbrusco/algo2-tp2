@@ -3,76 +3,76 @@
 %INTERFAZ	
 \subsection*{Interfaz}
 \textbf{interfaz} \textit{Router}\\
-\textbf{se explica con la especificaci\'on de} \textit{router}\\
+\textbf{se explica con la especificaci\'on de} \textit{Router}\\
 \textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}, \nombretad{Conjunto(versi\'on)}, \nombretad{Secuencia(Evento)}, \nombretad{ReglaDir}, \nombretad{RespuestaDir}, \nombretad{Evento}, \nombretad{versi\'on}, \nombretad{DirIp}\\
 \textbf{genero} \textit{router}\\
-\textbf{operaciones}
+\textbf{operaciones}\\
 
-nuevo(in $n$:nat)$\rightarrow res$: router\\
-$\{true\}$\\
-$\{\widehat{res}=$nuevo$(\widehat{n})\}$\\
+nuevo(in n: nat)$\rightarrow$ res: router\\
+$\{$true$\}$\\
+$\{\widehat{res} \igobs$ nuevo($\widehat{n}$)$\}$\\
 
-agversi\'on(inout $r$:router, in $v$:versi\'on)\\
-$\{\widehat{r}= r_0 \wedge \widehat{v} \notin $versiones$(\widehat{r})\}$\\
-$\{\widehat{r}=$agVersi\'on$(r_0,\widehat{v})\}$\\
+agversi\'on(inout r: router, in v: versi\'on)\\
+$\{$($\widehat{r} \igobs\ r_0$) $\wedge$ ($\widehat{v} \notin$ versiones($\widehat{r}$))$\}$\\
+$\{\widehat{r} \igobs$ agVersi\'on($r_0$,$\widehat{v}$)$\}$\\
 
-agRegla(inout $r$:router, in $u$:reglaDir)\\
-$\{\widehat{r}=r_0 \wedge $versi\'on$(dirIp(\widehat{u}))\in $versiones$(\widehat{r}) \wedge $inter$(\widehat{u}) < $interfaces$(\widehat{r})\}$\\
-$\{\widehat{r}=$agRegla$(r_0,\widehat{u})\}$\\
+agRegla(inout r: router, in u: reglaDir)\\
+$\{$($\widehat{r} \igobs\ r_0$) $\wedge$ (versi\'on(dirIp($\widehat{u}$)) $\in$ versiones($\widehat{r}$)) $\wedge$ (inter($\widehat{u}$) interfaces($\widehat{r}$))$\}$\\
+$\{\widehat{r} \igobs$ agRegla($r_0$,$\widehat{u}$)$\}$\\
 
-agEvento(inout $r$:router, in $e$:evento)\\
-$\{\widehat{r}=r_0 \wedge (\neg \exists i: $interfaz$, i < $interfaces$(\widehat{r}) \wedge_L $existeTimestamp?$($eventos$(\widehat{r},i),$timestamp$(\widehat{e})))\}$\\
-$\{\widehat{r}=$agEvento$(r_0,\widehat{e})\}$\\
+agEvento(inout r: router, in e :evento)\\
+$\{$($\widehat{r} \igobs\ r_0$) $\wedge$ ($\neg \exists$ i: interfaz)(i $<$ interfaces($\widehat{r}$)) $\wedge_L$ existeTimestamp?(eventos($\widehat{r}$,i),timestam($\widehat{e}$)))$\}$\\
+$\{\widehat{r}\igobs$ agEvento($r_0$,$\widehat{e}$)$\}$\\
 
-versiones(in $r$:router)$\longrightarrow res$:conj(versi\'on)\\
-$\{true\}$\\
-$\{\widehat{res}=$versiones$(\widehat{r})\}$\\
+versiones(in r: router)$\longrightarrow$ res: conj(versi\'on)\\
+$\{$true$\}$\\
+$\{\widehat{res}\igobs$ versiones($\widehat{r}$)$\}$\\
 
-interfaces(in $r$:router)$\longrightarrow res$:nat\\
-$\{true\}$\\
-$\{\widehat{res}=$interfaces$(\widehat{r})\}$\\
+interfaces(in r: router)$\longrightarrow$ res: nat\\
+$\{$true$\}$\\
+$\{\widehat{res} \igobs$ interfaces($\widehat{r}$)$\}$\\
 
-enrutar(in $r$:router, in $d$:dirIp)$\longrightarrow res$:RespDir\\
-$\{true\}$\\
-$\{\widehat{res}=$enrutar$(\widehat{r},\widehat{d})\}$\\
+enrutar(in r: router, in d: dirIp)$\longrightarrow$ res: respDir\\
+$\{$true$\}$\\
+$\{\widehat{res} \igobs$ enrutar($\widehat{r}$,$\widehat{d}$)$\}$\\
 
-eventos(in $r$:router, in $i$:interfaz)$\longrightarrow res$:secu(eventos)\\
-$\{true\}$\\
-$\{\widehat{res}=$eventos$(\widehat{r},\widehat{i})\}$\\
+eventos(in r: router, in i: interfaz)$\longrightarrow$ res: secu(eventos)\\
+$\{$true$\}$\\
+$\{\widehat{res} \igobs$ eventos($\widehat{r}$,$\widehat{i}$)$\}$\\
 
-estaCaida?(in $r$:router, in $i$:interfaz)$\longrightarrow res$:bool\\
-$\{\widehat{i} < $interfaces$(\widehat{r})\}$\\
-$\{\widehat{res}=$estacaida$(\widehat{r},\widehat{i})\}$\\
+estaCaida?(in r: router, in i: interfaz)$\longrightarrow$ res: bool\\
+$\{\widehat{i} <$ interfaces($\widehat{r}$)$\}$\\
+$\{\widehat{res} \igobs$ estaCaida($\widehat{r}$,$\widehat{i}$)$\}$\\
 
-tiempoCaida(in $r$:router, in $i$:interfaz)$\longrightarrow res$:nat\\
-$\{\widehat{i} < $interfaces$(\widehat{r})\}$\\
-$\{\widehat{res}=$tiempocaida$(\widehat{r},\widehat{i})\}$\\
+tiempoCaida(in r: router, in i: interfaz)$\longrightarrow$ res: nat\\
+$\{\widehat{i} <$ interfaces($\widehat{r}$)$\}$\\
+$\{\widehat{res} \igobs$ tiempocaida($\widehat{r}$,$\widehat{i}$)$\}$\\
 
 
 %REPRESENTACION
 \subsection*{Representaci\'on}
 \textit{enrutador} \textbf{se representa con} \textit{estr}\\
-\textbf{donde} \textit{estr} \textbf{es} \textit{tupla$ \\ \langle$\ \\ \textbf{cantInterfaces:} nat\ 	$\times$\   \\ \textbf{versiones:} cto(versi\'on)\ 	$\times$\  \\ \textbf{eventos:} secu(evento)\ $\times$\ \\ \textbf{reglas:} dicc(dirIp,interfaz)\ $\times$\ \\ \textbf{tiempoCaida:} dicc(interfaz,nat)\ $\times$\ \\ \textbf{estaCaida:} dicc(interfaz,bool) \\ $\rangle$}
+\textbf{donde} \textit{estr} \textbf{es} \textit{tupla$ \langle$\ \textbf{cantInterfaces:} nat $\times$ \textbf{versiones:} cto(versi\'on) $\times$  \textbf{eventos:} secu(evento) $\times$ \textbf{reglas:} dicc(dirIp,interfaz) $\times$ \textbf{tiempoCaida:} dicc(interfaz,nat) $\times$ \textbf{estaCaida:} dicc(interfaz,bool) $\rangle$}
 
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante\ de \ Representaci\'on}
 \textbf{\func{Rep}{estr}{bool}{}} 
-($\forall$ e:estr)Rep(e)=\\
+($\forall$ e:estr)Rep(e) = 
 %sobre versiones:
-versionesReglasEnVersiones(e)\\
+versionesReglasEnVersiones(e)
 %sobre Interfaces:
-$\wedge$ interfacesDeEventosCorrectas(e)\\
-$\wedge$ interCaidaYTiempoCorrectas(e) \\
-$\wedge$ interfazDeReglaV\'alida(e.reglas,e.cantInterfaces)\\
+$\wedge$ interfacesDeEventosCorrectas(e)
+$\wedge$ interCaidaYTiempoCorrectas(e) 
+$\wedge$ interfazDeReglaV\'alida(e.reglas,e.cantInterfaces)
 %sobre eventos
-$\wedge$ ordenadosPorTimestamp(e.eventos)\\
-$\wedge$ eventosValidos(e.eventos,e.estaCaida,e.cantInterfaces -1)\\
-$\wedge$ tiempoCaidaCorrecto(e)  \\
+$\wedge$ ordenadosPorTimestamp(e.eventos)
+$\wedge$ eventosValidos(e.eventos,e.estaCaida,e.cantInterfaces -1)
+$\wedge$ tiempoCaidaCorrecto(e)  
 %sobre reglas:
 $\wedge$ dirIpDeReglaV\'alida(e.reglas,e.versiones)\\
 
-\textbf{funciones Utilizadas:} 
+\textbf{funciones auxiliares:} 
 
 \alinearaxiomas{interCaidaYTiempoCorrectas(e)}
 
@@ -144,27 +144,19 @@ $\wedge$ dirIpDeReglaV\'alida(e.reglas,e.versiones)\\
 \vspace{33pt}
 \textbf{funciones auxiliares}
 \alinearfuncs{salidaPorInterfaz}{\hspace{10.6cm}}
-
-\func{filtrarEventos}{interfaz,secu(evento)/s}{secu(evento)}{ordenadosPorTimestamp(s)}
-
-\func{aplicarRegla}{secu(regla)/s,conj(version)/v,dicc(interfaz,bool),dirIP}{respuestaDir}{($\forall$ r: regla)(esta?(r,s)) $\impluego$ (version(dirIP(r)) $\in$ v)}
-
-\func{hayRegla}{secu(regla),dirIP}{bool}{}
-
-\func{salidaPorInterfaz}{secu(regla)/s,dirIP/s}{interfaz}{($\exists$ r:regla)(esta?(r,s)\ $\wedge$\ (version(dirIP) = version(r))}
-
-\vspace{22pt}
 \alinearaxiomas{salidaPorInterfaz(s,u)}
-\axiomas{($\forall$ i: interfaz)($\forall$ sev:secu(evento))($\forall$ s: secu(regla))($\forall$ c: conj(evento))($\forall$ d: dicc(interfaz,bool))($\forall$ u: dirIP)}
 
+\textbf{\func{filtrarEventos}{interfaz,secu(evento)/s}{secu(evento)}{ordenadosPorTimestamp(s)}}
 \axioma{filtrarEventos(i,sev)}{ if\ vacia?(sev)\ then\ $\secuvacia$\\
 else\ if\ (inter(prim(sev)) = i)\ then\\ \hspace*{1cm}filtrarEventos(i,fin(sev)) $\circulito$ prim(sev)\\ else\ filtrarEventos(i,fin(sev))\\fi}
 
-\axioma{aplicarRegla(s,c,d,u)}{ if\ (version(d) $\notin$ c)\ then\\DireccionNoSoportada\\
-else\ if\ ($\neg$ hayRegla(s,u))\ then\\ \hspace*{1cm}interfazDeSalidaNoEncontrada\\ else\ if\ obtener(salePorInterfaz(s,u),c)\ then\\ \hspace*{1cm}interfazDeSalidaCaida\\ else\ SalidaPorInterfaz(salePorInterfaz(s,u))\\fi}
+\textbf{\func{aplicarRegla}{secu(regla)/s,conj(version)/v,dicc(interfaz,bool),dirIP}{respuestaDir}{($\forall$ r: regla)(esta?(r,s)) $\impluego$ (version(dirIP(r)) $\in$ v)}}
+\axioma{aplicarRegla(s,c,d,u)}{ if\ (version(d) $\notin$ c)\ then\\DireccionNoSoportada\\ else\ if\ ($\neg$ hayRegla(s,u))\ then\\ \hspace*{1cm}interfazDeSalidaNoEncontrada\\ else\ if\ obtener(salePorInterfaz(s,u),c)\ then\\ \hspace*{1cm}interfazDeSalidaCaida\\ else\ SalidaPorInterfaz(salePorInterfaz(s,u))\\fi}
 
+\textbf{\func{hayRegla}{secu(regla),dirIP}{bool}{}}
 \axioma{hayRegla(s,u)}{ if\ vacia?(s)\ then\ false\\ else\ primerosBitsIguales(dirIP(prim(s),u,cantBits(prim(s)))\\ \hspace*{1cm} $\oluego$ hayRegla(fin(s),d))\\fi}
 
+\textbf{\func{salidaPorInterfaz}{secu(regla)/s,dirIP/s}{interfaz}{($\exists$ r:regla)(esta?(r,s)\ $\wedge$\ (version(dirIP) = version(r))}}
 \axioma{salidaPorInterfaz(s,u)}{ if\ vacia?(fin(s))\ then\ inter(prim(s))\\ else\ if\ primerosBitsIguales(dirIP(prim(s)),u,cantBits(prim(s)))\ then\\ \hspace*{1cm}inter(prim(s))\\ else\ salePorInterfaz(fin(s),u)\\fi}
 
 
