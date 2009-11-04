@@ -1,12 +1,11 @@
 \section*{Modulo \nombretad{SecuenciaOrdSinRep($\alpha$)}}
 
-\hspace{-0.75cm}
 %INTERFAZ
 \subsection*{Interfaz}
-\textbf{interfaz}\ \nombretad{SecuenciaOrdSinRep($\alpha$)}\\
-\textbf{se explica con la especificaci\'on de}\ \nombretad{Secuencia($\alpha$) extendido, itOrdConReferencia($\alpha$)}\\
-\textbf{usa interfaces}\ \nombretad{Bool}, \nombretad{$\alpha$}, itOrdRefSecu($\alpha$)\\
-\textbf{genero}\ \nombretad{secuOrdSinRep($\alpha$), itOrdRef($\alpha$)}\\
+\textbf{interfaz} \textit{SecuenciaOrdSinRep($\alpha$)}\\
+\textbf{se explica con la especificaci\'on de} \textit{SecuenciaOrdSinRep($\alpha$), itOrdConReferencia($\alpha$)}\\
+\textbf{usa interfaces} \nombretad{Bool}, \nombretad{$\alpha$}, \nombretad{itOrdRefSecu($\alpha$)}\\
+\textbf{genero} \textit{secuOrdSinRep($\alpha$), itOrdRef($\alpha$)}\\
 \textbf{operaciones}\\
 
 $<>$()$\longrightarrow$ res: secuOrdSinRep($\alpha$)\\
@@ -14,7 +13,7 @@ $\{$true$\}$\\
 $\{\widehat{res}\}$\\
 
 agregar(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$))\\
-$\{\widehat{s}\ \igobs\ s_0\}$\\
+$\{\widehat{s}\ \igobs\ s_0\ \wedge$ ordenada($s_0$)$\}$\\
 $\{\widehat{s}\ \igobs$ agregarOrdenado($\widehat{a}$,$s_0$)$\}$\\
 
 vacia?(in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: bool\\
@@ -25,8 +24,8 @@ esta?(in a: $\alpha$, in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: bool\
 $\{$true$\}$\\
 $\{\widehat{res}\ \igobs$ esta?($\widehat{a}$,$\widehat{s}$)$\}$\\
 
-crearIt(in s: secuOrdSinRep($\alpha$), in i: secuOrdSinRep($\alpha$))$\longrightarrow$ res: itOrdRef($\alpha$)   (esSufijo?(s,i))\\
-$\{$true$\}$\\
+crearIt(in s: secuOrdSinRep($\alpha$), in i: secuOrdSinRep($\alpha$))$\longrightarrow$ res: itOrdRef($\alpha$)\\
+$\{$esSufijo?(s,i)$\}$\\
 $\{\widehat{res}\ \igobs$ crearIt($\widehat{s}$,$\widehat{i}$)$\}$\\
 
 actual(in it: itOrdRef($\alpha$))$\longrightarrow$ res: $\alpha$\\
@@ -35,15 +34,15 @@ $\{$prim(verSecuSuby(it))$\}$\\
 
 tieneProximo?(in it: itOrdRef($\alpha$))$\longrightarrow$ res: bool\\
 $\{$true$\}$\\
-$\{\neg$vacia?(verSecuSuby(it))$\}$\\
+$\{\widehat{res}\ \igobs\ \neg$vacia?(verSecuSuby(it))$\}$\\
 
 avanzar(inout it: itOrdRef($\alpha$))\\
 $\{\widehat{it}\ \igobs\ it_0\ \wedge\ \neg$vacia?(verSecuSuby(it))$\}$\\
 $\{$verSecuSuby(it) $\igobs$ fin(verSecuSuby($it_0$))$\}$\\
 
 insertar(in a: $\alpha$, inout it: itOrdRef($\alpha$))$\longrightarrow$ res: bool\\
-$\{\widehat{it}\ \igobs\ it_0\ \wedge$ verSecu($\widehat{it}$) $\igobs\ s_0\ \wedge$ verSecuSuby($\widehat{it}$) $\igobs\ i_0\ \wedge\ \neg$vacia?($i_0$) $\}$\\
-$\{$verSecu($\widehat{it}$) $\igobs$ (take($s_0$,$long_(s_0)$,$long(i_0)$)$\circulito\ \alpha$) $\& \&$ verSecuSuby($it_0$) $\wedge\ \widehat{res}\ \igobs\ \neg$esta?(verSecuSuby($it_0$))$\}$
+$\{\widehat{it}\ \igobs\ it_0\ \wedge$ verSecu($\widehat{it}$) $\igobs\ s_0\ \wedge$ verSecuSuby($\widehat{it}$) $\igobs\ i_0\ \wedge$ ordenada($s_0$) $\wedge$ ($\forall$ b: $\alpha$)(esta?(b,$i_0$))$impluego\ (a < b)$\\
+$\{$verSecu($\widehat{it}$) $\igobs$ (take($s_0$,$long_(s_0)$ - $long(i_0)$)$\circulito$ a) $\&$ verSecuSuby($it_0$) $\wedge\ \widehat{res}\ \igobs\ \neg$esta?(verSecuSuby($it_0$))$\}$
 
 
 %REPRESENTACION
