@@ -50,23 +50,53 @@ $\{\widehat{res}\ \igobs \widehat{a}\in \widehat{C}\}$\\
 
 %REPRESENTACION
 \subsection*{Representaci\'on}
-\textit{conjunto($\alpha$)} \textbf{se representa con} \textit{estr}\\
-\textbf{donde} \textit{estr} \textbf{es} \textit{SecuOrdSinRep($\alpha$)}\\
+\textit{arbolDeReglas} \textbf{se representa con} \textit{puntero(estr)}\\
+\textbf{donde} \textit{estr} \textbf{es}\\
+\textit{tupla$\langle$ inter: puntero(interfaz) $\times$\\
+\hspace*{1.1cm}izq: puntero(estr) $\times$\\
+\hspace*{1.1cm}der: puntero(estr) $\rangle$}
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante\ de \ Representaci\'on}
-\func{Rep}{estr}{boolean}{}
+\alinearfuncs{Rep}{\hspace{3cm}}
+\textbf{\func{Rep}{puntero(estr)}{boolean}{}}
 \vspace{11pt}
-($\forall$ e: estr) Rep(e) = true
+($\forall$ p: puntero(estr)) Rep(p) = true $\Leftrightarrow$ no existen ciclos
 \vspace{33pt}
 
 %FUNCION DE ABSTRACCION
 \subsection*{Funci\'on de Abstracci\'on}
-\func{Abs}{estr/e}{conj($\alpha$)}{Rep(e)}
-\vspace{11pt}
-($\forall$ e: estr) Abs(e) = C: conj($\alpha$)/($\forall a:\alpha$)($a\in C\igobs esta?(a,\widehat{e}$))
-\vspace{33pt}
 
+\textbf{\func{Abs}{puntero(estr)/p}{abr}{Rep(p)}}
+\vspace{11pt}
+($\forall$ p: puntero(estr)) Abs(p) = a: abr/ \\
+\\
+($\forall$ d: dirIp) (tieneRegla(a,d) $=$ existeRegla(p,pasarABits(d),0) $\yluego$\\
+\\
+(tieneRegla(a,d) $\impluego$ interfazDeSalida(a,d) = dameSalida(p,pasarABits(d),0,null)))
+\vspace{33pt}
+\alinearfuncs{existeReglala}{\hspace{11.2cm}}
+\alinearaxiomas{dameSalida(p,a,n,pi)}
+\textbf{\func{existeRegla}{puntero(estr)/p,arreglo de bool, nat}{bool}{Rep(p)}}
+\axioma{existeRegla(p,a,n)}{\lif n $=$ tam(a) $\vee$ e $=$ null \lthen \false\\
+			    \hspace*{-0.85cm}\lelse \lif (*p).inter $=$ null \lthen\\
+			    \hspace*{1cm}\lif a[n] $=$ \true \lthen existeRegla((*e).der,a,n+1)\\
+			    \hspace*{1cm}\lelse existeRegla((*e).izq,a,n+1)\\
+			    \hspace*{1cm}\lfi\\
+			    \hspace*{-0.85cm}\lelse \true\\
+			    \hspace*{-0.85cm}\lfi}
+
+\textbf{\func{dameSalida}{puntero(estr)/p, arreglo de bool/a, nat, puntero(estr)}{interfaz}{Rep(p) $\yluego$ existeRegla(p,a,0)}}
+\axioma{dameSalida(p,a,n,pi)}{\lif n $=$ tam(a) $\vee$ p $=$ null \lthen *pi\\
+			      \hspace*{-0.85cm}\lelse \lif a[n] $=$ true \lthen\\
+			      \hspace*{1cm}\lif pi $\neq$ null \lthen dameSalida((*p).der,a,n+1,pi)\\
+			      \hspace*{1cm}\lelse dameSalida((*p).der,a,n+1,(*p).int)\\
+			      \hspace*{1cm}\lfi\\
+			      \hspace*{-0.85cm}\lelse\\
+			      \hspace*{1cm}\lif pi $\neq$ null \lthen dameSalida((*p).izq,a,n+1,pi)\\
+			      \hspace*{1cm}\lelse dameSalida((*p).izq,a,n+1,(*p).int)\\
+			      \hspace*{1cm}\lfi\\
+			      \hspace*{-0.85cm}\lfi}
 
 %ALGORITMOS
 \subsection*{Algoritmos}
