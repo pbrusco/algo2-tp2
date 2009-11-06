@@ -30,23 +30,28 @@
 
 %INTERFAZ
 \subsection*{Interfaz}
-\textbf{interfaz} \textit{Conjunto($\alpha$)}\\
-\textbf{se explica con la especificaci\'on de} \textit{Conjunto($\alpha$)}\\
+\textbf{interfaz} \textit{arbolDeReglas}\\
+\textbf{se explica con la especificaci\'on de} \textit{arbolDeReglas}\\
 \textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}\\
-\textbf{genero} \textit{conj($\alpha$)}\\
+\textbf{genero} \textit{abr}\\
 
 \textbf{operaciones}\\
-$Vacio$()$\longrightarrow res$: conj($\alpha$)\\
+$Crear$() $\longrightarrow res$: abr\\
 $\{$true$\}$\\
-$\{\widehat{res} \igobs \phi()\}$\\
+$\{\widehat{res} \igobs nuevo()\}$\\
 
-$agregar$(in $a$: $\alpha$, inout $C$: conj($\alpha$))\\
-$\{\widehat{C}\ \igobs\ C_0\}$\\
-$\{\widehat{C}\ \igobs$ Ag($\widehat{a}$,$C_0$)$\}$\\
+$agRegla$(inout $a$: abr, in $r$: regla)\\
+$\{\widehat{a} \igobs\ a_0\}$\\
+$\{\widehat{a} \igobs\ agRegla(a_0,\widehat{r})\}$\\
 
-$pertenece$(in $a$: $\alpha$, in $C$: conj($\alpha$))$\longrightarrow res$: bool\\
-$\{$true$\}$\\
-$\{\widehat{res}\ \igobs \widehat{a}\in \widehat{C}\}$\\
+$interfazDeSalida$(in $a$: abr, in $d$: dirIp) $\longrightarrow res$: nat\\
+$\{tieneRegla?(\widehat{a},\widehat{d})\}$\\
+$\{\widehat{res}\igobs$ $interfazDeSalida(\widehat{a},\widehat{d})$\}\\
+
+$altura$(in $a$: abr) $\longrightarrow$	$res$: nat\\
+$\{true\}$\\
+$\{\widehat{res}\igobs$ $altura(\widehat{a})\}$\\
+
 
 %REPRESENTACION
 \subsection*{Representaci\'on}
@@ -98,14 +103,51 @@ $\{\widehat{res}\ \igobs \widehat{a}\in \widehat{C}\}$\\
 			      \hspace*{1cm}\lfi\\
 			      \hspace*{-0.85cm}\lfi}
 
+
+
 %ALGORITMOS
 \subsection*{Algoritmos}
 
-$iVacio$()$\longrightarrow res$: SecuOrdSinRep($\alpha$)\\
-$res\longleftarrow <>$\\
 
-$iagregar$(in $a$: $\alpha$, inout $s$: SecuOrdSinRep($\alpha$)\\
-$agregarOdenado(n,s)$\\
+%inicio algoritmo
+\newpage
+\textbf{iInterfazDeSalida(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : interfaz
+}
+    \incmargin{1em}
+    \linesnumbered
+    \restylealgo{boxed}
+    \dontprintsemicolon
+    
+	\begin{algorithm}[H]
+	
+	
+\textbf{var} i : int\\
+\textbf{var} pRes: puntero(interfaz)\\
+\textbf{var} pResProvisorio: puntero(interfaz)\\
+\textbf{var} pAux puntero(estr) 	\\
 
-$ipertenece$(in $a$: $\alpha$, in $s$: SecuOrdSinRep($\alpha$)\\
-$res\longleftarrow esta?(a,s)$\\
+pRes $\leftarrow$ Null
+pResProvisorio $\leftarrow$ Null
+pAux $\leftarrow$ Null
+i $\leftarrow$ 0
+
+
+\BlankLine 
+
+\While{pRes = Null}{
+	\If{(pAux$\rightarrow$inter) $\neq$ Null}{pResProvisorio $\leftarrow$ (pAux $\rightarrow$ inter)}
+	
+	\eIf{d[i] = true}{
+		\eIf{(pAux$\rightarrow$der) = Null}{pRes $\leftarrow$ pResProvisorio}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
+	}{
+		\eIf{(pAux$\rightarrow$izq) = Null}{pRes $\leftarrow$ pResProvisorio}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
+	}
+	i $\leftarrow$  i + 1
+}
+
+res $\leftarrow$ *(pRes)
+
+
+ \caption{interfazDeSalida}
+   \end{algorithm}
+%fin
