@@ -1,0 +1,37 @@
+\section*{}
+
+\begin{tad}{ItOrd($\alpha$)}
+
+\vspace*{11pt}
+
+\textbf{Igualdad Observacional}
+\begin{equation*}
+\text{($\forall$ it ,it': itOrd($\alpha$))} \left(
+\begin{array}{cc}
+it $\igobs$ it' $\ssi$ (VerSecuSuby(it) $\opsub{=}{secu(\alpha)}$ VerSecuSuby(it'))
+\end{array} \right)
+\end{equation*}
+
+\generos{itOrd($\alpha$)}
+	
+\usa{Secu($\alpha$)}
+
+\exporta{g\'enero, generadores, observadores b\'asicos}
+
+\alinearfuncs{VerSecuSuby}{\hspace{5cm}}	
+\generadores
+	\func{CrearIt}{secu($\alpha$)}{itOrd($\alpha$)}{}
+
+\vspace*{11pt}
+
+\observadores
+		\func{VerSecuSuby}{itOrd($\alpha$)}{secu($\alpha$)}{}
+
+\vspace*{11pt}
+
+\alinearaxiomas{VerSecuSuby}{\hspace{5cm}}
+\axiomas{($\forall$ s: secu($\alpha$))}
+
+		\axioma{VerSecuSuby(CrearIt(s))}{s}
+		
+\end{tad}

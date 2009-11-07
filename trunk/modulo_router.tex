@@ -52,7 +52,10 @@ $\{\widehat{res} \igobs$ tiempocaida($\widehat{r}$,$\widehat{i}$)$\}$\\
 %REPRESENTACION
 \subsection*{Representaci\'on}
 \textit{enrutador} \textbf{se representa con} \textit{estr}\\
-\textbf{donde} \textit{estr} \textbf{es} \textit{tupla$ \langle$\ \textbf{cantInterfaces:} nat $\times$ \textbf{versiones:} cto(versi\'on) $\times$  \textbf{eventos:} secu(evento) $\times$ \textbf{reglas:} dicc(dirIp,interfaz) $\times$ \textbf{tiempoCaida:} dicc(interfaz,nat) $\times$ \textbf{estaCaida:} dicc(interfaz,bool) $\rangle$}
+\textbf{donde} \textit{estr} \textbf{es} \textit{tupla $\langle$ versiones: cto(versi\'on)\\
+\hspace*{3.5cm} $\times$  cantInterfaces: nat\\
+\hspace*{3.5cm} $\times$  reglas: secuOrdSinRep(tupla(version,arbolDeReglas))\\ 
+\hspace*{3.5cm} $\times$  status-inter: ad(tupla(nat,secuOrdSinRep(evento))) $\rangle$}
 
 
 %INVARIANTE DE REPRESENTACION

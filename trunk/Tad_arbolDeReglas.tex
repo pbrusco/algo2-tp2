@@ -1,0 +1,50 @@
+\section*{}
+
+\begin{tad}{ArbolDeReglas}
+
+\vspace*{11pt}
+
+\textbf{Igualdad Observacional}
+\begin{equation*}
+\text{($\forall$ aR ,aR': itOrd($\alpha$))} \left(
+\begin{array}{cc}
+aR $\igobs$ aR' $\ssi$ (???)
+\end{array} \right)
+\end{equation*}
+
+\generos{arbolDeReglas}
+	
+\usa{Bool, Nat, Regla}
+
+\exporta{g\'enero, generadores, observadores b\'asicos, altura}
+
+\alinearfuncs{interfazDeSalida}{\hspace{5cm}}
+\generadores
+	\func{nuevo}{}{ArbolDeReglas}{}
+	\func{agRegla}{ArbolDeReglas,Regla}{ArbolDeReglas}{}
+
+\vspace*{11pt}
+
+\observadores
+	\func{interfazDeSalida}{ArbolDeReglas/a,dirIp/d}{nat}{tieneRegla(a,d)}
+	\func{tieneRegla}{ArbolDeReglas/a,dirIp/d}{bool}{}
+
+\vspace*{11pt}
+
+\otrasops
+	\func{altura}{ArbolDeReglas}{nat}{}
+
+\vspace*{11pt}
+
+\alinearaxiomas{existeReglaQueCumple(agRegla(a,r),d)}
+\axiomas{($\forall$ a: arbolDeReglas)($\forall$ r: regla)($\forall$ d: dirIp)}\\
+
+	\axioma{interfazDeSalida(agRegla(a,r),d)}{If coincidenEnBits(cantBits(r),dirIp(r),d) then inter(r) else interfazDeSalida(a,d)}
+
+	\axioma{tieneRegla(nuevo(),d)}{false}
+	\axioma{tieneRegla(agRegla(a,r),d)}{If coincidenEnBits(cantBits(r),dirIp(r),d) then true else tieneRegla(a,d)}
+
+	\axioma{altura(nuevo())}{0}
+	\axioma{altura(agRegla(a,r),d)}{max{cantBits(r),altura(r)}}
+
+\end{tad}
