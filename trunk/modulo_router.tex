@@ -1,4 +1,4 @@
-\section{Modulo \nombretad{Router}}
+\section*{Modulo \nombretad{Router}}
 
 %INTERFAZ	
 \subsection*{Interfaz}
@@ -146,17 +146,17 @@ $\wedge$ dirIpDeReglaV\'alida(e.reglas,e.versiones)\\
 \alinearfuncs{salidaPorInterfaz}{\hspace{10.6cm}}
 \alinearaxiomas{salidaPorInterfaz(s,u)}
 
-\textbf{\func{filtrarEventos}{interfaz,secu(evento)/s}{secu(evento)}{ordenadosPorTimestamp(s)}}
+\func{filtrarEventos}{interfaz,secu(evento)/s}{secu(evento)}{ordenadosPorTimestamp(s)}
 \axioma{filtrarEventos(i,sev)}{ if\ vacia?(sev)\ then\ $\secuvacia$\\
-else\ if\ (inter(prim(sev)) = i)\ then\\ \hspace*{1cm}filtrarEventos(i,fin(sev)) $\circulito$ prim(sev)\\ else\ filtrarEventos(i,fin(sev))\\fi}
+else\ if\ (inter(prim(sev)) = i)\ then\\ \hspace*{1cm}filtrarEventos(i,fin(sev)) $\circulito$ prim(sev)\\ else\ filtrarEventos(i,fin(sev))\\fi}\\
 
-\textbf{\func{aplicarRegla}{secu(regla)/s,conj(version)/v,dicc(interfaz,bool),dirIP}{respuestaDir}{($\forall$ r: regla)(esta?(r,s)) $\impluego$ (version(dirIP(r)) $\in$ v)}}
-\axioma{aplicarRegla(s,c,d,u)}{ if\ (version(d) $\notin$ c)\ then\\DireccionNoSoportada\\ else\ if\ ($\neg$ hayRegla(s,u))\ then\\ \hspace*{1cm}interfazDeSalidaNoEncontrada\\ else\ if\ obtener(salePorInterfaz(s,u),c)\ then\\ \hspace*{1cm}interfazDeSalidaCaida\\ else\ SalidaPorInterfaz(salePorInterfaz(s,u))\\fi}
+\func{aplicarRegla}{secu(regla)/s,conj(version)/v,dicc(interfaz,bool),dirIP}{respuestaDir}{($\forall$ r: regla)(esta?(r,s)) $\impluego$ (version(dirIP(r)) $\in$ v)}
+\axioma{aplicarRegla(s,c,d,u)}{ if\ (version(d) $\notin$ c)\ then\\DireccionNoSoportada\\ else\ if\ ($\neg$ hayRegla(s,u))\ then\\ \hspace*{1cm}interfazDeSalidaNoEncontrada\\ else\ if\ obtener(salePorInterfaz(s,u),c)\ then\\ \hspace*{1cm}interfazDeSalidaCaida\\ else\ SalidaPorInterfaz(salePorInterfaz(s,u))\\fi}\\
 
-\textbf{\func{hayRegla}{secu(regla),dirIP}{bool}{}}
-\axioma{hayRegla(s,u)}{ if\ vacia?(s)\ then\ false\\ else\ primerosBitsIguales(dirIP(prim(s),u,cantBits(prim(s)))\\ \hspace*{1cm} $\oluego$ hayRegla(fin(s),d))\\fi}
+\func{hayRegla}{secu(regla),dirIP}{bool}{}
+\axioma{hayRegla(s,u)}{ if\ vacia?(s)\ then\ false\\ else\ primerosBitsIguales(dirIP(prim(s),u,cantBits(prim(s)))\\ \hspace*{1cm} $\oluego$ hayRegla(fin(s),d))\\fi}\\
 
-\textbf{\func{salidaPorInterfaz}{secu(regla)/s,dirIP/s}{interfaz}{($\exists$ r:regla)(esta?(r,s)\ $\wedge$\ (version(dirIP) = version(r))}}
+\func{salidaPorInterfaz}{secu(regla)/s,dirIP/s}{interfaz}{($\exists$ r:regla)(esta?(r,s)\ $\wedge$\ (version(dirIP) = version(r))}
 \axioma{salidaPorInterfaz(s,u)}{ if\ vacia?(fin(s))\ then\ inter(prim(s))\\ else\ if\ primerosBitsIguales(dirIP(prim(s)),u,cantBits(prim(s)))\ then\\ \hspace*{1cm}inter(prim(s))\\ else\ salePorInterfaz(fin(s),u)\\fi}
 
 
