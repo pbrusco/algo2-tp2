@@ -22,32 +22,34 @@ $\{\widehat{res}\ \igobs \widehat{a}\in \widehat{C}\}$\\
 
 %REPRESENTACION
 \subsection*{Representaci\'on}
-\textit{conjunto($\alpha$)} \textbf{se representa con} \textit{estr}\\
-\textbf{donde} \textit{estr} \textbf{es} \textit{SecuOrdSinRep($\alpha$)}\\
+\textit{conjunto($\alpha$)} \textbf{se representa con} \textit{estrConj}\\
+\textbf{donde} \textit{estrConj} \textbf{es} \textit{SecuOrdSinRep($\alpha$)}\\
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante\ de \ Representaci\'on}
-\func{Rep}{estr}{boolean}{}
+\alinearfuncs{Rep}{}
+\func{Rep}{estrConj}{boolean}{}
 \vspace{11pt}
-($\forall$ e: estr) Rep(e) = true
+($\forall$ e: estrConj) Rep(e) = true
 \vspace{33pt}
 
 %FUNCION DE ABSTRACCION
 \subsection*{Funci\'on de Abstracci\'on}
-\func{Abs}{estr/e}{conj($\alpha$)}{Rep(e)}
+\alinearfuncs{Abs}{}
+\func{Abs}{estrConj/e}{conj($\alpha$)}{Rep(e)}
 \vspace{11pt}
-($\forall$ e: estr) Abs(e) = C: conj($\alpha$)/($\forall a:\alpha$)($a\in C\igobs esta?(a,\widehat{e}$))
+($\forall$ e: estrConj) Abs(e) = C: conj($\alpha$)/($\forall a:\alpha$)($a\in C\igobs esta?(a,\widehat{e}$))
 \vspace{33pt}
 
 
 %ALGORITMOS
 \subsection*{Algoritmos}
 
-$iVacio$()$\longrightarrow res$: SecuOrdSinRep($\alpha$)\\
-$res\longleftarrow <>$\\
+$\textit{i}Vacio$()$\longrightarrow res$: SecuOrdSinRep($\alpha$)\\
+$res\leftarrow <>$\\
 
-$iagregar$(in $a$: $\alpha$, inout $s$: SecuOrdSinRep($\alpha$)\\
-$agregarOdenado(n,s)$\\
+$\textit{i}agregar$(in $a$: $\alpha$, inout $s$: SecuOrdSinRep($\alpha$)\\
+$agregar(n,s)$\\
 
 $ipertenece$(in $a$: $\alpha$, in $s$: SecuOrdSinRep($\alpha$)\\
-$res\longleftarrow esta?(a,s)$\\
+$res\leftarrow esta?(a,s)$\\
