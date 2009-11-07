@@ -3,7 +3,7 @@
 %INTERFAZ
 \subsection*{Interfaz}
 \textbf{interfaz} \textit{SecuenciaOrdSinRep($\alpha$)}\\
-\textbf{se explica con la especificaci\'on de} \textit{SecuenciaOrdSinRep($\alpha$), itOrdConReferencia($\alpha$)}\\
+\textbf{se explica con la especificaci\'on de} \textit{Secuencia($\alpha$) extendido, itOrdConReferencia($\alpha$)}\\
 \textbf{usa interfaces} \nombretad{Bool}, \nombretad{$\alpha$}, \nombretad{itOrdRef($\alpha$)}\\
 \textbf{genero} \textit{secuOrdSinRep($\alpha$), itOrdRef($\alpha$)}\\
 \textbf{operaciones}\\
@@ -37,12 +37,8 @@ $\{$true$\}$\\
 $\{\widehat{res}\ \igobs\ \neg$vacia?(verSecuSuby(it))$\}$\\
 
 avanzar(inout it: itOrdRef($\alpha$))\\
-$\{\widehat{it}\ \igobs\ it_0\ \wedge\ \neg$vacia?(verSecuSuby(it))$\}$\\
+$\{\widehat{it}\ \igobs\ it_0\ \wedge$ tieneProximo?($it_0$)$\}$\\
 $\{$verSecuSuby(it) $\igobs$ fin(verSecuSuby($it_0$))$\}$\\
-
-insertar(in a: $\alpha$, inout it: itOrdRef($\alpha$))$\longrightarrow$ res: bool\\
-$\{$($\widehat{it}\ \igobs\ it_0$) $\wedge$ (verSecu($\widehat{it}$) $\igobs\ s_0$) $\wedge$ (verSecuSuby($\widehat{it}$) $\igobs\ i_0$) $\wedge$ ordenada($s_0$) $\wedge$ (($\forall$ b: $\alpha$)(esta?(b,$i_0$)) $\impluego$ (a $<$b))\\
-$\{$($\widehat{res}\ \igobs$ esta?(a,$s_0$)) $\yluego$ verSecu($\widehat{it}$) $\igobs$ if(res) then $s_0$ else (tomar($s_0$,long($s_0$) - long($i_0$)) $\circulito$ a) $\&$ verSecuSuby($it_0$)))$\}$
 
 
 %REPRESENTACION
@@ -56,19 +52,102 @@ $\{$($\widehat{res}\ \igobs$ esta?(a,$s_0$)) $\yluego$ verSecu($\widehat{it}$) $
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante de Representaci\'on}
-\func{Rep}{estr}{bool}{}
+\alinearfuncs{Rep}{}
+\func{Rep}{estrSecuOrdSinRep}{bool}{}
 \vspace{11pt}
-($\forall$ e: estrSecuOrdSinRep) Rep(e) = 
+($\forall$ e: estrSecuOrdSinRep) Rep(e) = No hay ciclos en la secuencia $\wedge$ La secuencia est\'a ordenada $\wedge$ No hay repetidos en la secuencia
+
+\vspace{22pt}
+
+\func{Rep}{estrIterOrdConRef}{bool}{}
+\vspace{11pt}
+($\forall$ e: estrIterOrdConRef) Rep(e) = No hay ciclos en la secuencia
 
 \vspace{33pt}
 
 %FUNCION DE ABSTRACCION
 \subsection*{Funci\'on de Abstracci\'on}
-\func{Abs}{estr/e}{secu($\alpha$)}{Rep(e)}
+\alinearfuncs{Abs}{}
+\func{Abs}{estrSecuOrdSinRep/e}{secuOrdSinRep($\alpha$)}{Rep(e)}
 \vspace{11pt}
-($\forall$ e: estr) Abs(e) = s: secu($\alpha$)/ ...
+($\forall$ e: estrSecuOrdSinRep) Abs(e) = s: secuOrdSinRep($\alpha$)/\\
+(vacia?(s) $\equiv$ (e == NULL)) $\yluego$ $\neg$vacia?(s) $\impluego$ (prim(s) $\equiv$ (e $\rightarrow$ dato)) $\wedge$ (fin(s) $equiv$ (e $\rightarrow$ proximo))
+
+\vspace{22pt}
+
+\func{Abs}{estrIterOrdConRef/e}{itOrdRef($\alpha$)}{Rep(e)}
+\vspace{11pt}
+($\forall$ e: estrIterOrdConRef) Abs(e) = it: itOrdRef($\alpha$)/ 
+
 \vspace{33pt}
+
 
 %ALGORITMOS
 \subsection*{Algoritmos}
 
+\textit{i}$<>$() $\longrightarrow$ res:estrSecuOrdSinRep\\
+\begin{algorithm}[H]
+res $\leftarrow$ NULL
+\end{algorithm}
+
+\textit{i}agregar(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
+\begin{algorithm}[H]
+nodo $\leftarrow \langle$ a, NULL $\rangle$
+\BlankLine
+\If{(e == NULL)}{e $\leftarrow$ $\&$nodo}
+\Else{
+it: estrIterOrdConRef $\leftarrow$ creatIT(e)
+\BlankLine
+\While{(tieneProximo?(it) $\wedge$ (a $\opsub{<}{\alpha}$ actual(it)))}
+	{avanzar(it)}
+\BlankLine
+\If{($\neg$tieneProximo?(it))}
+	{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo}
+\BlankLine
+\Else{
+$it_2$: estrIterOrdConRef $\leftarrow$ creatIT(e)\\
+\While{(($it_2$ $\rightarrow$ proximo) $\neq$ it)}{avanzar(it)}
+(it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo\\
+(nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it}
+}
+\end{algorithm}
+
+\textit{i}vacia?(in e: estrSecuOrdSinRep) $\longrightarrow$ res: bool\\
+\begin{algorithm}[H]
+res $\leftarrow$ (e == NULL)
+\end{algorithm}
+
+\textit{i}esta?(in a: $\alpha$, e: estrSecuOrdSinRep) $\longrightarrow$ res: bool\\
+\begin{algorithm}[H]
+res $\leftarrow$ false\\
+\BlankLine
+\If{(e $\neq$ NULL)}{
+\BlankLine
+it: estrIterOrdConRef $\leftarrow$ crearIt(e)
+\BlankLine
+\While{(tieneProximo(it)? $\wedge$ a $\neq$ actual(it))}{avanzar(it)}
+\BlankLine
+\If{(a = actual(it))}{res $\leftarrow$ true}}
+\end{algorithm}
+
+\textit{i}crearIT(in e: estrSecuOrdSinRep) $\longrightarrow$ res: estrIterOrdConRef\\
+\begin{algorithm}[H]
+res $\leftarrow$ e
+\end{algorithm}
+
+\textit{i}actual(in it: estrIterOrdConRef) $\longrightarrow$ res: $\alpha$\\
+\begin{algorithm}[H]
+res $\leftarrow$ (it $\rightarrow$ dato)
+\end{algorithm}
+
+\textit{i}tieneProximo?(in it: estrIterOrdConRef) $\longrightarrow$ res: bool\\
+\begin{algorithm}[H]
+res $\leftarrow$ (it $\rightarrow$ proximo $\neq$ NULL)
+\end{algorithm}
+
+\textit{i}avanzar(inout it: estrIterOrdConRef)\\
+\begin{algorithm}[H]
+\If{tieneProximo?(it)}{\BlankLine
+it $\leftarrow$ (it $\rightarrow$ proximo)}
+\Else{it $\leftarrow$ NULL}
+\end{algorithm}
