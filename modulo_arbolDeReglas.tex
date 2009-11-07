@@ -1,34 +1,6 @@
 \section*{Modulo \nombretad{ArbolDeReglas}}
 
 %INTERFAZ
-\subsection*{TAD ArbolDeReglas}
-
-\generadores
-
-\alinearfuncs{existeReglaQueCumple}{\hspace{7cm}}
-\alinearaxiomas{existeReglaQueCumple(agRegla(a,r),d)}
-\textbf{\func{nuevo}{}{ArbolDeReglas}{}}
-
-\textbf{\func{agRegla}{ArbolDeReglas,Regla}{ArbolDeReglas}{}}
-
-\observadores
-
-\textbf{\func{interfazDeSalida}{ArbolDeReglas/a,dirIp/d}{nat}{tieneRegla(a,d)}}
-\axioma{interfazDeSalida(agRegla(a,r),d)}{If coincidenEnBits(cantBits(r),dirIp(r),d) then inter(r) else interfazDeSalida(a,d)}
-
-\textbf{\func{tieneRegla}{ArbolDeReglas/a,dirIp/d}{bool}{}}
-\axioma{tieneRegla(nuevo(),d)}{false}
-\axioma{tieneRegla(agRegla(a,r),d)}{If coincidenEnBits(cantBits(r),dirIp(r),d) then true else tieneRegla(a,d)}
-
-\otrasops
-
-\textbf{\func{altura}{ArbolDeReglas}{nat}{}}
-\axioma{altura(nuevo())}{0}
-\axioma{altura(agRegla(a,r),d)}{max{cantBits(r),altura(r)}}
-
-
-
-%INTERFAZ
 \subsection*{Interfaz}
 \textbf{interfaz} \textit{arbolDeReglas}\\
 \textbf{se explica con la especificaci\'on de} \textit{arbolDeReglas}\\
