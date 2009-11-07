@@ -108,9 +108,69 @@ $\{\widehat{res}\igobs$ $altura(\widehat{a})\}$\\
 %ALGORITMOS
 \subsection*{Algoritmos}
 
+\textbf{icrear()   $\longrightarrow$	$res$ : puntero(estr)
+}
+    \incmargin{1em}
+    \linesnumbered
+    \restylealgo{boxed}
+    \dontprintsemicolon
+    
+	\begin{algorithm}[H]
+	
+	
+	res $\leftarrow$ null\\
 
-%inicio algoritmo
-\newpage
+ \caption{crear}
+   \end{algorithm}
+
+
+\textbf{iagRegla(inout $p$ : puntero(estr),in $r$ : regla)
+}
+    \incmargin{1em}
+    \linesnumbered
+    \restylealgo{boxed}
+    \dontprintsemicolon
+    
+	\begin{algorithm}[H]
+	
+	
+\textbf{var} i : int\\
+\textbf{var} pAux : puntero(estr) 	\\
+\textbf{var} a[version(dirIp(r))*8] : arreglo(bool) 	\\
+\BlankLine 
+\If {p = null}{p $\leftarrow$ crearTupla(null,null,null)}
+\BlankLine 
+a $\leftarrow$ pasarABits(dirIP(r))\\
+pAux $\leftarrow$ p\\
+i $\leftarrow$ 0
+
+\BlankLine 
+
+\While{i = cantBits(r)}{
+	
+		\eIf {a[i] = true}{
+				\If{(*pAux).der = null}{(*pAux).der $\leftarrow$ crearTupla(null,null,null)}
+				 pAux $\leftarrow$ (*pAux).der}{%else		 
+				 \If{(*pAux).izq = null}{(*pAux).izq $\leftarrow$ crearTupla(null,null,null)}				 
+				 pAux $\leftarrow$ (*pAux).izq}
+
+		i $\leftarrow$ i + 1
+		}
+\BlankLine 
+\If {(*pAux).inter = null}{(*pAux).inter $\leftarrow$ crearInterfaz()}
+\BlankLine 
+(*pAux).inter $\leftarrow$ inter(r)\\
+(*pAux).der $\leftarrow$ null\\
+(*pAux).izq $\leftarrow$ null
+
+ \caption{agRegla}
+   \end{algorithm}
+
+
+
+
+
+
 \textbf{iInterfazDeSalida(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : interfaz
 }
     \incmargin{1em}
