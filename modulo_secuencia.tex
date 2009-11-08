@@ -12,7 +12,7 @@ $<>$()$\longrightarrow$ res: secuOrdSinRep($\alpha$)\\
 $\{$true$\}$\\
 $\{\widehat{res}\}$\\
 
-agregar(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$))\\
+insertar(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$))\\
 $\{\widehat{s}\ \igobs\ s_0\ \wedge$ ordenada($s_0$)$\}$\\
 $\{\widehat{s}\ \igobs$ agregarOrdenado($\widehat{a}$,$s_0$)$\}$\\
 
@@ -90,7 +90,7 @@ $\{$verSecuSuby(it) $\igobs$ fin(verSecuSuby($it_0$))$\}$\\
 res $\leftarrow$ NULL
 \end{algorithm}
 
-\textit{i}agregar(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
+\textit{i}insertar(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
 nodo $\leftarrow \langle$ a, NULL $\rangle$
 \BlankLine

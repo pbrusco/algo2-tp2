@@ -12,7 +12,7 @@ nuevo(in n: nat)$\rightarrow$ res: router\\
 $\{$true$\}$\\
 $\{\widehat{res} \igobs$ nuevo($\widehat{n}$)$\}$\\
 
-agversi\'on(inout r: router, in v: versi\'on)\\
+agVersi\'on(inout r: router, in v: versi\'on)\\
 $\{$($\widehat{r} \igobs\ r_0$) $\wedge$ ($\widehat{v} \notin$ versiones($\widehat{r}$))$\}$\\
 $\{\widehat{r} \igobs$ agVersi\'on($r_0$,$\widehat{v}$)$\}$\\
 
@@ -52,7 +52,7 @@ $\{\widehat{res} \igobs$ tiempocaida($\widehat{r}$,$\widehat{i}$)$\}$\\
 %REPRESENTACION
 \subsection*{Representaci\'on}
 \textit{enrutador} \textbf{se representa con} \textit{estr}\\
-\textbf{donde} \textit{estr} \textbf{es} \textit{tupla $\langle$ versiones: cto(versi\'on)\\
+\textbf{donde} \textit{estr} \textbf{es} \textit{tupla $\langle$ versiones: conj(versi\'on)\\
 \hspace*{3.5cm} $\times$  cantInterfaces: nat\\
 \hspace*{3.5cm} $\times$  reglas: secuOrdSinRep(tupla(version,arbolDeReglas))\\ 
 \hspace*{3.5cm} $\times$  status-inter: ad(tupla(nat,secuOrdSinRep(evento))) $\rangle$}
@@ -165,3 +165,35 @@ else\ if\ (inter(prim(sev)) = i)\ then\\ \hspace*{1cm}filtrarEventos(i,fin(sev))
 
 %ALGORITMOS
 \subsection*{Algoritmos}
+
+\textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr\\
+\begin{algorithm}[H]
+\BlankLine
+inter: ad(tupla(nat, secuOrdSinRep(evento)) $\leftarrow$ CrearArreglo(n)
+\BlankLine
+\For{(i: nat $\leftarrow$ 0, i $<$ n}{
+inter[i] $\leftarrow$ $\langle$i, $<>\rangle$\\
+i $\leftarrow$ (i+1)}
+\BlankLine
+res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$
+\end{algorithm}
+
+\textit{i}agVersion(inout e: estr, in v: version)\\
+\begin{algorithm}[H]
+\BlankLine
+agregar(v, $\Pi_1$(e))
+\BlankLine
+insertar($\langle$i, $<>\rangle$, $\Pi_3$(e))
+\end{algorithm}
+
+\textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\\
+\begin{algorithm}[H]
+\BlankLine
+res $\leftarrow\ \Pi_1(e)$
+\end{algorithm}
+
+\textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\\
+\begin{algorithm}[H]
+\BlankLine
+res $\leftarrow\ \Pi_2(e)$
+\end{algorithm}
