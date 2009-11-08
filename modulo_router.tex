@@ -36,7 +36,7 @@ enrutar(in r: router, in d: dirIp)$\longrightarrow$ res: respDir\\
 $\{$true$\}$\\
 $\{\widehat{res} \igobs$ enrutar($\widehat{r}$,$\widehat{d}$)$\}$\\
 
-eventos(in r: router, in i: interfaz)$\longrightarrow$ res: secu(eventos)\\
+eventos(in r: router, in i: interfaz)$\longrightarrow$ res: secuOrdSinRep(eventos)\\
 $\{$true$\}$\\
 $\{\widehat{res} \igobs$ eventos($\widehat{r}$,$\widehat{i}$)$\}$\\
 
@@ -172,11 +172,13 @@ else\ if\ (inter(prim(sev)) = i)\ then\\ \hspace*{1cm}filtrarEventos(i,fin(sev))
 inter: ad(tupla(nat, secuOrdSinRep(evento)) $\leftarrow$ CrearArreglo(n)
 \BlankLine
 \For{(i: nat $\leftarrow$ 0, i $<$ n}{
-inter[i] $\leftarrow$ $\langle$i, $<>\rangle$\\
+inter[i] $\leftarrow$ $\langle$0, $<>\rangle$\\
 i $\leftarrow$ (i+1)}
 \BlankLine
 res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$
 \end{algorithm}
+
+\vspace{11pt}
 
 \textit{i}agVersion(inout e: estr, in v: version)\\
 \begin{algorithm}[H]
@@ -186,14 +188,87 @@ agregar(v, $\Pi_1$(e))
 insertar($\langle$i, $<>\rangle$, $\Pi_3$(e))
 \end{algorithm}
 
+\vspace{11pt}
+
+\textit{i}agRegla(inout e: estr, in u: reglaDir)\\
+\begin{algorithm}[H]
+\BlankLine
+ME FALTA HACERLO
+\end{algorithm}
+
+\vspace{11pt}
+
+\textit{i}agEvento(inout e: estr, in m: evento)\\
+\begin{algorithm}[H]
+\BlankLine
+status-interfaces: ad(tupla(nat, secuOrdSinRep(evento)) $\leftarrow\ \Pi_1$(e)
+\BlankLine
+interfaz-actualizada: nat $\leftarrow\ \Pi_3$(m)
+\BlankLine
+info-i: tupla(nat, secuOrdSinRep(evento)) $\leftarrow$ status-interfaces [interfaz-actualizada -1]
+\BlankLine
+secuEventos-i: secuOrdSinRep(evento) $\leftarrow\ \Pi_2$(info-i)
+\BlankLine
+insertar(m, secuEventos-i)
+\end{algorithm}
+
+\vspace{11pt}
+
 \textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\\
 \begin{algorithm}[H]
 \BlankLine
 res $\leftarrow\ \Pi_1(e)$
 \end{algorithm}
 
+\vspace{11pt}
+
 \textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\\
 \begin{algorithm}[H]
 \BlankLine
-res $\leftarrow\ \Pi_2(e)$
+res $\leftarrow\ \Pi_2$(e)
 \end{algorithm}
+
+\vspace{11pt}
+
+\textit{i}enrutar(inout e: estr, in d: dirIp)\\
+\begin{algorithm}[H]
+\BlankLine
+ME FALTA HACERLO
+\end{algorithm}
+
+\vspace{11pt}
+
+\textit{i}eventos(in e: estr, in i: interfaz) $\longrightarrow$ res: secuOrdSinRep(evento)\\
+\begin{algorithm}[H]
+\BlankLine
+info-i: tupla(nat, secuOrdSinRep(evento)) $\leftarrow\ \Pi_4$(e)[i-1]
+\BlankLine
+res $\leftarrow\ \Pi_2$(info-i)
+\end{algorithm}
+
+\vspace{11pt}
+
+\textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
+\begin{algorithm}[H]
+\BlankLine
+info-i: tupla(nat, secuOrdSinRep(evento)) $\leftarrow\ \Pi_4$(e)[i-1]\\
+\BlankLine
+secuEventos-i: secuOrdSinRep(evento) $\leftarrow\ \Pi_2$(info-i)\\
+\BlankLine
+ultimoEvento-i: evento $\leftarrow$ (secuEventos-i $\rightarrow$ dato)\\
+\BlankLine
+res $\leftarrow\ \Pi_1$(ultimoEvento-i)
+\end{algorithm}
+
+\vspace{11pt}
+
+\textit{i}tiempoCaida(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
+\begin{algorithm}[H]
+\BlankLine
+info-i: tupla(nat, secuOrdSinRep(evento)) $\leftarrow\ \Pi_4$(e)[i-1]\\
+\BlankLine
+res $\leftarrow\ \Pi_1$(info-i)
+\end{algorithm}
+
+\vspace{11pt}
+
