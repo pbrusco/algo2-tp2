@@ -76,7 +76,7 @@ $\{\widehat{res}\igobs$ $altura(\widehat{a})\}$\\
 			      \hspace*{-0.85cm}\lfi}
 
 
-
+\newpage
 %ALGORITMOS
 \subsection*{Algoritmos}
 
@@ -141,6 +141,7 @@ i $\leftarrow$ 0
 
 
 
+\newpage
 
 
 \textbf{iInterfazDeSalida(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : interfaz
@@ -181,5 +182,54 @@ res $\leftarrow$ *(pRes)
 
 
  \caption{interfazDeSalida}
+   \end{algorithm}
+%fin
+
+\newpage 
+
+\textbf{itieneRegla(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : bool
+}
+    \incmargin{1em}
+    \linesnumbered
+    \restylealgo{boxed}
+    \dontprintsemicolon
+    
+	\begin{algorithm}[H]
+	
+	
+\textbf{var} i : int\\
+\textbf{var} pAux : puntero(estr) 	\\
+\textbf{var} sePuedeSeguir : bool	\\
+
+\BlankLine
+
+pAux $\leftarrow$ p\\
+i $\leftarrow$ 0\\
+sePuedeSeguir $\leftarrow$ true\\
+res $\leftarrow$ false\\
+
+\BlankLine
+
+\If {pAux = Null}{res $\leftarrow$ false\\sePuedeSeguir $\leftarrow$ false}
+
+\BlankLine
+\BlankLine
+
+\While{res = false $\wedge$ sePuedeSeguir = true}{
+	
+	\eIf{d[i] = true}{
+		\eIf{(pAux$\rightarrow$der) = Null}{sePuedeSeguir $\leftarrow$ false}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
+	}{
+		\eIf{(pAux$\rightarrow$izq) = Null}{sePuedeSeguir $\leftarrow$ false}{pAux $\leftarrow$ (pAux$\rightarrow$izq)}
+	}
+	
+	i $\leftarrow$  i + 1
+
+\BlankLine
+\If{(pAux$\rightarrow$inter) $\neq$ Null}{res $\leftarrow$ true}
+	
+}
+
+ \caption{tieneRegla}
    \end{algorithm}
 %fin
