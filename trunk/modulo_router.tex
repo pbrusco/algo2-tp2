@@ -168,7 +168,7 @@ res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$
 \BlankLine
 agregar(v, e.versiones)
 \BlankLine
-insertar($\langle$i, $<>\rangle$, e.reglas)
+insertar($\langle$v, $<>\rangle$, e.reglas)
 \end{algorithm}
 
 \vspace{11pt}
@@ -176,7 +176,13 @@ insertar($\langle$i, $<>\rangle$, e.reglas)
 \textit{i}agRegla(inout e: estr, in u: reglaDir)\\
 \begin{algorithm}[H]
 \BlankLine
-ME FALTA HACERLO
+it: itOrd(tupla $\langle$version, arbolDeReglas$\rangle$) $\leftarrow$ crearIt(e.reglas) 
+\BlankLine
+v: version $\leftarrow$ u.version
+\BlankLine
+\While{(actual(it).version $\neq$ v){avanzar(it)}
+\BlankLine
+agRegla(actual(it).aR, v)
 \end{algorithm}
 
 \vspace{11pt}
@@ -223,9 +229,9 @@ res $\leftarrow$ (e.status-inter[i]).eventos
 \textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
 \BlankLine
-it: itOrd($\tupla\ \langle$nat, evento$\rangle$) $\leftarrow$ crearIt((e.status-inter[i]).eventos) 
+it: itOrd(tupla $\langle$nat, evento$\rangle$) $\leftarrow$ crearIt((e.status-inter[i]).eventos) 
 \BlankLine
-res $\rightarrow$ (it.actual).estaCaida?
+res $\rightarrow$ actual(it).estaCaida?
 \end{algorithm}
 
 \vspace{11pt}
