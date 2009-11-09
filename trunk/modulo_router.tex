@@ -149,22 +149,18 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 %ALGORITMOS
 \subsection*{Algoritmos}
 
-\textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr\\
+\incmargin{1em}
+\linesnumbered
+\restylealgo{boxed}
+\dontprintsemicolon
 
-    \incmargin{1em}
-    \linesnumbered
-    \restylealgo{boxed}
-    \dontprintsemicolon
+\textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr\\
 \begin{algorithm}[H]
 \BlankLine
 \textbf{var} inter: arreglo\_dimensionable de tupla$\langle$nat, secuOrdSinRep(evento)$\rangle$ \\
-
 \BlankLine
-
 inter $\leftarrow$ CrearArreglo(n)\\
-
 \BlankLine
-
 \For{(i: nat $\leftarrow$ 0, i $<$ n}{
 inter[i] $\leftarrow$ $\langle$0, $<>\rangle$\\
 i $\leftarrow$ (i+1)}
@@ -188,13 +184,10 @@ insertar($\langle$v, $<>\rangle$, e.reglas)\\
 \BlankLine
 \textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$version, arbolDeReglas$\rangle$))\\
 \textbf{var} v: version\\
-
 \BlankLine
 it $\leftarrow$ crearIt(e.reglas) \\
 v  $\leftarrow$ u.version\\
-
 \BlankLine
-
 \While{(actual(it).version $\neq$ v)}{avanzar(it)}
 agRegla(actual(it).aR, v)
 \end{algorithm}
