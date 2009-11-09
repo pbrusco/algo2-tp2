@@ -96,8 +96,11 @@ nodo $\leftarrow \langle$ a, NULL $\rangle$
 \BlankLine
 \If{(e == NULL)}{e $\leftarrow$ $\&$nodo}
 \Else{
-it: itOrd(secuOrdSinRep($\alpha$)) $\leftarrow$ creatIT(e)\\
-it2: itOrd(secuOrdSinRep($\alpha$)) $\leftarrow$ NULL
+\textbf{var} it: itOrd(secuOrdSinRep($\alpha$))\\
+\textbf{var} i2: itOrd(secuOrdSinRep($\alpha$))\\
+\BlankLine
+it $\leftarrow$ creatIT(e)\\
+it2 $\leftarrow$ NULL
 \BlankLine
 \While{(tieneProximo?(it) $\wedge$ (a $\opsub{<}{\alpha}$ actual(it)))}{it2 $\leftarrow$ it\\ avanzar(it)}
 \BlankLine
@@ -116,8 +119,9 @@ res $\leftarrow$ (e == NULL)
 res $\leftarrow$ false\\
 \BlankLine
 \If{(e $\neq$ NULL)}{
+\textbf{var} it: itOrd(secuOrdSinRep($\alpha$))\\
 \BlankLine
-it: irOrd $\leftarrow$ crearIt(e)
+it $\leftarrow$ crearIt(e)
 \BlankLine
 \While{(tieneProximo(it)? $\wedge$ a $\neq$ actual(it))}{avanzar(it)}
 \BlankLine
