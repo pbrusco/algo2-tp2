@@ -108,9 +108,14 @@ $\{\widehat{res}\igobs$ $altura(\widehat{a})\}$\\
 	
 \textbf{var} i : int\\
 \textbf{var} pAux : puntero(estr) 	\\
-\textbf{var} a[version(dirIp(r))*8] : arreglo(bool) 	\\
+\textbf{var} a : arreglo\_dimensionable de bool\\
+
 \BlankLine 
-\If {p = null}{p $\leftarrow$ crearTupla(null,null,null)}
+
+a $\leftarrow$ CrearArreglo(version(dirIp(r))*8)\\
+
+\BlankLine
+\If {p = NULL}{p $\leftarrow$ crearTupla(NULL,NULL,NULL)}
 \BlankLine 
 a $\leftarrow$ pasarABits(dirIP(r))\\
 pAux $\leftarrow$ p\\
@@ -118,22 +123,22 @@ i $\leftarrow$ 0
 
 \BlankLine 
 
-\While{i = cantBits(r)}{
+\While{i $\neq$ cantBits(r)}{
 	
 		\eIf {a[i] = true}{
-				\If{(*pAux).der = null}{(*pAux).der $\leftarrow$ crearTupla(null,null,null)}
+				\If{(*pAux).der = NULL}{(*pAux).der $\leftarrow$ crearTupla(NULL,NULL,NULL)}
 				 pAux $\leftarrow$ (*pAux).der}{%else		 
-				 \If{(*pAux).izq = null}{(*pAux).izq $\leftarrow$ crearTupla(null,null,null)}				 
+				 \If{(*pAux).izq = NULL}{(*pAux).izq $\leftarrow$ crearTupla(NULL,NULL,NULL)}				 
 				 pAux $\leftarrow$ (*pAux).izq}
 
 		i $\leftarrow$ i + 1
 		}
 \BlankLine 
-\If {(*pAux).inter = null}{(*pAux).inter $\leftarrow$ crearInterfaz()}
+\If {(*pAux).inter = NULL}{(*pAux).inter $\leftarrow$ crearInterfaz()}
 \BlankLine 
-(*pAux).inter $\leftarrow$ inter(r)\\
-(*pAux).der $\leftarrow$ null\\
-(*pAux).izq $\leftarrow$ null
+*((*pAux).inter) $\leftarrow$ inter(r)\\
+(*pAux).der $\leftarrow$ NULL\\
+(*pAux).izq $\leftarrow$ NULL
 
  \caption{agRegla}
    \end{algorithm}
@@ -159,21 +164,21 @@ i $\leftarrow$ 0
 \textbf{var} pResProvisorio: puntero(interfaz)\\
 \textbf{var} pAux puntero(estr) 	\\
 
-pRes $\leftarrow$ Null
-pResProvisorio $\leftarrow$ Null
-pAux $\leftarrow$ Null
+pRes $\leftarrow$ NULL
+pResProvisorio $\leftarrow$ NULL
+pAux $\leftarrow$ NULL
 i $\leftarrow$ 0
 
 
 \BlankLine 
 
-\While{pRes = Null}{
-	\If{(pAux$\rightarrow$inter) $\neq$ Null}{pResProvisorio $\leftarrow$ (pAux $\rightarrow$ inter)}
+\While{pRes = NULL}{
+	\If{(pAux$\rightarrow$inter) $\neq$ NULL}{pResProvisorio $\leftarrow$ (pAux $\rightarrow$ inter)}
 	
 	\eIf{d[i] = true}{
-		\eIf{(pAux$\rightarrow$der) = Null}{pRes $\leftarrow$ pResProvisorio}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
+		\eIf{(pAux$\rightarrow$der) = NULL}{pRes $\leftarrow$ pResProvisorio}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
 	}{
-		\eIf{(pAux$\rightarrow$izq) = Null}{pRes $\leftarrow$ pResProvisorio}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
+		\eIf{(pAux$\rightarrow$izq) = NULL}{pRes $\leftarrow$ pResProvisorio}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
 	}
 	i $\leftarrow$  i + 1
 }
@@ -210,7 +215,7 @@ res $\leftarrow$ false\\
 
 \BlankLine
 
-\If {pAux = Null}{res $\leftarrow$ false\\sePuedeSeguir $\leftarrow$ false}
+\If {pAux = NULL}{res $\leftarrow$ false\\sePuedeSeguir $\leftarrow$ false}
 
 \BlankLine
 \BlankLine
@@ -218,15 +223,15 @@ res $\leftarrow$ false\\
 \While{res = false $\wedge$ sePuedeSeguir = true}{
 	
 	\eIf{d[i] = true}{
-		\eIf{(pAux$\rightarrow$der) = Null}{sePuedeSeguir $\leftarrow$ false}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
+		\eIf{(pAux$\rightarrow$der) = NULL}{sePuedeSeguir $\leftarrow$ false}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
 	}{
-		\eIf{(pAux$\rightarrow$izq) = Null}{sePuedeSeguir $\leftarrow$ false}{pAux $\leftarrow$ (pAux$\rightarrow$izq)}
+		\eIf{(pAux$\rightarrow$izq) = NULL}{sePuedeSeguir $\leftarrow$ false}{pAux $\leftarrow$ (pAux$\rightarrow$izq)}
 	}
 	
 	i $\leftarrow$  i + 1
 
 \BlankLine
-\If{(pAux$\rightarrow$inter) $\neq$ Null}{res $\leftarrow$ true}
+\If{(pAux$\rightarrow$inter) $\neq$ NULL}{res $\leftarrow$ true}
 	
 }
 
