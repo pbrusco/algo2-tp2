@@ -150,10 +150,21 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 \subsection*{Algoritmos}
 
 \textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr\\
+
+    \incmargin{1em}
+    \linesnumbered
+    \restylealgo{boxed}
+    \dontprintsemicolon
 \begin{algorithm}[H]
 \BlankLine
-inter: ad(tupla(nat, secuOrdSinRep(evento)) $\leftarrow$ CrearArreglo(n)
+\textbf{var} inter: arreglo\_dimensionable de tupla$\langle$nat, secuOrdSinRep(evento)$\rangle$ \\
+
 \BlankLine
+
+inter $\leftarrow$ CrearArreglo(n)\\
+
+\BlankLine
+
 \For{(i: nat $\leftarrow$ 0, i $<$ n}{
 inter[i] $\leftarrow$ $\langle$0, $<>\rangle$\\
 i $\leftarrow$ (i+1)}
