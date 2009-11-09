@@ -215,7 +215,7 @@ ME FALTA HACERLO
 \textit{i}eventos(in e: estr, in i: interfaz) $\longrightarrow$ res: secuOrdSinRep(evento)\\
 \begin{algorithm}[H]
 \BlankLine
-res $\leftarrow\ \Pi_2$(e.status-inter[i])
+res $\leftarrow$ (e.status-inter[i]).eventos
 \end{algorithm}
 
 \vspace{11pt}
@@ -223,14 +223,16 @@ res $\leftarrow\ \Pi_2$(e.status-inter[i])
 \textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
 \BlankLine
-res $\leftarrow\ \Pi_1$(($\Pi_2$(e.status-inter[i])) $\rightarrow$ dato)
+it: itOrd($\tupla\ \langle$nat, evento$\rangle$) $\leftarrow$ crearIt((e.status-inter[i]).eventos) 
+\BlankLine
+res $\rightarrow$ (it.actual).estaCaida?
 \end{algorithm}
 
 \vspace{11pt}
 
 \textit{i}tiempoCaida(in e: estr, in i: interfaz) $\longrightarrow$ res: nat\\
 \begin{algorithm}[H]
-res $\leftarrow\ \Pi_1$(e.status-inter[i])
+res $\leftarrow$ (e.status-inter[i]).tiempoCaida
 \end{algorithm}
 
 \vspace{11pt}
