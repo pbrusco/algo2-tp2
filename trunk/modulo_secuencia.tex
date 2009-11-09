@@ -96,20 +96,14 @@ nodo $\leftarrow \langle$ a, NULL $\rangle$
 \BlankLine
 \If{(e == NULL)}{e $\leftarrow$ $\&$nodo}
 \Else{
-it: itOrd $\leftarrow$ creatIT(e)
+it: itOrd(secuOrdSinRep($\alpha$)) $\leftarrow$ creatIT(e)\\
+it2: itOrd(secuOrdSinRep($\alpha$)) $\leftarrow$ NULL
 \BlankLine
-\While{(tieneProximo?(it) $\wedge$ (a $\opsub{<}{\alpha}$ actual(it)))}
-	{avanzar(it)}
+\While{(tieneProximo?(it) $\wedge$ (a $\opsub{<}{\alpha}$ actual(it)))}{it2 $\leftarrow$ it\\ avanzar(it)}
 \BlankLine
-\If{($\neg$tieneProximo?(it))}
-	{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo}
+\If{(a $\opsub{<}{\alpha}$ actual(it))}{it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo\\ (nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it}
 \BlankLine
-\Else{
-$it_2$: itOrd $\leftarrow$ creatIT(e)\\
-\While{(($it_2$ $\rightarrow$ proximo) $\neq$ it)}{avanzar(it)}
-(it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo\\
-(nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it}
-}
+\Else{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo}}
 \end{algorithm}
 
 \textit{i}vacia?(in e: estrSecuOrdSinRep) $\longrightarrow$ res: bool\\
@@ -147,7 +141,5 @@ res $\leftarrow$ (it $\rightarrow$ proximo $\neq$ NULL)
 
 \textit{i}avanzar(inout it: estrIterOrd)\\
 \begin{algorithm}[H]
-\If{tieneProximo?(it)}{\BlankLine
-it $\leftarrow$ (it $\rightarrow$ proximo)}
-\Else{it $\leftarrow$ NULL}
+it $\leftarrow$ (it $\rightarrow$ proximo)
 \end{algorithm}
