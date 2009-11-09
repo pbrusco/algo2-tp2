@@ -54,8 +54,8 @@ $\{\widehat{res} \igobs$ tiempocaida($\widehat{r}$,$\widehat{i}$)$\}$\\
 \textit{enrutador} \textbf{se representa con} \textit{estr}\\
 \textbf{donde} \textit{estr} \textbf{es} \textit{tupla $\langle$ versiones: conj(versi\'on)\\
 \hspace*{3.5cm} $\times$  cantInterfaces: nat\\
-\hspace*{3.5cm} $\times$  reglas: secuOrdSinRep(tupla(version,arbolDeReglas))\\ %aca hay que decir como se ordena
-\hspace*{3.5cm} $\times$  status-inter: ad(tupla(nat,secuOrdSinRep(evento))) $\rangle$}
+\hspace*{3.5cm} $\times$  reglas: secuOrdSinRep(tupla$\langle$version: version, aR: arbolDeReglas$\rangle$)\\ %aca hay que decir como se ordena
+\hspace*{3.5cm} $\times$  status-inter: ad(tupla$\langle$tiempoCaida: nat, eventos: secuOrdSinRep(evento)$\rangle$) $\rangle$}
 
 
 %INVARIANTE DE REPRESENTACION
@@ -166,9 +166,9 @@ res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$
 \textit{i}agVersion(inout e: estr, in v: version)\\
 \begin{algorithm}[H]
 \BlankLine
-agregar(v, $\Pi_1$(e))
+agregar(v, e.versiones)
 \BlankLine
-insertar($\langle$i, $<>\rangle$, $\Pi_3$(e))
+insertar($\langle$i, $<>\rangle$, e.reglas)
 \end{algorithm}
 
 \vspace{11pt}
@@ -183,16 +183,7 @@ ME FALTA HACERLO
 
 \textit{i}agEvento(inout e: estr, in m: evento)\\
 \begin{algorithm}[H]
-\BlankLine
-status-interfaces: ad(tupla(nat, secuOrdSinRep(evento)) $\leftarrow\ \Pi_1$(e)
-\BlankLine
-interfaz-actualizada: nat $\leftarrow\ \Pi_3$(m)
-\BlankLine
-info-i: tupla(nat, secuOrdSinRep(evento)) $\leftarrow$ status-interfaces [interfaz-actualizada -1]
-\BlankLine
-secuEventos-i: secuOrdSinRep(evento) $\leftarrow\ \Pi_2$(info-i)
-\BlankLine
-insertar(m, secuEventos-i)
+ME FALTA HACERLO
 \end{algorithm}
 
 \vspace{11pt}
@@ -200,7 +191,7 @@ insertar(m, secuEventos-i)
 \textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\\
 \begin{algorithm}[H]
 \BlankLine
-res $\leftarrow\ \Pi_1(e)$
+res $\leftarrow$ e.versiones
 \end{algorithm}
 
 \vspace{11pt}
@@ -208,7 +199,7 @@ res $\leftarrow\ \Pi_1(e)$
 \textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\\
 \begin{algorithm}[H]
 \BlankLine
-res $\leftarrow\ \Pi_2$(e)
+res $\leftarrow$ e.interfaces
 \end{algorithm}
 
 \vspace{11pt}
@@ -224,9 +215,7 @@ ME FALTA HACERLO
 \textit{i}eventos(in e: estr, in i: interfaz) $\longrightarrow$ res: secuOrdSinRep(evento)\\
 \begin{algorithm}[H]
 \BlankLine
-info-i: tupla(nat, secuOrdSinRep(evento)) $\leftarrow\ \Pi_4$(e)[i-1]
-\BlankLine
-res $\leftarrow\ \Pi_2$(info-i)
+res $\leftarrow\ \Pi_2$(e.status-inter[i])
 \end{algorithm}
 
 \vspace{11pt}
@@ -234,23 +223,14 @@ res $\leftarrow\ \Pi_2$(info-i)
 \textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
 \BlankLine
-info-i: tupla(nat, secuOrdSinRep(evento)) $\leftarrow\ \Pi_4$(e)[i-1]\\
-\BlankLine
-secuEventos-i: secuOrdSinRep(evento) $\leftarrow\ \Pi_2$(info-i)\\
-\BlankLine
-ultimoEvento-i: evento $\leftarrow$ (secuEventos-i $\rightarrow$ dato)\\
-\BlankLine
-res $\leftarrow\ \Pi_1$(ultimoEvento-i)
+res $\leftarrow\ \Pi_1$(($\Pi_2$(e.status-inter[i])) $\rightarrow$ dato)
 \end{algorithm}
 
 \vspace{11pt}
 
-\textit{i}tiempoCaida(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
+\textit{i}tiempoCaida(in e: estr, in i: interfaz) $\longrightarrow$ res: nat\\
 \begin{algorithm}[H]
-\BlankLine
-info-i: tupla(nat, secuOrdSinRep(evento)) $\leftarrow\ \Pi_4$(e)[i-1]\\
-\BlankLine
-res $\leftarrow\ \Pi_1$(info-i)
+res $\leftarrow\ \Pi_1$(e.status-inter[i])
 \end{algorithm}
 
 \vspace{11pt}
