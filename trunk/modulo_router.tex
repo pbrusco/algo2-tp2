@@ -73,40 +73,40 @@ tiempoCaidaValido(e.status-inter)\\
 \alinearaxiomas{interfacesDeArbolesValidas(s,n)}
 \alinearfuncs{interfacesDeArbolesValidasLA}{\hspace{7.4cm}}
 
-\textbf{\func{versionesDeReglasValidas}{secu(tupla(nat,abr)),cto(version)}{bool}{}}
+\textbf{\func{versionesDeReglasValidas}{secuOrdSinRep(tupla(version,abr)),cto(version)}{bool}{}}
 \axioma{versionesDeReglasValidas(s,c)}{\lif vacia?(s) \lthen \true\\
 										\hspace*{-0.85cm}\lelse $\Pi_1$(prim(s)) $\in$ c $\wedge$ versionesDeReglasValidas(fin(s),c)}
 
-\textbf{\func{interfacesDeArbolesValidas}{secu(tupla(nat,abr)),nat}{bool}{}}
+\textbf{\func{interfacesDeArbolesValidas}{secuOrdSinRep(tupla(version,abr)),nat}{bool}{}}
 \axioma{interfacesDeArbolesValidas(s,n)}{($\forall$ d: dirIp) (estaVersionEnTupla(d,s) \impluego \\
 											interValidasAux(s,n,d))}
 
-\textbf{\func{estaVersionEnTupla}{dirIp,secu(tupla(nat,abr))}{bool}{}}
+\textbf{\func{estaVersionEnTupla}{dirIp,secuOrdSinRep(tupla(version,abr))}{bool}{}}
 \axioma{estaVersionEnTupla(d,s)}{\lif vacia?(s) \lthen \false\\
 								\hspace*{-0.85cm}\lelse $\Pi_1$(prim(s)) $=$ version(d) $\vee$ estaVersionEnTupla(d,fin(s))}
 
-\textbf{\func{interValidasAux}{secu(tupla(nat,abr)),nat,dirIp}{bool}{}}
+\textbf{\func{interValidasAux}{secuOrdSinRep(tupla(version,abr))/s,nat,dirIp/d}{bool}{estaVersionEnTupla(d,s)}}
 \axioma{interValidasAux(s,n,d)}{\lif $\Pi_1$(prim(s)) $=$ version(d) \\
 								\hspace*{0.6cm}\lthen interfazDeSalida($\Pi_2$(prim(s)),d) $<$ n\\
 								\hspace*{-0.85cm}\lelse interValidasAux(fin(s),n,d)}
 
-\textbf{\func{interfazDeEventosCorrecta}{nat,ad(tupla(nat,secu(evento)))}{bool}{}}
+\textbf{\func{interfazDeEventosCorrecta}{nat,ad(tupla(nat,secuOrdSinRep(evento)))}{bool}{}}
 \axioma{interfazDeEventosCorrecta(n,a)}{($\forall$ i:interfaz) (i $<$ n \impluego\ 		sonEventosDeLaInterfaz($\Pi_2$(a[i]),i))}
 
-\textbf{\func{sonEventosDeLaInterfaz}{secu(evento),interfaz}{bool}{}}
+\textbf{\func{sonEventosDeLaInterfaz}{secuOrdSinRep(evento),interfaz}{bool}{}}
 \axioma{sonEventosDeLaInterfaz(s,i)}{\lif vacia?(s) \lthen \true \\
 									\hspace*{-0.85cm}\lelse inter(prim(s)) $=$ i $\wedge$ sonEventosDeLaInterfaz(fin(s),i)}
 
 \textbf{\func{tiempoCaidaValido}{ad(tupla(nat,secu(evento)))}{bool}{}}
 \axioma{tiempoCaidaValido(a)}{($\forall$ i:interfaz) (i $<$ n \impluego\ $\Pi_1$(a[i]) $=$ sumarCaidas($\Pi_2$(a[i]))}
 
-\textbf{\func{sumarCaidas}{secu(evento)}{nat}{}}
+\textbf{\func{sumarCaidas}{secuOrdSinRep(evento)}{nat}{}}
 \axioma{sumarCaidas(s)}{\lif vacia?(s) \oluego vacia?(fin(s)) \lthen 0 \\ 
 						\hspace*{-0.85cm}\lelse \lif caida?(ult(s)) \\
 						\hspace*{1cm}\lthen timestamp(ult(com(s))) - timestamp(ult(s)) + sumarCaidas(com(s)) \\ 
 						\hspace*{-0.85cm}\lelse sumarCaidas(com(s))}
 
-\textbf{\func{longitudDeEventosValida}{ad(tupla(nat,secu(evento))),nat}{bool}{}}
+\textbf{\func{longitudDeEventosValida}{ad(tupla(nat,secuOrdSinRep(evento))),nat}{bool}{}}
 \axioma{longitudDeEventosValida(a,n)}{tam(a) = n}
 
 
@@ -118,7 +118,7 @@ tiempoCaidaValido(e.status-inter)\\
 \vspace{11pt}
 ($\forall$ e: estr) Abs(e) = r: router/ \\
 versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \yluego \\
-($\forall$ i: interfaz)(i $<$ interfaces(r) \impluego reverso(eventos(r)) \igobs $\Pi_2$(e.status-inter[i])) $\wedge$ \\
+($\forall$ i: interfaz)(i $<$ interfaces(r) \impluego reverso(eventos(r,i)) \igobs $\Pi_2$(e.status-inter[i])) $\wedge$ \\
 ($\forall$ d: dirIp)(enrutar(r,d) \igobs dameRtaDir(e,d))\\
 
 \vspace{33pt}
@@ -137,117 +137,159 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 \textbf{\func{queInterfaz}{estr,dirIp}{interfaz}{Rep(e)}}				 
 \axioma{queInterfaz(e,d)}{interfazDeSalida(arbolDeLaVersion(version(d),e.reglas),d)}
 
-\textbf{\func{arbolDeLaVersion}{version/v,secu(tupla(version,abr))/s}{abr}{existeVersion(v,s)}}	
-\axioma{arbolDeLaVersion(v,s)}{\lif $\Pi_1$(prim(s)) $=$ v then $\Pi_2$(prim(s))\\
-							   \hspace*{-0.85cm}\lelse arbolDeLaVersion(v,fin(s))}
-							  
-\textbf{\func{existeVersion}{version,secu(tupla(version,abr))}{bool}{}}
-\axioma{existeVersion(v,s)}{\lif vacia?(s) then \false\\
-							\hspace*{-0.85cm}\lelse $\Pi_1$(prim(s)) $=$ v $\vee$ existeVersion(v,fin(s))}
-
+\textbf{\func{arbolDeLaVersion}{version/v,secu(tupla(version,abr))/s}{abr}{}}	
+\axioma{arbolDeLaVersion(v,s)}{\lif vacia?(s) then nuevo() \\
+				\hspace*{-0.85cm}\lelse \lif $\Pi_1$(prim(s)) $=$ v then $\Pi_2$(prim(s))\\
+							  \hspace*{-0.85cm}\lelse arbolDeLaVersion(v,fin(s))}
+		
 
 %ALGORITMOS
 \subsection*{Algoritmos}
+
+
+\incmargin{1em}
+\linesnumbered
+\restylealgo{boxed}
+\dontprintsemicolon
+\textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr \tcp*{O(n)} 
+
+\begin{algorithm}[H]
+
+
+\BlankLine
+\textbf{var} inter: arreglo\_dimensionable de tupla$\langle$nat, secuOrdSinRep(evento)$\rangle$ \\
+\BlankLine
+inter $\leftarrow$ CrearArreglo(n)\tcp*{O(n)}
+\BlankLine
+\For{(i: nat $\leftarrow$ 0, i $<$ n) \tcp*{O(n)}}{ 
+inter[i] $\leftarrow$ $\langle$0, $<>\rangle$\tcp*{O(1)}
+i $\leftarrow$ (i+1)\tcp*{O(1)}}
+\BlankLine
+res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$\tcp*{O(1)}
+\end{algorithm}
+
+\vspace{11pt}
 
 \incmargin{1em}
 \linesnumbered
 \restylealgo{boxed}
 \dontprintsemicolon
 
-\textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr\\
+\textit{i}agVersion(inout e: estr, in v: version)\tcp*{O(v)}
 \begin{algorithm}[H]
 \BlankLine
-\textbf{var} inter: arreglo\_dimensionable de tupla$\langle$nat, secuOrdSinRep(evento)$\rangle$ \\
-\BlankLine
-inter $\leftarrow$ CrearArreglo(n)\\
-\BlankLine
-\For{(i: nat $\leftarrow$ 0, i $<$ n}{
-inter[i] $\leftarrow$ $\langle$0, $<>\rangle$\\
-i $\leftarrow$ (i+1)}
-\BlankLine
-res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$
+agregar(v, e.versiones)\tcp*{O(v)}
+insertar($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
 \end{algorithm}
 
 \vspace{11pt}
 
-\textit{i}agVersion(inout e: estr, in v: version)\\
-\begin{algorithm}[H]
-\BlankLine
-agregar(v, e.versiones)\\
-insertar($\langle$v, $<>\rangle$, e.reglas)\\
-\end{algorithm}
+\incmargin{1em}
+\linesnumbered
+\restylealgo{boxed}
+\dontprintsemicolon
 
-\vspace{11pt}
-
-\textit{i}agRegla(inout e: estr, in u: reglaDir)\\
+\textit{i}agRegla(inout e: estr, in u: reglaDir)\tcp*{O(version(dirIp(u))))}
 \begin{algorithm}[H]
 \BlankLine
 \textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$version, arbolDeReglas$\rangle$))\\
 \textbf{var} v: version\\
 \BlankLine
-it $\leftarrow$ crearIt(e.reglas) \\
-v  $\leftarrow$ u.version\\
+it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
+v  $\leftarrow$ u.version \tcp*{O(1)}
 \BlankLine
-\While{(actual(it).version $\neq$ v)}{avanzar(it)}
-agRegla(actual(it).aR, v)
+\While{(actual(it).version $\neq$ v) \tcp*{O(version(dirIp(u))))}}
+{avanzar(it)}
+agRegla(actual(it).aR, v) \tcp*{O(cantBits(u))}
 \end{algorithm}
 
 \vspace{11pt}
 
-\textit{i}agEvento(inout e: estr, in m: evento)\\
+\incmargin{1em}
+\linesnumbered
+\restylealgo{boxed}
+\dontprintsemicolon
+
+\textit{i}agEvento(inout e: estr, in m: evento) \tcp*{O(a)}
 \begin{algorithm}[H]
+FALTA
+\end{algorithm}
+
+\vspace{11pt}
+
+\incmargin{1em}
+\linesnumbered
+\restylealgo{boxed}
+\dontprintsemicolon
+
+\textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\tcp*{O(1)}
+\begin{algorithm}[H]
+\BlankLine
+res $\leftarrow$ e.versiones\tcp*{O(1)}
+\end{algorithm}
+
+\vspace{11pt}
+\incmargin{1em}
+\linesnumbered
+\restylealgo{boxed}
+\dontprintsemicolon
+
+
+\textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\tcp*{O(1)}
+\begin{algorithm}[H]
+\BlankLine
+res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
+\end{algorithm}
+
+\vspace{11pt}
+\incmargin{1em}
+\linesnumbered
+\restylealgo{boxed}
+\dontprintsemicolon
+
+\textit{i}enrutar(inout e: estr, in d: dirIp)\tcp*{O(version(d))}
+\begin{algorithm}[H]
+\BlankLine
 ME FALTA HACERLO
 \end{algorithm}
 
 \vspace{11pt}
+\incmargin{1em}
+\linesnumbered
+\restylealgo{boxed}
+\dontprintsemicolon
 
-\textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\\
+\textit{i}eventos(in e: estr, in i: interfaz) $\longrightarrow$ res: secuOrdSinRep(evento)\tcp*{O(1)}
 \begin{algorithm}[H]
 \BlankLine
-res $\leftarrow$ e.versiones
+res $\leftarrow$ (e.status-inter[i]).eventos\tcp*{O(1)}
 \end{algorithm}
 
 \vspace{11pt}
+\incmargin{1em}
+\linesnumbered
+\restylealgo{boxed}
+\dontprintsemicolon
 
-\textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\\
-\begin{algorithm}[H]
-\BlankLine
-res $\leftarrow$ e.cantInterfaces
-\end{algorithm}
-
-\vspace{11pt}
-
-\textit{i}enrutar(inout e: estr, in d: dirIp)\\
-\begin{algorithm}[H]
-\BlankLine
-ME FALTA HACERLO
-\end{algorithm}
-
-\vspace{11pt}
-
-\textit{i}eventos(in e: estr, in i: interfaz) $\longrightarrow$ res: secuOrdSinRep(evento)\\
-\begin{algorithm}[H]
-\BlankLine
-res $\leftarrow$ (e.status-inter[i]).eventos
-\end{algorithm}
-
-\vspace{11pt}
-
-\textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
+\textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\tcp*{O(1)}
 \begin{algorithm}[H]
 \BlankLine
 \textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$nat, evento$\rangle$)) \\
 \BlankLine
-it $\leftarrow$ crearIt((e.status-inter[i]).eventos) \\
+it $\leftarrow$ crearIt((e.status-inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
-res $\rightarrow$ actual(it).estaCaida?\\
+res $\rightarrow$ actual(it).estaCaida? \tcp*{O(1)}
 \end{algorithm}
 
 \vspace{11pt}
+\incmargin{1em}
+\linesnumbered
+\restylealgo{boxed}
+\dontprintsemicolon
 
-\textit{i}tiempoCaida(in e: estr, in i: interfaz) $\longrightarrow$ res: nat\\
+\textit{i}tiempoCaida(in e: estr, in i: interfaz) $\longrightarrow$ res: nat \tcp*{O(1)}
 \begin{algorithm}[H]
-res $\leftarrow$ (e.status-inter[i]).tiempoCaida
+res $\leftarrow$ (e.status-inter[i]).tiempoCaida \tcp*{O(1)}
 \end{algorithm}
 
 \vspace{11pt}

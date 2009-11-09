@@ -1,4 +1,4 @@
-\section*{Modulo \nombretad{SecuenciaOrdSinRep($\alpha$)}}
+\section*{Modulo \nombretad{SecuenciaOrdSinRep($\alpha$,$<_\alpha$,$=_\alpha$)}}
 
 %INTERFAZ
 \subsection*{Interfaz}
@@ -102,9 +102,9 @@ nodo $\leftarrow \langle$ a, NULL $\rangle$
 it $\leftarrow$ creatIT(e)\\
 it2 $\leftarrow$ NULL
 \BlankLine
-\While{(tieneProximo?(it) $\wedge$ (a $\opsub{<}{\alpha}$ actual(it)))}{it2 $\leftarrow$ it\\ avanzar(it)}
+\While{(tieneProximo?(it) $\wedge$ (a $\opsub{>}{\alpha}$ actual(it)))}{it2 $\leftarrow$ it\\ avanzar(it)}
 \BlankLine
-\If{(a $\opsub{<}{\alpha}$ actual(it))}{it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo\\ (nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it}
+\If{(a $\opsub{<}{\alpha}$ actual(it))}{(it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo\\ (nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it}
 \BlankLine
 \Else{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo}}
 \end{algorithm}
@@ -123,9 +123,9 @@ res $\leftarrow$ false\\
 \BlankLine
 it $\leftarrow$ crearIt(e)
 \BlankLine
-\While{(tieneProximo(it)? $\wedge$ a $\neq$ actual(it))}{avanzar(it)}
+\While{(tieneProximo(it)? $\wedge$ a $\neq_\alpha$ actual(it))}{avanzar(it)}
 \BlankLine
-\If{(a = actual(it))}{res $\leftarrow$ true}}
+\If{(a $=_\alpha$ actual(it))}{res $\leftarrow$ true}}
 \end{algorithm}
 
 \textit{i}crearIT(in e: estrSecuOrdSinRep) $\longrightarrow$ res: estrIterOrd\\
