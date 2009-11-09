@@ -10,19 +10,19 @@
 \textbf{operaciones}\\
 $Crear$() $\longrightarrow res$: abr\\
 $\{$true$\}$\\
-$\{\widehat{res} \igobs nuevo()\}$\\
+$\{\sombreritoWide{res} \igobs nuevo()\}$\\
 
 $agRegla$(inout $a$: abr, in $r$: regla)\\
-$\{\widehat{a} \igobs\ a_0\}$\\
-$\{\widehat{a} \igobs\ agRegla(a_0,\widehat{r})\}$\\
+$\{\sombreritoWide{a} \igobs\ a_0\}$\\
+$\{\sombreritoWide{a} \igobs\ agRegla(a_0,\sombreritoWide{r})\}$\\
 
 $interfazDeSalida$(in $a$: abr, in $d$: dirIp) $\longrightarrow res$: nat\\
-$\{tieneRegla?(\widehat{a},\widehat{d})\}$\\
-$\{\widehat{res}\igobs$ $interfazDeSalida(\widehat{a},\widehat{d})$\}\\
+$\{tieneRegla?(\sombreritoWide{a},\sombreritoWide{d})\}$\\
+$\{\sombreritoWide{res}\igobs$ $interfazDeSalida(\sombreritoWide{a},\sombreritoWide{d})$\}\\
 
 $altura$(in $a$: abr) $\longrightarrow$	$res$: nat\\
 $\{true\}$\\
-$\{\widehat{res}\igobs$ $altura(\widehat{a})\}$\\
+$\{\sombreritoWide{res}\igobs$ $altura(\sombreritoWide{a})\}$\\
 
 
 %REPRESENTACION

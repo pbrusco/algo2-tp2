@@ -10,15 +10,15 @@
 \textbf{operaciones}\\
 $Vacio$()$\longrightarrow res$: conj($\alpha$)\\
 $\{$true$\}$\\
-$\{\widehat{res} \igobs \phi()\}$\\
+$\{\sombreritoWide{res} \igobs \phi()\}$\\
 
 $agregar$(in $a$: $\alpha$, inout $C$: conj($\alpha$))\\
-$\{\widehat{C}\ \igobs\ C_0\}$\\
-$\{\widehat{C}\ \igobs$ Ag($\widehat{a}$,$C_0$)$\}$\\
+$\{\sombreritoWide{C}\ \igobs\ C_0\}$\\
+$\{\sombreritoWide{C}\ \igobs$ Ag($\sombreritoWide{a}$,$C_0$)$\}$\\
 
 $pertenece$(in $a$: $\alpha$, in $C$: conj($\alpha$))$\longrightarrow res$: bool\\
 $\{$true$\}$\\
-$\{\widehat{res}\ \igobs \widehat{a}\in \widehat{C}\}$\\
+$\{\sombreritoWide{res}\ \igobs \sombreritoWide{a}\in \sombreritoWide{C}\}$\\
 
 %REPRESENTACION
 \subsection*{Representaci\'on}
@@ -39,7 +39,7 @@ $\{\widehat{res}\ \igobs \widehat{a}\in \widehat{C}\}$\\
 \alinearfuncs{Abs}{}
 \func{Abs}{estrConj/e}{conj($\alpha$)}{Rep(e)}
 \vspace{11pt}
-($\forall$ e: estrConj) Abs(e) = C: conj($\alpha$)/($\forall a:\alpha$)($a\in C\igobs esta?(a,\widehat{e}$))
+($\forall$ e: estrConj) Abs(e) = C: conj($\alpha$)/($\forall a:\alpha$)($a\in C\igobs esta?(a,\sombreritoWide{e}$))
 \vspace{33pt}
 
 
