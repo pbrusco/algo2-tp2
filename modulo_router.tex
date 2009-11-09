@@ -177,9 +177,8 @@ res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$
 \textit{i}agVersion(inout e: estr, in v: version)\\
 \begin{algorithm}[H]
 \BlankLine
-agregar(v, e.versiones)
-\BlankLine
-insertar($\langle$v, $<>\rangle$, e.reglas)
+agregar(v, e.versiones)\\
+insertar($\langle$v, $<>\rangle$, e.reglas)\\
 \end{algorithm}
 
 \vspace{11pt}
@@ -187,12 +186,16 @@ insertar($\langle$v, $<>\rangle$, e.reglas)
 \textit{i}agRegla(inout e: estr, in u: reglaDir)\\
 \begin{algorithm}[H]
 \BlankLine
-it: itOrd(secuOrdSinRep(tupla $\langle$version, arbolDeReglas$\rangle$)) $\leftarrow$ crearIt(e.reglas) 
+\textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$version, arbolDeReglas$\rangle$))\\
+\textbf{var} v: version\\
+
 \BlankLine
-v: version $\leftarrow$ u.version
+it $\leftarrow$ crearIt(e.reglas) \\
+v  $\leftarrow$ u.version\\
+
 \BlankLine
+
 \While{(actual(it).version $\neq$ v)}{avanzar(it)}
-\BlankLine
 agRegla(actual(it).aR, v)
 \end{algorithm}
 
@@ -216,7 +219,7 @@ res $\leftarrow$ e.versiones
 \textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\\
 \begin{algorithm}[H]
 \BlankLine
-res $\leftarrow$ e.interfaces
+res $\leftarrow$ e.cantInterfaces
 \end{algorithm}
 
 \vspace{11pt}
@@ -240,9 +243,11 @@ res $\leftarrow$ (e.status-inter[i]).eventos
 \textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
 \BlankLine
-it: itOrd(secuOrdSinRep(tupla $\langle$nat, evento$\rangle$)) $\leftarrow$ crearIt((e.status-inter[i]).eventos) 
+\textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$nat, evento$\rangle$)) \\
 \BlankLine
-res $\rightarrow$ actual(it).estaCaida?
+it $\leftarrow$ crearIt((e.status-inter[i]).eventos) \\
+\BlankLine
+res $\rightarrow$ actual(it).estaCaida?\\
 \end{algorithm}
 
 \vspace{11pt}
