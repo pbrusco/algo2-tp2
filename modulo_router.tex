@@ -227,7 +227,7 @@ agRegla(actual(it).aR, v) \tcp*{O(cantBits(u))}
 \textbf{var} tc: nat\\
 \textbf{var} evento$\_$prev: evento\\
 \textbf{var} evento$\_$post: evento\\
-\textbf{var} it: itOrd(secuOrdSinRep(evento) \\
+\textbf{var} it: itOrd(secuOrdSinRep(evento)) \\
 \BlankLine
 i $\leftarrow$ m.interfaz
 \BlankLine
@@ -237,7 +237,7 @@ insertar(m, (e.status$\_$inter[i]).eventos)
 \BlankLine
 it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos)
 \BlankLine
-\If{(actual $=$ m)}
+\If{(actual(it) $=$ m) $\wedge$ tieneProximo?(it)}
 	{avanzar(it)\\
 	 \If{(actual(it).estaCaida?)}
 	 	{tc $\leftarrow$ tc + (m.timestamp - actual(it).timestamp)}
