@@ -1,0 +1,31 @@
+\section*{}
+
+\begin{tad}{\nombretad{SecuOrdSinRep($\alpha$)}}
+
+\vspace*{11pt}
+
+\extiende{Secu($\alpha$)}
+
+\generos{secuOrdSinRep($\alpha$)}
+
+\exporta{genero, generadores, observadores b\'asicos}
+	
+\alinearfuncs{agregarOrdenado}{\hspace{5cm}}	
+	
+\generadores
+	\func{agregarOrdenado}{$\alpha$/a, secuOrdSinRep($\alpha$)/s}{secuOrdSinRep($\alpha$)}{($\neg$esta?(a, s))}
+
+\vspace*{11pt}
+
+\observadores
+		\func{ordenada}{secuOrdSinRep($\alpha$)}{bool}{}
+
+\vspace*{11pt}
+
+\alinearaxiomas{ordenada(a$\puntito$s)}{\hspace{3cm}}
+\axiomas{($\forall$ s: secu($\alpha$))($\forall$ a: $\alpha$)}
+
+		\axioma{ordenada($<>$)}{true}
+		\axioma{ordenada(a$\puntito$s)}{$\lif$ vacia?(s) $\lthen\ \true$\\ \lelse (a $<_\alpha$ prim(s)) $\wedge$ ordenada(fin(s))}
+		
+\end{tad}
