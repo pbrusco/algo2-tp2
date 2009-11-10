@@ -87,11 +87,15 @@ $\{$verSecuSuby(it) $\igobs$ fin(verSecuSuby($it_0$))$\}$\\
 
 \textit{i}$<>$() $\longrightarrow$ res:estrSecuOrdSinRep\\
 \begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
 res $\leftarrow$ NULL
 \end{algorithm}
 
 \textit{i}insertar(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
+\Orden{O(posicionRelativaDe(a))}
+\BlankLine
 nodo $\leftarrow \langle$ a, NULL $\rangle$
 \BlankLine
 \If{(e == NULL)}{e $\leftarrow$ $\&$nodo}
@@ -111,11 +115,15 @@ it2 $\leftarrow$ NULL
 
 \textit{i}vacia?(in e: estrSecuOrdSinRep) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
 res $\leftarrow$ (e == NULL)
 \end{algorithm}
 
 \textit{i}esta?(in a: $\alpha$, e: estrSecuOrdSinRep) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
+\Orden{O(posicionRelativa(a))}
+\BlankLine
 res $\leftarrow$ false\\
 \BlankLine
 \If{(e $\neq$ NULL)}{
@@ -130,20 +138,28 @@ it $\leftarrow$ crearIt(e)
 
 \textit{i}crearIT(in e: estrSecuOrdSinRep) $\longrightarrow$ res: estrIterOrd\\
 \begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
 res $\leftarrow$ e
 \end{algorithm}
 
 \textit{i}actual(in it: estrIterOrd) $\longrightarrow$ res: $\alpha$\\
 \begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
 res $\leftarrow$ (it $\rightarrow$ dato)
 \end{algorithm}
 
 \textit{i}tieneProximo?(in it: estrIterOrd) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
 res $\leftarrow$ (it $\rightarrow$ proximo $\neq$ NULL)
 \end{algorithm}
 
 \textit{i}avanzar(inout it: estrIterOrd)\\
 \begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
 it $\leftarrow$ (it $\rightarrow$ proximo)
 \end{algorithm}

@@ -152,11 +152,10 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 \restylealgo{boxed}
 \dontprintsemicolon
 \textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr \\
+\SetKw{Orden}{Complejidad:}
 
 \begin{algorithm}[H]
-
-O(n)
-
+\Orden{O(n)}
 \BlankLine
 \textbf{var} inter: arreglo\_dimensionable de tupla$\langle$nat, secuOrdSinRep(evento)$\rangle$ \\
 \BlankLine
@@ -173,7 +172,7 @@ res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$\tcp*{O(1)}
 
 \textit{i}agVersion(inout e: estr, in v: version)\\
 \begin{algorithm}[H]
-O(v)
+\Orden{O(v)}
 \BlankLine
 agregar(v, e.versiones)\tcp*{O(v)}
 insertar($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
@@ -183,7 +182,7 @@ insertar($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
 
 \textit{i}agRegla(inout e: estr, in u: reglaDir)\\
 \begin{algorithm}[H]
-O(version(dirIp(u)))
+\Orden{O(version(dirIp(u)))}
 \BlankLine
 \textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$version, arbolDeReglas$\rangle$))\\
 \textbf{var} v: version\\
@@ -200,7 +199,9 @@ agRegla(actual(it).aR, v) \tcp*{O(cantBits(u))}
 
 \textit{i}agEvento(inout e: estr, in m: evento)\\
 \begin{algorithm}[H]
-O(a)
+\Orden{O(a)}
+\BlankLine
+
 FALTA
 \end{algorithm}
 
@@ -208,7 +209,7 @@ FALTA
 
 \textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\\
 \begin{algorithm}[H]
-O(1)
+\Orden{O(1)}
 \BlankLine
 res $\leftarrow$ e.versiones\tcp*{O(1)}
 \end{algorithm}
@@ -218,7 +219,7 @@ res $\leftarrow$ e.versiones\tcp*{O(1)}
 
 \textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\\
 \begin{algorithm}[H]
-O(1)
+\Orden{O(1)}
 \BlankLine
 res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 \end{algorithm}
@@ -227,7 +228,7 @@ res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 
 \textit{i}enrutar(inout e: estr, in d: dirIp)\\
 \begin{algorithm}[H]
-O(version(d))
+\Orden{O(version(d))}
 \BlankLine
 ME FALTA HACERLO
 \end{algorithm}
@@ -235,12 +236,12 @@ ME FALTA HACERLO
 
 \textit{i}eventos(in e: estr, in i: interfaz) $\longrightarrow$ res: secuOrdSinRep(evento)\\
 \begin{algorithm}[H]
-O(1)
+\Orden{O(1)}
 \BlankLine
 res $\leftarrow$ (e.status-inter[i]).eventos\tcp*{O(1)}
 \end{algorithm}
 
-\SetKw{Orden}{Complejidad:}
+
 
 \textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
@@ -257,7 +258,9 @@ res $\rightarrow$ actual(it).estaCaida? \tcp*{O(1)}
 
 \textit{i}tiempoCaida(in e: estr, in i: interfaz) $\longrightarrow$ res: nat \\
 \begin{algorithm}[H]
-O(1)
+\Orden{O(1)}
+\BlankLine
+
 res $\leftarrow$ (e.status-inter[i]).tiempoCaida \tcp*{O(1)}
 \end{algorithm}
 
