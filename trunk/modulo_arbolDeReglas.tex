@@ -194,19 +194,19 @@ res $\leftarrow$ false\\
       
 \textit{i}pasarABits(in $d$ : dirIp) $\longrightarrow$ $res$ : arreglo\_dinamico de bool\\
 \begin{algorithm}[H]
-\Orden{O(8*version(d))}
+\Orden{O(version(d))}
 \BlankLine	
 \textbf{var} a : arreglo\_dinamico de bool\\
-\textbf{var} i, j, aux : int	\\
+\textbf{var} i, j, aux : nat	\\
 \BlankLine
 a $\leftarrow$ crearArrego(8*version(d))\\
 i $\leftarrow$ 7\\
 j $\leftarrow$ 0\\
 \BlankLine
-\While{(i $<$ version(d))}{
+\While{(j $<$ version(d))}{
 	aux $\leftarrow$ d[j]
 	\BlankLine
-	\While{(i $>$ 8*j)}{
+	\While{(i $\geq$ 8*j)}{
 		\eIf{aux mod 2 = 1}{a[i] $\leftarrow$ true}{a[i] $\leftarrow$ false}
 		\BlankLine
 		aux $\leftarrow$ aux / 2\\
