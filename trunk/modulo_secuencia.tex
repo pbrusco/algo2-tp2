@@ -89,28 +89,31 @@ $\{$verSecuSuby(it) $\igobs$ fin(verSecuSuby($it_0$))$\}$\\
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ NULL
+res $\leftarrow$ NULL \tcp*{O(1)}
 \end{algorithm}
 
 \textit{i}insertar(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
 \Orden{O(posicionRelativaDe(a))}
 \BlankLine
-nodo $\leftarrow \langle$ a, NULL $\rangle$
+\textbf{var} nodo: tupla $\langle$ $\alpha$ $\times$ puntero(tupla) $\rangle$
 \BlankLine
-\If{(e == NULL)}{e $\leftarrow$ $\&$nodo}
-\Else{
+nodo $\leftarrow \langle$ a, NULL $\rangle$\tcp*{O(1)}
+\BlankLine
+\eIf{(e == NULL)\tcp*{O(1)}}{e $\leftarrow$ $\&$nodo\tcp*{O(1)}}{
 \textbf{var} it: itOrd(secuOrdSinRep($\alpha$))\\
 \textbf{var} i2: itOrd(secuOrdSinRep($\alpha$))\\
 \BlankLine
-it $\leftarrow$ creatIT(e)\\
-it2 $\leftarrow$ NULL
+it $\leftarrow$ creatIT(e) \tcp*{O(1)}
+it2 $\leftarrow$ NULL \tcp*{O(1)}
 \BlankLine
-\While{(tieneProximo?(it) $\wedge$ (a $\opsub{>}{\alpha}$ actual(it)))}{it2 $\leftarrow$ it\\ avanzar(it)}
+\While{(tieneProximo?(it) $\wedge$ (a $\opsub{>}{\alpha}$ actual(it)))\tcp*{O(posicionRelativaDe(a))}}{
+it2 $\leftarrow$ it \tcp*{O(1)}
+avanzar(it) \tcp*{O(1)}} 
 \BlankLine
-\If{(a $\opsub{<}{\alpha}$ actual(it))}{(it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo\\ (nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it}
-\BlankLine
-\Else{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo}}
+\eIf{(a $\opsub{<}{\alpha}$ actual(it))\tcp*{O(1)}}{
+(it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}
+(nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it\tcp*{O(1)}}{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}}}
 \end{algorithm}
 
 \textit{i}vacia?(in e: estrSecuOrdSinRep) $\longrightarrow$ res: bool\\
@@ -124,16 +127,16 @@ res $\leftarrow$ (e == NULL)
 \begin{algorithm}[H]
 \Orden{O(posicionRelativa(a))}
 \BlankLine
-res $\leftarrow$ false\\
+res $\leftarrow$ false \tcp*{O(1)}
 \BlankLine
-\If{(e $\neq$ NULL)}{
+\If{(e $\neq$ NULL) \tcp*{O(1)}}{
 \textbf{var} it: itOrd(secuOrdSinRep($\alpha$))\\
 \BlankLine
-it $\leftarrow$ crearIt(e)
+it $\leftarrow$ crearIt(e) \tcp*{O(1)}
 \BlankLine
-\While{(tieneProximo(it)? $\wedge$ actual(it) $<_\alpha$ a)}{avanzar(it)}
+\While{(tieneProximo(it)? $\wedge$ actual(it) $<_\alpha$ a)\tcp*{O(posicionRelativa(a))}}{avanzar(it)\tcp*{O(1)}}
 \BlankLine
-\If{(a $=_\alpha$ actual(it))}{res $\leftarrow$ true}}
+\If{(a $=_\alpha$ actual(it))\tcp*{O(1)}}{res $\leftarrow$ true\tcp*{O(1)}}}
 \end{algorithm}
 
 \textit{i}crearIT(in e: estrSecuOrdSinRep) $\longrightarrow$ res: estrIterOrd\\
