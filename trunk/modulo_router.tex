@@ -213,7 +213,7 @@ it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
 v  $\leftarrow$ u.version \tcp*{O(1)}
 \BlankLine
 \While{(actual(it).version $\neq$ v) \tcp*{O(version(dirIp(u))))}}
-{avanzar(it)}
+{avanzar(it)\tcp*{O(1)}}
 agRegla(actual(it).aR, v) \tcp*{O(cantBits(u))}
 \end{algorithm}
 
@@ -229,28 +229,28 @@ agRegla(actual(it).aR, v) \tcp*{O(cantBits(u))}
 \textbf{var} evento$\_$post: evento\\
 \textbf{var} it: itOrd(secuOrdSinRep(evento)) \\
 \BlankLine
-i $\leftarrow$ m.interfaz
+i $\leftarrow$ m.interfaz \tcp*{O(1)}
 \BlankLine
-tc $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida
+tc $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida \tcp*{O(1)}
 \BlankLine
-insertar(m, (e.status$\_$inter[i]).eventos)
+insertar(m, (e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
-it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos)
+it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
-\eIf{(actual(it) $=$ m) $\wedge$ tieneProximo?(it)}
-	{avanzar(it)\\
-	 \If{(actual(it).estaCaida?)}{tc $\leftarrow$ tc + (m.timestamp - actual(it).timestamp)}
-	}{\While{(actual(it) $\neq$ m)}
-		{estado$\_$post $\leftarrow$ actual(it)\\ avanzar(it)}
+\If{(actual(it) $=$ m) $\wedge$ tieneProximo?(it)\tcp*{O(1)}}
+	{avanzar(it) \tcp*{O(1)}
+	 \If{(actual(it).estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (m.timestamp - actual(it).timestamp)\tcp*{O(1)}}}
+\Else{\If{(tieneProximo(it)?)\tcp*{O(1)}}{\While{(actual(it) $\neq$ m)\tcp*{O(a)}}
+		{estado$\_$post $\leftarrow$ actual(it) \tcp*{O(1)} avanzar(it)\tcp*{O(1)}}
 	\BlankLine
-	\eIf{($\neg$tieneProximo?(it) $\wedge$ m.estaCaida?)}
-		{tc + (estado$\_$post.timestamp - m.timestamp)}{
-		avanzar(it)\\ 
-		estado$\_$prev $\leftarrow$ actual(it)\\ 
-		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)}{tc + (estado$\_$post.timestamp - m.timestamp)}
+	\eIf{($\neg$tieneProximo?(it) $\wedge$ m.estaCaida?)\tcp*{O(1)}}
+		{tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}{
+		avanzar(it)\tcp*{O(1)} 
+		estado$\_$prev $\leftarrow$ actual(it)\tcp*{O(1)}
 		\BlankLine 
-		\If{($\neg$m.estaCaida? $\wedge$ estado$\_$prev.estaCaida?)}{tc - (estado$\_$post.timestamp - m.timestamp)}}}
-		
+		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}
+		\BlankLine 
+		\If{($\neg$m.estaCaida? $\wedge$ estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc - (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}}}
 \end{algorithm}
 
 \vspace{11pt}
