@@ -131,9 +131,8 @@ res $\leftarrow$ false\\
 \BlankLine
 it $\leftarrow$ crearIt(e)
 \BlankLine
-\While{(tieneProximo(it)? $\wedge$ a $\neq_\alpha$ actual(it))}{avanzar(it)}
-\BlankLine
-\If{(a $=_\alpha$ actual(it))}{res $\leftarrow$ true}}
+\While{(tieneProximo(it)? $\wedge$ actual(it) $\<_\alpha$ a)}{avanzar(it)}
+\If{(a $=_\alpha$ actual(it))}{res $\leftarrow$ true}
 \end{algorithm}
 
 \textit{i}crearIT(in e: estrSecuOrdSinRep) $\longrightarrow$ res: estrIterOrd\\
