@@ -8,6 +8,7 @@
 \textbf{genero} \textit{abr}\\
 
 \textbf{operaciones}\\
+
 $Crear$() $\longrightarrow res$: abr\\
 $\{$true$\}$\\
 $\{\sombreritoWide{res} \igobs nuevo()\}$\\
@@ -29,22 +30,25 @@ $\{\sombreritoWide{res}\igobs$ $altura(\sombreritoWide{a})\}$\\
 \subsection*{Representaci\'on}
 \textit{arbolDeReglas} \textbf{se representa con} \textit{puntero(estr)}\\
 \textbf{donde} \textit{estr} \textbf{es}\\
-\textit{tupla$\langle$ inter: puntero(interfaz) $\times$\\
-\hspace*{1.1cm}izq: puntero(estr) $\times$\\
-\hspace*{1.1cm}der: puntero(estr) $\rangle$}
+\textit{tupla$\langle$ inter: puntero(interfaz)\\
+\hspace*{1.1cm}$\times$ izq: puntero(estr)\\
+\hspace*{1.1cm}$\times$ der: puntero(estr) $\rangle$}
+\vspace{33pt}
+
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante\ de \ Representaci\'on}
 \alinearfuncs{Rep}{\hspace{3cm}}
-\textbf{\func{Rep}{puntero(estr)}{boolean}{}}
+\func{Rep}{puntero(estr)}{boolean}{}
 \vspace{11pt}
 ($\forall$ p: puntero(estr)) Rep(p) = true $\Leftrightarrow$ no existen ciclos
 \vspace{33pt}
 
+
 %FUNCION DE ABSTRACCION
 \subsection*{Funci\'on de Abstracci\'on}
 
-\textbf{\func{Abs}{puntero(estr)/p}{abr}{Rep(p)}}
+\func{Abs}{puntero(estr)/p}{abr}{Rep(p)}
 \vspace{11pt}
 ($\forall$ p: puntero(estr)) Abs(p) = a: abr/ \\
 \\
@@ -54,7 +58,7 @@ $\{\sombreritoWide{res}\igobs$ $altura(\sombreritoWide{a})\}$\\
 \vspace{33pt}
 \alinearfuncs{existeReglala}{\hspace{11.2cm}}
 \alinearaxiomas{dameSalida(p,a,n,pi)}
-\textbf{\func{existeRegla}{puntero(estr)/p,arreglo de bool, nat}{bool}{Rep(p)}}
+\func{existeRegla}{puntero(estr)/p,arreglo de bool, nat}{bool}{Rep(p)}
 \axioma{existeRegla(p,a,n)}{\lif n $=$ tam(a) $\vee$ e $=$ null \lthen \false\\
 			    \hspace*{-0.85cm}\lelse \lif (*p).inter $=$ null \lthen\\
 			    \hspace*{1cm}\lif a[n] $=$ \true \lthen existeRegla((*e).der,a,n+1)\\
@@ -63,7 +67,9 @@ $\{\sombreritoWide{res}\igobs$ $altura(\sombreritoWide{a})\}$\\
 			    \hspace*{-0.85cm}\lelse \true\\
 			    \hspace*{-0.85cm}\lfi}
 
-\textbf{\func{dameSalida}{puntero(estr)/p, arreglo de bool/a, nat, puntero(estr)}{interfaz}{Rep(p) $\yluego$ existeRegla(p,a,0)}}
+\vspace{15pt}
+
+\func{dameSalida}{puntero(estr)/p, arreglo de bool/a, nat, puntero(estr)}{interfaz}{Rep(p) $\yluego$ existeRegla(p,a,0)}
 \axioma{dameSalida(p,a,n,pi)}{\lif n $=$ tam(a) $\vee$ p $=$ null \lthen *pi\\
 			      \hspace*{-0.85cm}\lelse \lif a[n] $=$ true \lthen\\
 			      \hspace*{1cm}\lif pi $\neq$ null \lthen dameSalida((*p).der,a,n+1,pi)\\
@@ -74,58 +80,44 @@ $\{\sombreritoWide{res}\igobs$ $altura(\sombreritoWide{a})\}$\\
 			      \hspace*{1cm}\lelse dameSalida((*p).izq,a,n+1,(*p).int)\\
 			      \hspace*{1cm}\lfi\\
 			      \hspace*{-0.85cm}\lfi}
+\vspace{33pt}
 
 
-\newpage
 %ALGORITMOS
 \subsection*{Algoritmos}
  \incmargin{1em}
     \linesnumbered
     \restylealgo{boxed}
     \dontprintsemicolon
-\textbf{icrear()   $\longrightarrow$	$res$ : puntero(estr)}\\
-	\begin{algorithm}[H]
-	\Orden{O(1)}
+
+\textit{i}crear()   $\longrightarrow$	$res$ : puntero(estr)\\
+\begin{algorithm}[H]
+\Orden{O(1)}
 \BlankLine
-	res $\leftarrow$ null \\
+res $\leftarrow$ null \\
+\caption{crear}
+\end{algorithm}
 
- \caption{crear}
-   \end{algorithm}
-
-
-\textbf{iagRegla(inout $p$ : puntero(estr),in $r$ : regla)
-}
-    \incmargin{1em}
-    \linesnumbered
-    \restylealgo{boxed}
-    \dontprintsemicolon
-    
-	\begin{algorithm}[H]
-	\Orden{O(cantBits(r))}
+\textit{i}agRegla(inout $p$ : puntero(estr),in $r$ : regla)\\
+\begin{algorithm}[H]
+\Orden{O(cantBits(r))}
 \BlankLine
-	
 \textbf{var} i : int\\
 \textbf{var} pAux : puntero(estr) 	\\
 \textbf{var} a : arreglo\_dimensionable de bool\\
-
 \BlankLine 
-
 a $\leftarrow$ CrearArreglo(version(dirIp(r))*8)\\
-
 \BlankLine
 \If {p = NULL}{p $\leftarrow$ crearTupla(NULL,NULL,NULL)}
 \BlankLine 
 a $\leftarrow$ pasarABits(dirIP(r))\\
 pAux $\leftarrow$ p\\
 i $\leftarrow$ 0
-
 \BlankLine 
-
 \While{i $\neq$ cantBits(r)}{
-	
-		\eIf {a[i] = true}{
-				\If{(*pAux).der = NULL}{(*pAux).der $\leftarrow$ crearTupla(NULL,NULL,NULL)}
-				 pAux $\leftarrow$ (*pAux).der}{%else		 
+	\eIf {a[i] = true}{
+		\If{(*pAux).der = NULL}{(*pAux).der $\leftarrow$ crearTupla(NULL,NULL,NULL)}
+			 pAux $\leftarrow$ (*pAux).der}{%else		 
 				 \If{(*pAux).izq = NULL}{(*pAux).izq $\leftarrow$ crearTupla(NULL,NULL,NULL)}				 
 				 pAux $\leftarrow$ (*pAux).izq}
 
@@ -137,40 +129,23 @@ i $\leftarrow$ 0
 *((*pAux).inter) $\leftarrow$ inter(r)\\
 (*pAux).der $\leftarrow$ NULL\\
 (*pAux).izq $\leftarrow$ NULL
-
- \caption{agRegla}
-   \end{algorithm}
-
+\caption{agRegla}
+\end{algorithm}
 
 
-
-\newpage
-
-
-\textbf{iInterfazDeSalida(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : interfaz
-}
-    \incmargin{1em}
-    \linesnumbered
-    \restylealgo{boxed}
-    \dontprintsemicolon
-    
-	\begin{algorithm}[H]
-	\Orden{O(version(d)}
+\textit{i}InterfazDeSalida(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : interfaz\\
+\begin{algorithm}[H]
+\Orden{O(version(d)}
 \BlankLine
-	
 \textbf{var} i : int\\
 \textbf{var} pRes: puntero(interfaz)\\
 \textbf{var} pResProvisorio: puntero(interfaz)\\
 \textbf{var} pAux puntero(estr) 	\\
-
 pRes $\leftarrow$ NULL
 pResProvisorio $\leftarrow$ NULL
 pAux $\leftarrow$ NULL
 i $\leftarrow$ 0
-
-
 \BlankLine 
-
 \While{pRes = NULL}{
 	\If{(pAux$\rightarrow$inter) $\neq$ NULL}{pResProvisorio $\leftarrow$ (pAux $\rightarrow$ inter)}
 	
@@ -181,47 +156,28 @@ i $\leftarrow$ 0
 	}
 	i $\leftarrow$  i + 1
 }
-
 res $\leftarrow$ *(pRes)
+\caption{interfazDeSalida}
+\end{algorithm}
 
 
- \caption{interfazDeSalida}
-   \end{algorithm}
-%fin
-
-\newpage 
-
-\textbf{itieneRegla(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : bool
-}
-    \incmargin{1em}
-    \linesnumbered
-    \restylealgo{boxed}
-    \dontprintsemicolon
-    
-	\begin{algorithm}[H]
+\textit{i}tieneRegla(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : bool\\
+\begin{algorithm}[H]
 \Orden{O(version(d))}
 \BlankLine	
-	
 \textbf{var} i : int\\
 \textbf{var} pAux : puntero(estr) 	\\
 \textbf{var} sePuedeSeguir : bool	\\
-
 \BlankLine
-
 pAux $\leftarrow$ p\\
 i $\leftarrow$ 0\\
 sePuedeSeguir $\leftarrow$ true\\
 res $\leftarrow$ false\\
-
 \BlankLine
-
 \If {pAux = NULL}{res $\leftarrow$ false\\sePuedeSeguir $\leftarrow$ false}
-
 \BlankLine
 \BlankLine
-
 \While{res = false $\wedge$ sePuedeSeguir = true}{
-	
 	\eIf{d[i] = true}{
 		\eIf{(pAux$\rightarrow$der) = NULL}{sePuedeSeguir $\leftarrow$ false}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
 	}{
@@ -229,62 +185,37 @@ res $\leftarrow$ false\\
 	}
 	
 	i $\leftarrow$  i + 1
-
 \BlankLine
 \If{(pAux$\rightarrow$inter) $\neq$ NULL}{res $\leftarrow$ true}
-	
 }
+\caption{tieneRegla}
+\end{algorithm}
 
- \caption{tieneRegla}
-   \end{algorithm}
-   
-   
-   
-\textbf{ipasarABits(in $d$ : dirIp) $\longrightarrow$ $res$ : arreglo\_dinamico de bool}
-
-    \incmargin{1em}
-    \linesnumbered
-    \restylealgo{boxed}
-    \dontprintsemicolon
-    
-	\begin{algorithm}[H]
+      
+\textit{i}pasarABits(in $d$ : dirIp) $\longrightarrow$ $res$ : arreglo\_dinamico de bool\\
+\begin{algorithm}[H]
 \Orden{O(8*version(d))}
 \BlankLine	
-	
 \textbf{var} a : arreglo\_dinamico de bool\\
 \textbf{var} i, j, aux : int	\\
-
 \BlankLine
-
 a $\leftarrow$ crearArrego(8*version(d))\\
 i $\leftarrow$ 7\\
 j $\leftarrow$ 0\\
-
 \BlankLine
-
 \While{(i $<$ version(d))}{
-
 	aux $\leftarrow$ d[j]
-
 	\BlankLine
-
 	\While{(i $>$ 8*j)}{
-	
 		\eIf{aux mod 2 = 1}{a[i] $\leftarrow$ true}{a[i] $\leftarrow$ false}
 		\BlankLine
 		aux $\leftarrow$ aux / 2\\
 		i $\leftarrow$ i $-$ 1
 	}	
 	\BlankLine
-	
 	i $\leftarrow$ i $+$ 15\\
 	j $\leftarrow$ j $+$ 1	
 }
-	
 res	$\leftarrow$ a
-	
-
-
- \caption{pasarABits}
-   \end{algorithm}
-%fin
+\caption{pasarABits}
+\end{algorithm}
