@@ -6,6 +6,7 @@
 \textbf{se explica con la especificaci\'on de} \textit{Router}\\
 \textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}, \nombretad{Conjunto(versi\'on)}, \nombretad{Secuencia(Evento)}, \nombretad{ReglaDir}, \nombretad{RespuestaDir}, \nombretad{Evento}, \nombretad{versi\'on}, \nombretad{DirIp}\\
 \textbf{genero} \textit{router}\\
+
 \textbf{operaciones}\\
 
 nuevo(in n: nat)$\rightarrow$ res: router\\
@@ -56,59 +57,76 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 \hspace*{3.5cm} $\times$  cantInterfaces: nat\\
 \hspace*{3.5cm} $\times$  reglas: secuOrdSinRep(tupla$\langle$version: version, aR: arbolDeReglas$\rangle$)\\ %aca hay que decir como se ordena
 \hspace*{3.5cm} $\times$  status$\_$inter: ad(tupla$\langle$tiempoCaida: nat, eventos: secuOrdSinRep(evento)$\rangle$) $\rangle$}
-
+\vspace{33pt}
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante\ de \ Representaci\'on}
-\textbf{\func{Rep}{estr}{bool}{}} 
-($\forall$ e:estr)Rep(e) = \\
-versionesDeReglasValidas(e.reglas, e.versiones) $\wedge$ \\
-interfacesDeArbolesValidas(e.reglas, e.cantInterfaces) $\wedge$ \\
-longitudDeEventosValida(e.status$\_$inter, e.cantInterfaces) \yluego \\ %aca ya se que se puede hacer de una pero queda mas declarativo asi
-interfazDeEventosCorrecta(e.cantInterfaces, e.status$\_$inter) \yluego \\
-tiempoCaidaValido(e.status$\_$inter)\\
+\func{Rep}{estr}{bool}{}
+($\forall$ e:estr)Rep(e) = versionesDeReglasValidas(e.reglas, e.versiones)\\
+\hspace*{3.2cm} $\wedge$ interfacesDeArbolesValidas(e.reglas, e.cantInterfaces)\\
+\hspace*{3.2cm} $\wedge$ longitudDeEventosValida(e.status$\_$inter, e.cantInterfaces)\\ %aca ya se que  se puede hacer de una pero queda mas declarativo asi
+\hspace*{3.2cm} $\yluego$ interfazDeEventosCorrecta(e.cantInterfaces, e.status$\_$inter)\\
+\hspace*{3.2cm} $\yluego$ tiempoCaidaValido(e.status$\_$inter)\\
 
 \textbf{funciones auxiliares:} 
 
-\alinearaxiomas{interfacesDeArbolesValidas(s,n)}
+\alinearaxiomas{interfacesDeArbolesValidas(s,n)}{\hspace{5cm}}
 \alinearfuncs{interfacesDeArbolesValidasLA}{\hspace{7.4cm}}
 
-\textbf{\func{versionesDeReglasValidas}{secuOrdSinRep(tupla(version,abr)),cto(version)}{bool}{}}
+\vspace{11pt}
+
+\func{versionesDeReglasValidas}{secuOrdSinRep(tupla(version,abr)),cto(version)}{bool}{}
 \axioma{versionesDeReglasValidas(s,c)}{\lif vacia?(s) \lthen \true\\
 										\hspace*{-0.85cm}\lelse $\Pi_1$(prim(s)) $\in$ c $\wedge$ versionesDeReglasValidas(fin(s),c)}
 
-\textbf{\func{interfacesDeArbolesValidas}{secuOrdSinRep(tupla(version,abr)),nat}{bool}{}}
+\vspace{15pt}
+
+\func{interfacesDeArbolesValidas}{secuOrdSinRep(tupla(version,abr)),nat}{bool}{}
 \axioma{interfacesDeArbolesValidas(s,n)}{($\forall$ d: dirIp) (estaVersionEnTupla(d,s) \impluego \\
 											interValidasAux(s,n,d))}
 
-\textbf{\func{estaVersionEnTupla}{dirIp,secuOrdSinRep(tupla(version,abr))}{bool}{}}
+\vspace{15pt}
+
+\func{estaVersionEnTupla}{dirIp,secuOrdSinRep(tupla(version,abr))}{bool}{}
 \axioma{estaVersionEnTupla(d,s)}{\lif vacia?(s) \lthen \false\\
 								\hspace*{-0.85cm}\lelse $\Pi_1$(prim(s)) $=$ version(d) $\vee$ estaVersionEnTupla(d,fin(s))}
 
-\textbf{\func{interValidasAux}{secuOrdSinRep(tupla(version,abr))/s,nat,dirIp/d}{bool}{estaVersionEnTupla(d,s)}}
+\vspace{15pt}
+
+\func{interValidasAux}{secuOrdSinRep(tupla(version,abr))/s,nat,dirIp/d}{bool}{estaVersionEnTupla(d,s)}
 \axioma{interValidasAux(s,n,d)}{\lif $\Pi_1$(prim(s)) $=$ version(d) \\
 								\hspace*{0.6cm}\lthen interfazDeSalida($\Pi_2$(prim(s)),d) $<$ n\\
 								\hspace*{-0.85cm}\lelse interValidasAux(fin(s),n,d)}
 
-\textbf{\func{interfazDeEventosCorrecta}{nat,ad(tupla(nat,secuOrdSinRep(evento)))}{bool}{}}
+\vspace{15pt}
+
+\func{interfazDeEventosCorrecta}{nat,ad(tupla(nat,secuOrdSinRep(evento)))}{bool}{}
 \axioma{interfazDeEventosCorrecta(n,a)}{($\forall$ i:interfaz) (i $<$ n \impluego\ 		sonEventosDeLaInterfaz($\Pi_2$(a[i]),i))}
 
-\textbf{\func{sonEventosDeLaInterfaz}{secuOrdSinRep(evento),interfaz}{bool}{}}
+\vspace{15pt}
+
+\func{sonEventosDeLaInterfaz}{secuOrdSinRep(evento),interfaz}{bool}{}
 \axioma{sonEventosDeLaInterfaz(s,i)}{\lif vacia?(s) \lthen \true \\
 									\hspace*{-0.85cm}\lelse inter(prim(s)) $=$ i $\wedge$ sonEventosDeLaInterfaz(fin(s),i)}
 
-\textbf{\func{tiempoCaidaValido}{ad(tupla(nat,secu(evento)))}{bool}{}}
+\vspace{15pt}
+
+\func{tiempoCaidaValido}{ad(tupla(nat,secu(evento)))}{bool}{}
 \axioma{tiempoCaidaValido(a)}{($\forall$ i:interfaz) (i $<$ n \impluego\ $\Pi_1$(a[i]) $=$ sumarCaidas($\Pi_2$(a[i]))}
 
-\textbf{\func{sumarCaidas}{secuOrdSinRep(evento)}{nat}{}}
+\vspace{15pt}
+
+\func{sumarCaidas}{secuOrdSinRep(evento)}{nat}{}
 \axioma{sumarCaidas(s)}{\lif vacia?(s) \oluego vacia?(fin(s)) \lthen 0 \\ 
 						\hspace*{-0.85cm}\lelse \lif caida?(ult(s)) \\
 						\hspace*{1cm}\lthen timestamp(ult(com(s))) - timestamp(ult(s)) + sumarCaidas(com(s)) \\ 
 						\hspace*{-0.85cm}\lelse sumarCaidas(com(s))}
 
-\textbf{\func{longitudDeEventosValida}{ad(tupla(nat,secuOrdSinRep(evento))),nat}{bool}{}}
-\axioma{longitudDeEventosValida(a,n)}{tam(a) = n}
+\vspace{15pt}
 
+\func{longitudDeEventosValida}{ad(tupla(nat,secuOrdSinRep(evento))),nat}{bool}{}
+\axioma{longitudDeEventosValida(a,n)}{tam(a) = n}
+\vspace{33pt}
 
 
 %FUNCION DE ABSTRACCION
@@ -121,12 +139,12 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 ($\forall$ i: interfaz)(i $<$ interfaces(r) \impluego reverso(eventos(r,i)) \igobs $\Pi_2$(e.status$\_$inter[i])) $\wedge$ \\
 ($\forall$ d: dirIp)(enrutar(r,d) \igobs dameRtaDir(e,d))\\
 
-\vspace{33pt}
+\vspace{22pt}
 \textbf{funciones auxiliares}
 \alinearfuncs{arbolDeLaVersionLA}{\hspace{8cm}}
 \alinearaxiomas{arbolDeLaVersion(v,s)}
 
-\textbf{\func{dameRtaDir}{estr,dirIp}{respuestaDir}{Rep(e)}}
+\func{dameRtaDir}{estr,dirIp}{respuestaDir}{Rep(e)}
 \axioma{dameRtaDir(e,d)}{\lif version(d) $\in$ e.versiones \lthen DireccionNoSoportada \\
 						 \hspace*{-0.85cm}\lelse \lif $\neg$tieneRegla(arbolDeLaVersion(version(d),e.reglas),d) \\
 						 \hspace*{0.6cm}\lthen interfazDeSalidaNoEncontrada \\
@@ -134,14 +152,19 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 						 \hspace*{0.6cm}\lthen interfazDeSalidaCaida(queInterfaz(e,d)) \\
 						 \hspace*{-0.85cm}\lelse SalidaPorInterfaz(queInterfaz(e,d))}
 						 
-\textbf{\func{queInterfaz}{estr,dirIp}{interfaz}{Rep(e)}}				 
+\vspace{15pt}
+
+\func{queInterfaz}{estr,dirIp}{interfaz}{Rep(e)}				 
 \axioma{queInterfaz(e,d)}{interfazDeSalida(arbolDeLaVersion(version(d),e.reglas),d)}
 
-\textbf{\func{arbolDeLaVersion}{version/v,secu(tupla(version,abr))/s}{abr}{}}	
+\vspace{15pt}
+
+\func{arbolDeLaVersion}{version/v,secu(tupla(version,abr))/s}{abr}{}	
 \axioma{arbolDeLaVersion(v,s)}{\lif vacia?(s) then nuevo() \\
 				\hspace*{-0.85cm}\lelse \lif $\Pi_1$(prim(s)) $=$ v then $\Pi_2$(prim(s))\\
 							  \hspace*{-0.85cm}\lelse arbolDeLaVersion(v,fin(s))}
-		
+\vspace{22pt}		
+
 
 %ALGORITMOS
 \subsection*{Algoritmos}
@@ -249,7 +272,6 @@ res $\leftarrow$ e.versiones\tcp*{O(1)}
 
 \vspace{11pt}
 
-
 \textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\\
 \begin{algorithm}[H]
 \Orden{O(1)}
@@ -266,6 +288,7 @@ res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 ME FALTA HACERLO
 \end{algorithm}
 
+\vspace{11pt}
 
 \textit{i}eventos(in e: estr, in i: interfaz) $\longrightarrow$ res: secuOrdSinRep(evento)\\
 \begin{algorithm}[H]
@@ -274,7 +297,7 @@ ME FALTA HACERLO
 res $\leftarrow$ (e.status$\_$inter[i]).eventos\tcp*{O(1)}
 \end{algorithm}
 
-
+\vspace{11pt}
 
 \textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
@@ -295,6 +318,3 @@ res $\rightarrow$ actual(it).estaCaida? \tcp*{O(1)}
 \BlankLine
 res $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida \tcp*{O(1)}
 \end{algorithm}
-
-\vspace{11pt}
-
