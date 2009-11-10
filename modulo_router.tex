@@ -174,7 +174,7 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 \axioma{arbolDeLaVersion(v,s)}{\lif vacia?(s) then nuevo() \\
 				\hspace*{-0.85cm}\lelse \lif $\Pi_1$(prim(s)) $=$ v then $\Pi_2$(prim(s))\\
 							  \hspace*{-0.85cm}\lelse arbolDeLaVersion(v,fin(s))}
-\vspace{22pt}		
+\newpage
 
 
 %ALGORITMOS
@@ -201,7 +201,6 @@ i $\leftarrow$ (i+1)\tcp*{O(1)}}
 res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$\tcp*{O(1)}
 \end{algorithm}
 
-\vspace{11pt}
 
 \textit{i}agVersion(inout e: estr, in v: version)\\
 \begin{algorithm}[H]
@@ -211,7 +210,6 @@ agregar(v, e.versiones)\tcp*{O(v)}
 insertar($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
 \end{algorithm}
 
-\vspace{11pt}
 
 \textit{i}agRegla(inout e: estr, in u: reglaDir)\\
 \begin{algorithm}[H]
@@ -228,9 +226,7 @@ v  $\leftarrow$ u.version \tcp*{O(1)}
 agRegla(actual(it).aR, v) \tcp*{O(cantBits(u))}
 \end{algorithm}
 
-\vspace{11pt}
-
-
+\newpage
 \textit{i}agEvento(inout e: estr, in m: evento)\\
 \begin{algorithm}[H]
 \Orden{O(a)}
@@ -266,7 +262,6 @@ it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \end{algorithm}
 
 
-\vspace{11pt}
 
 \textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\\
 \begin{algorithm}[H]
@@ -275,7 +270,6 @@ it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 res $\leftarrow$ e.versiones\tcp*{O(1)}
 \end{algorithm}
 
-\vspace{11pt}
 
 \textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\\
 \begin{algorithm}[H]
@@ -284,7 +278,7 @@ res $\leftarrow$ e.versiones\tcp*{O(1)}
 res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 \end{algorithm}
 
-\vspace{11pt}
+
 
 \textit{i}enrutar(inout e: estr, in d: dirIp) $\longrightarrow$ res: RespuestaDir\\
 \begin{algorithm}[H]
@@ -299,7 +293,7 @@ it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
 }}
 \end{algorithm}
 
-\vspace{11pt}
+
 
 \textit{i}eventos(in e: estr, in i: interfaz) $\longrightarrow$ res: secuOrdSinRep(evento)\\
 \begin{algorithm}[H]
@@ -308,7 +302,6 @@ it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
 res $\leftarrow$ (e.status$\_$inter[i]).eventos\tcp*{O(1)}
 \end{algorithm}
 
-\vspace{11pt}
 
 \textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
@@ -321,7 +314,7 @@ it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 res $\rightarrow$ actual(it).estaCaida? \tcp*{O(1)}
 \end{algorithm}
 
-\vspace{11pt}
+
 
 \textit{i}tiempoCaida(in e: estr, in i: interfaz) $\longrightarrow$ res: nat \\
 \begin{algorithm}[H]
