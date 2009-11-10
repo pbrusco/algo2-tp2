@@ -1,0 +1,18 @@
+\section*{Aclaraciones}
+
+\subsection*{Ordenes de los elementos $\alpha$}
+\paragraph{}
+Durante este trabajo pr\'actico se di\'o por sentado que se ten\'ian los siguientes \'ordenes totales:
+
+\begin{itemize}
+ \item Un evento es una tupla, representada de la siguiente forma: \\
+tupla $\langle$ caida?: bool  $\times$ timestamp: nat $\times$ inter: interfaz  $\rangle$.\\
+Un evento EV1 se considera mayor que otro evento EV2 si timestamp(EV1) $<$ timestamp(EV2).
+\item En la estructura del enrutador, el campo \textit{reglas} es de tipo secuOrdSinRep. Las tuplas que esta contiene, se ordenan por versi\'on, es decir, se ordenan seg\'un el orden dado por el primer campo de cada tupla.
+\end{itemize}
+
+
+\input{aliasing_router.tex}
+\input{aliasing_secuencia.tex}
+\input{aliasing_conjunto.tex}
+\input{aliasing_arbol.tex}
