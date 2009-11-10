@@ -9,15 +9,15 @@
 
 \textbf{operaciones}\\
 
-$Vacio$()$\longrightarrow res$: conj($\alpha$)\\
+$Vacio$()$\longrightarrow res$: conj($\alpha$) \hfill (O(1)) \\
 $\{$true$\}$\\
 $\{\sombreritoWide{res} \igobs \phi()\}$\\
 
-$agregar$(in $a$: $\alpha$, inout $C$: conj($\alpha$))\\
+$agregar$(in $a$: $\alpha$, inout $C$: conj($\alpha$))\hfill (O(posicionRelativa(a))) \\
 $\{\sombreritoWide{C}\ \igobs\ C_0\}$\\
 $\{\sombreritoWide{C}\ \igobs$ Ag($\sombreritoWide{a}$,$C_0$)$\}$\\
 
-$pertenece$(in $a$: $\alpha$, in $C$: conj($\alpha$))$\longrightarrow res$: bool\\
+$pertenece$(in $a$: $\alpha$, in $C$: conj($\alpha$))$\longrightarrow res$: bool \hfill (O(posicionRelativa(a))) \\
 $\{$true$\}$\\
 $\{\sombreritoWide{res}\ \igobs \sombreritoWide{a}\in \sombreritoWide{C}\}$\\
 
@@ -63,7 +63,7 @@ $insertar(n,s)$
 
 $ipertenece$(in $a$: $\alpha$, in $s$: SecuOrdSinRep($\alpha$)\\
 \begin{algorithm}[H]
-\Orden{O(long(s))}
+\Orden{O(posicionRelativa(a))}
 \BlankLine
 $res\leftarrow esta?(a,s)$
 \end{algorithm}
