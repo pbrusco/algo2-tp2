@@ -172,7 +172,7 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 \incmargin{1em}
 \linesnumbered
 \restylealgo{boxed}
-\dontprintsemicolon
+%\dontprintsemicolon
 
 \textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr \\
 \SetKw{Orden}{Complejidad:}
@@ -237,28 +237,20 @@ insertar(m, (e.status$\_$inter[i]).eventos)
 \BlankLine
 it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos)
 \BlankLine
-\If{(actual(it) $=$ m) $\wedge$ tieneProximo?(it)}
+\eIf{(actual(it) $=$ m) $\wedge$ tieneProximo?(it)}
 	{avanzar(it)\\
-	 \If{(actual(it).estaCaida?)}
-	 	{tc $\leftarrow$ tc + (m.timestamp - actual(it).timestamp)}
-	}
-\BlankLine
-\Else{
-	\While{(actual(it) $\neq$ m)}
-		{estado$\_$post $\leftarrow$ actual(it)\\ avanzar(it)}}
+	 \If{(actual(it).estaCaida?)}{tc $\leftarrow$ tc + (m.timestamp - actual(it).timestamp)}
+	}{\While{(actual(it) $\neq$ m)}
+		{estado$\_$post $\leftarrow$ actual(it)\\ avanzar(it)}
 	\BlankLine
-	\If{($\neg$tieneProximo?(it) $\wedge$ m.estaCaida?)}
-		{tc + (estado$\_$post.timestamp - m.timestamp)}
-	\Else{
+	\eIf{($\neg$tieneProximo?(it) $\wedge$ m.estaCaida?)}
+		{tc + (estado$\_$post.timestamp - m.timestamp)}{
 		avanzar(it)\\ 
 		estado$\_$prev $\leftarrow$ actual(it)\\ 
-		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)}
-			{tc + (estado$\_$post.timestamp - m.timestamp)}
+		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)}{tc + (estado$\_$post.timestamp - m.timestamp)}
 		\BlankLine 
-		\eIf{$\neg$m.estaCaida? $\wedge$ estado$\_$prev.estaCaida?)}
-			{tc - (estado$\_$post.timestamp - m.timestamp)}
-	
-		}
+		\If{($\neg$m.estaCaida? $\wedge$ estado$\_$prev.estaCaida?)}{tc - (estado$\_$post.timestamp - m.timestamp)}}}
+		
 \end{algorithm}
 
 \vspace{11pt}
@@ -285,7 +277,7 @@ res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 \begin{algorithm}[H]
 \Orden{O(version(d))}
 \BlankLine
-ME FALTA HACERLO
+
 \end{algorithm}
 
 \vspace{11pt}
