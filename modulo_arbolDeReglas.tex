@@ -191,7 +191,7 @@ res $\leftarrow$ *(pRes)
 
 \newpage 
 
-\textbf{itieneRegla(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : bool \tcp*{HOLA}
+\textbf{itieneRegla(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : bool
 }
     \incmargin{1em}
     \linesnumbered
@@ -236,5 +236,55 @@ res $\leftarrow$ false\\
 }
 
  \caption{tieneRegla}
+   \end{algorithm}
+   
+   
+   
+\textbf{ipasarABits(in $d$ : dirIp) $\longrightarrow$ $res$ : arreglo\_dinamico de bool}
+
+    \incmargin{1em}
+    \linesnumbered
+    \restylealgo{boxed}
+    \dontprintsemicolon
+    
+	\begin{algorithm}[H]
+\Orden{O(8*version(d))}
+\BlankLine	
+	
+\textbf{var} a : arreglo\_dinamico de bool\\
+\textbf{var} i, j, aux : int	\\
+
+\BlankLine
+
+a $\leftarrow$ crearArrego(8*version(d))\\
+i $\leftarrow$ 7\\
+j $\leftarrow$ 0\\
+
+\BlankLine
+
+\While{(i $<$ version(d))}{
+
+	aux $\leftarrow$ d[j]
+
+	\BlankLine
+
+	\While{(i $>$ 8*j)}{
+	
+		\eIf{aux mod 2 = 1}{a[i] $\leftarrow$ true}{a[i] $\leftarrow$ false}
+		\BlankLine
+		aux $\leftarrow$ aux / 2\\
+		i $\leftarrow$ i $-$ 1
+	}	
+	\BlankLine
+	
+	i $\leftarrow$ i $+$ 15\\
+	j $\leftarrow$ j $+$ 1	
+}
+	
+res	$\leftarrow$ a
+	
+
+
+ \caption{pasarABits}
    \end{algorithm}
 %fin
