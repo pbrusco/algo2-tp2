@@ -151,10 +151,11 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 \linesnumbered
 \restylealgo{boxed}
 \dontprintsemicolon
-\textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr \tcp*{O(n)} 
+\textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr \\
 
 \begin{algorithm}[H]
 
+O(n)
 
 \BlankLine
 \textbf{var} inter: arreglo\_dimensionable de tupla$\langle$nat, secuOrdSinRep(evento)$\rangle$ \\
@@ -170,13 +171,9 @@ res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$\tcp*{O(1)}
 
 \vspace{11pt}
 
-\incmargin{1em}
-\linesnumbered
-\restylealgo{boxed}
-\dontprintsemicolon
-
-\textit{i}agVersion(inout e: estr, in v: version)\tcp*{O(v)}
+\textit{i}agVersion(inout e: estr, in v: version)\\
 \begin{algorithm}[H]
+O(v)
 \BlankLine
 agregar(v, e.versiones)\tcp*{O(v)}
 insertar($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
@@ -184,13 +181,9 @@ insertar($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
 
 \vspace{11pt}
 
-\incmargin{1em}
-\linesnumbered
-\restylealgo{boxed}
-\dontprintsemicolon
-
-\textit{i}agRegla(inout e: estr, in u: reglaDir)\tcp*{O(version(dirIp(u))))}
+\textit{i}agRegla(inout e: estr, in u: reglaDir)\\
 \begin{algorithm}[H]
+O(version(dirIp(u)))
 \BlankLine
 \textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$version, arbolDeReglas$\rangle$))\\
 \textbf{var} v: version\\
@@ -205,74 +198,53 @@ agRegla(actual(it).aR, v) \tcp*{O(cantBits(u))}
 
 \vspace{11pt}
 
-\incmargin{1em}
-\linesnumbered
-\restylealgo{boxed}
-\dontprintsemicolon
-
-\textit{i}agEvento(inout e: estr, in m: evento) \tcp*{O(a)}
+\textit{i}agEvento(inout e: estr, in m: evento)\\
 \begin{algorithm}[H]
+O(a)
 FALTA
 \end{algorithm}
 
 \vspace{11pt}
 
-\incmargin{1em}
-\linesnumbered
-\restylealgo{boxed}
-\dontprintsemicolon
-
-\textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\tcp*{O(1)}
+\textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\\
 \begin{algorithm}[H]
+O(1)
 \BlankLine
 res $\leftarrow$ e.versiones\tcp*{O(1)}
 \end{algorithm}
 
 \vspace{11pt}
-\incmargin{1em}
-\linesnumbered
-\restylealgo{boxed}
-\dontprintsemicolon
 
 
-\textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\tcp*{O(1)}
+\textit{i}interfaces(in e: estr) $\longrightarrow$ res: nat\\
 \begin{algorithm}[H]
+O(1)
 \BlankLine
 res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 \end{algorithm}
 
 \vspace{11pt}
-\incmargin{1em}
-\linesnumbered
-\restylealgo{boxed}
-\dontprintsemicolon
 
-\textit{i}enrutar(inout e: estr, in d: dirIp)\tcp*{O(version(d))}
+\textit{i}enrutar(inout e: estr, in d: dirIp)\\
 \begin{algorithm}[H]
+O(version(d))
 \BlankLine
 ME FALTA HACERLO
 \end{algorithm}
 
-\vspace{11pt}
-\incmargin{1em}
-\linesnumbered
-\restylealgo{boxed}
-\dontprintsemicolon
 
-\textit{i}eventos(in e: estr, in i: interfaz) $\longrightarrow$ res: secuOrdSinRep(evento)\tcp*{O(1)}
+\textit{i}eventos(in e: estr, in i: interfaz) $\longrightarrow$ res: secuOrdSinRep(evento)\\
 \begin{algorithm}[H]
+O(1)
 \BlankLine
 res $\leftarrow$ (e.status-inter[i]).eventos\tcp*{O(1)}
 \end{algorithm}
 
-\vspace{11pt}
-\incmargin{1em}
-\linesnumbered
-\restylealgo{boxed}
-\dontprintsemicolon
+\SetKw{Orden}{Complejidad:}
 
-\textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\tcp*{O(1)}
+\textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
+\Orden{O(1)}
 \BlankLine
 \textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$nat, evento$\rangle$)) \\
 \BlankLine
@@ -282,13 +254,10 @@ res $\rightarrow$ actual(it).estaCaida? \tcp*{O(1)}
 \end{algorithm}
 
 \vspace{11pt}
-\incmargin{1em}
-\linesnumbered
-\restylealgo{boxed}
-\dontprintsemicolon
 
-\textit{i}tiempoCaida(in e: estr, in i: interfaz) $\longrightarrow$ res: nat \tcp*{O(1)}
+\textit{i}tiempoCaida(in e: estr, in i: interfaz) $\longrightarrow$ res: nat \\
 \begin{algorithm}[H]
+O(1)
 res $\leftarrow$ (e.status-inter[i]).tiempoCaida \tcp*{O(1)}
 \end{algorithm}
 
