@@ -71,7 +71,7 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 \textbf{funciones auxiliares:} 
 
 \alinearaxiomas{interfacesDeArbolesValidas(s,n)}{\hspace{5cm}}
-\alinearfuncs{interfacesDeArbolesValidasLA}{\hspace{7.4cm}}
+\alinearfuncs{interfacesDeArbolesValidasLA}{\hspace{9.5cm}}
 
 \vspace{11pt}
 
@@ -277,7 +277,13 @@ res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 \begin{algorithm}[H]
 \Orden{O(version(d))}
 \BlankLine
-
+\eIf{version(d) $\notin$ e.versiones}{direccionNoSoportada()}{
+\textbf{var} it: itOrd(secuOrdSinRep(evento)) \\
+it $\leftarrow$ crearIt(e.reglas)\\
+\While{actual(it).version $\neq$ version(d)}{avanzar(it)}
+\eIf{$\neq$ tieneRegla(actual(it).aR,d)}{interfazDeSalidaNoEncontrada()}{
+\eIf{estaCaida?(e,interfazDeSalida(actual(it).aR,d))}{interfazDeSalidaCaida(interfazDeSalida(actual(it).aR,d))}{salidaPorInterfaz(interfazDeSalida(actual(it).aR,d))}
+}}
 \end{algorithm}
 
 \vspace{11pt}
