@@ -131,7 +131,8 @@ res $\leftarrow$ false\\
 \BlankLine
 it $\leftarrow$ crearIt(e)
 \BlankLine
-\While{(tieneProximo(it)? $\wedge$ actual(it) $\<_\alpha$ a)}{avanzar(it)}
+\While{(tieneProximo(it)? $\wedge$ actual(it) $<_\alpha$ a)}{avanzar(it)}
+\BlankLine
 \If{(a $=_\alpha$ actual(it))}{res $\leftarrow$ true}}
 \end{algorithm}
 
