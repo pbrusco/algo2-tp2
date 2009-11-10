@@ -55,7 +55,7 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 \textbf{donde} \textit{estr} \textbf{es} \textit{tupla $\langle$ versiones: conj(versi\'on)\\
 \hspace*{3.5cm} $\times$  cantInterfaces: nat\\
 \hspace*{3.5cm} $\times$  reglas: secuOrdSinRep(tupla$\langle$version: version, aR: arbolDeReglas$\rangle$)\\ %aca hay que decir como se ordena
-\hspace*{3.5cm} $\times$  status-inter: ad(tupla$\langle$tiempoCaida: nat, eventos: secuOrdSinRep(evento)$\rangle$) $\rangle$}
+\hspace*{3.5cm} $\times$  status$\_$inter: ad(tupla$\langle$tiempoCaida: nat, eventos: secuOrdSinRep(evento)$\rangle$) $\rangle$}
 
 
 %INVARIANTE DE REPRESENTACION
@@ -64,9 +64,9 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 ($\forall$ e:estr)Rep(e) = \\
 versionesDeReglasValidas(e.reglas, e.versiones) $\wedge$ \\
 interfacesDeArbolesValidas(e.reglas, e.cantInterfaces) $\wedge$ \\
-longitudDeEventosValida(e.status-inter, e.cantInterfaces) \yluego \\ %aca ya se que se puede hacer de una pero queda mas declarativo asi
-interfazDeEventosCorrecta(e.cantInterfaces, e.status-inter) \yluego \\
-tiempoCaidaValido(e.status-inter)\\
+longitudDeEventosValida(e.status$\_$inter, e.cantInterfaces) \yluego \\ %aca ya se que se puede hacer de una pero queda mas declarativo asi
+interfazDeEventosCorrecta(e.cantInterfaces, e.status$\_$inter) \yluego \\
+tiempoCaidaValido(e.status$\_$inter)\\
 
 \textbf{funciones auxiliares:} 
 
@@ -118,7 +118,7 @@ tiempoCaidaValido(e.status-inter)\\
 \vspace{11pt}
 ($\forall$ e: estr) Abs(e) = r: router/ \\
 versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \yluego \\
-($\forall$ i: interfaz)(i $<$ interfaces(r) \impluego reverso(eventos(r,i)) \igobs $\Pi_2$(e.status-inter[i])) $\wedge$ \\
+($\forall$ i: interfaz)(i $<$ interfaces(r) \impluego reverso(eventos(r,i)) \igobs $\Pi_2$(e.status$\_$inter[i])) $\wedge$ \\
 ($\forall$ d: dirIp)(enrutar(r,d) \igobs dameRtaDir(e,d))\\
 
 \vspace{33pt}
@@ -130,7 +130,7 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 \axioma{dameRtaDir(e,d)}{\lif version(d) $\in$ e.versiones \lthen DireccionNoSoportada \\
 						 \hspace*{-0.85cm}\lelse \lif $\neg$tieneRegla(arbolDeLaVersion(version(d),e.reglas),d) \\
 						 \hspace*{0.6cm}\lthen interfazDeSalidaNoEncontrada \\
-						 \hspace*{-0.85cm}\lelse \lif estaCaida?(prim($\Pi_2$(e.status-inter[queInterfaz(e,d)]))) \\
+						 \hspace*{-0.85cm}\lelse \lif estaCaida?(prim($\Pi_2$(e.status$\_$inter[queInterfaz(e,d)]))) \\
 						 \hspace*{0.6cm}\lthen interfazDeSalidaCaida(queInterfaz(e,d)) \\
 						 \hspace*{-0.85cm}\lelse SalidaPorInterfaz(queInterfaz(e,d))}
 						 
@@ -146,14 +146,13 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 %ALGORITMOS
 \subsection*{Algoritmos}
 
-
 \incmargin{1em}
 \linesnumbered
 \restylealgo{boxed}
 \dontprintsemicolon
+
 \textit{i}nuevo(in n: nat) $\longrightarrow$ res: estr \\
 \SetKw{Orden}{Complejidad:}
-
 \begin{algorithm}[H]
 \Orden{O(n)}
 \BlankLine
@@ -201,8 +200,42 @@ agRegla(actual(it).aR, v) \tcp*{O(cantBits(u))}
 \begin{algorithm}[H]
 \Orden{O(a)}
 \BlankLine
-
-FALTA
+\textbf{var} i: interfaz\\
+\textbf{var} tc: nat\\
+\textbf{var} evento$\_$prev: evento\\
+\textbf{var} evento$\_$post: evento\\
+\textbf{var} it: itOrd(secuOrdSinRep(evento) \\
+\BlankLine
+i $\leftarrow$ m.interfaz
+\BlankLine
+tc $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida
+\BlankLine
+insertar(m, (e.status$\_$inter[i]).eventos)
+\BlankLine
+it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos)
+\BlankLine
+\If{(actual $=$ m)}
+	{avanzar(it)\\
+	 \If{(actual(it).estaCaida?)}
+	 	{tc $\leftarrow$ tc + (m.timestamp - actual(it).timestamp)}
+	}
+\BlankLine
+\Else{
+	\While{(actual(it) $\neq$ m)}
+		{estado$\_$post $\leftarrow$ actual(it)\\ avanzar(it)}}
+	\BlankLine
+	\If{($\neg$tieneProximo?(it) $\wedge$ m.estaCaida?)}
+		{tc + (estado$\_$post.timestamp - m.timestamp)}
+	\Else{
+		avanzar(it)\\ 
+		estado$\_$prev $\leftarrow$ actual(it)\\ 
+		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)}
+			{tc + (estado$\_$post.timestamp - m.timestamp)}
+		\BlankLine 
+		\eIf{$\neg$m.estaCaida? $\wedge$ estado$\_$prev.estaCaida?)}
+			{tc - (estado$\_$post.timestamp - m.timestamp)}
+	
+		}
 \end{algorithm}
 
 \vspace{11pt}
@@ -238,7 +271,7 @@ ME FALTA HACERLO
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ (e.status-inter[i]).eventos\tcp*{O(1)}
+res $\leftarrow$ (e.status$\_$inter[i]).eventos\tcp*{O(1)}
 \end{algorithm}
 
 
@@ -249,7 +282,7 @@ res $\leftarrow$ (e.status-inter[i]).eventos\tcp*{O(1)}
 \BlankLine
 \textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$nat, evento$\rangle$)) \\
 \BlankLine
-it $\leftarrow$ crearIt((e.status-inter[i]).eventos) \tcp*{O(1)}
+it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
 res $\rightarrow$ actual(it).estaCaida? \tcp*{O(1)}
 \end{algorithm}
@@ -260,8 +293,7 @@ res $\rightarrow$ actual(it).estaCaida? \tcp*{O(1)}
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-
-res $\leftarrow$ (e.status-inter[i]).tiempoCaida \tcp*{O(1)}
+res $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida \tcp*{O(1)}
 \end{algorithm}
 
 \vspace{11pt}
