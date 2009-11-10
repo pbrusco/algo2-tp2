@@ -273,16 +273,16 @@ res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 
 \vspace{11pt}
 
-\textit{i}enrutar(inout e: estr, in d: dirIp)\\
+\textit{i}enrutar(inout e: estr, in d: dirIp) $\longrightarrow$ res: RespuestaDir\\
 \begin{algorithm}[H]
 \Orden{O(version(d))}
 \BlankLine
-\eIf{version(d) $\notin$ e.versiones}{direccionNoSoportada()}{
-\textbf{var} it: itOrd(secuOrdSinRep(evento)) \\
-it $\leftarrow$ crearIt(e.reglas)\\
-\While{actual(it).version $\neq$ version(d)}{avanzar(it)}
-\eIf{$\neq$ tieneRegla(actual(it).aR,d)}{interfazDeSalidaNoEncontrada()}{
-\eIf{estaCaida?(e,interfazDeSalida(actual(it).aR,d))}{interfazDeSalidaCaida(interfazDeSalida(actual(it).aR,d))}{salidaPorInterfaz(interfazDeSalida(actual(it).aR,d))}
+\eIf{(version(d) $\notin$ e.versiones) \tcp*{O(1)}}{res $\leftarrow$ direccionNoSoportada() \tcp*{O(1)} }{
+\textbf{var} it: itOrd(secuOrdSinRep(evento))\\ 
+it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
+\While{(actual(it).version $\neq$ version(d)) \tcp*{O(version(d))}}{avanzar(it)\tcp*{O(1)}}
+\eIf{($\neg$ tieneRegla(actual(it).aR,d)) \tcp*{O(version(d))}}{res $\leftarrow$ interfazDeSalidaNoEncontrada()\tcp*{O(1)}}{
+\eIf{(estaCaida?(e,interfazDeSalida(actual(it).aR,d)))\tcp*{O(version(d))}}{interfazDeSalidaCaida(interfazDeSalida(actual(it).aR,d))\tcp*{O(version(d))}}{salidaPorInterfaz(interfazDeSalida(actual(it).aR,d))\tcp*{O(version(d))}}
 }}
 \end{algorithm}
 
