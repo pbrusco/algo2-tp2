@@ -100,36 +100,38 @@ res $\leftarrow$ null \\
 
 \textit{i}agRegla(inout $p$ : puntero(estr),in $r$ : regla)\\
 \begin{algorithm}[H]
-\Orden{O(cantBits(r))}
+\Orden{O(version(dirIp(r)))}
 \BlankLine
 \textbf{var} i : int\\
 \textbf{var} pAux : puntero(estr) 	\\
 \textbf{var} a : arreglo\_dimensionable de bool\\
+\textbf{var} x : Interfaz\\
 \BlankLine 
-a $\leftarrow$ CrearArreglo(version(dirIp(r))*8)\\
+a $\leftarrow$ CrearArreglo(version(dirIp(r))*8) \tcp*{O(version(dirIp(r)))}
 \BlankLine
-\If {p = NULL}{p $\leftarrow$ crearTupla(NULL,NULL,NULL)}
+\If {p = NULL \tcp*{O(1)}}{p $\leftarrow$ $\&$$\langle$NULL,NULL,NULL$\rangle$ \tcp*{O(1)}}
 \BlankLine 
-a $\leftarrow$ pasarABits(dirIP(r))\\
-pAux $\leftarrow$ p\\
-i $\leftarrow$ 0
+a $\leftarrow$ pasarABits(dirIP(r)) \tcp*{O(version(dirIp(r)))}
+pAux $\leftarrow$ p \tcp*{O(1)}
+i $\leftarrow$ 0 \tcp*{O(1)}
 \BlankLine 
-\While{i $\neq$ cantBits(r)}{
-	\eIf {a[i] = true}{
-		\If{(*pAux).der = NULL}{(*pAux).der $\leftarrow$ crearTupla(NULL,NULL,NULL)}
-			 pAux $\leftarrow$ (*pAux).der}{%else		 
-				 \If{(*pAux).izq = NULL}{(*pAux).izq $\leftarrow$ crearTupla(NULL,NULL,NULL)}				 
-				 pAux $\leftarrow$ (*pAux).izq}
+\While{i $\neq$ cantBits(r) \tcp*{O(cantBits(r))}}{
+	\eIf {a[i] = true \tcp*{O(1)}}{
+		\If{(*pAux).der = NULL \tcp*{O(1)}}{(*pAux).der $\leftarrow$ $\&$$\langle$NULL,NULL,NULL$\rangle$ \tcp*{O(1)}}
+			 pAux $\leftarrow$ (*pAux).der \tcp*{O(1)}}{
+				 \If{(*pAux).izq = NULL \tcp*{O(1)}}{(*pAux).izq $\leftarrow$ $\&$$\langle$NULL,NULL,NULL$\rangle$ \tcp*{O(1)}}				 
+				 pAux $\leftarrow$ (*pAux).izq \tcp*{O(1)}}
 
-		i $\leftarrow$ i + 1
+		i $\leftarrow$ i + 1 \tcp*{O(1)}
 		}
 \BlankLine 
-\If {(*pAux).inter = NULL}{(*pAux).inter $\leftarrow$ crearInterfaz()}
+\eIf {(*pAux).inter = NULL \tcp*{O(1)}}{
+x $\leftarrow$ inter(r) \tcp*{O(1)}
+(*pAux).inter $\leftarrow$ $\&$x \tcp*{O(1)}}{*((*pAux).inter) $\leftarrow$ inter(r)\tcp*{O(1)}}
 \BlankLine 
-*((*pAux).inter) $\leftarrow$ inter(r)\\
-(*pAux).der $\leftarrow$ NULL\\
-(*pAux).izq $\leftarrow$ NULL
-\caption{agRegla}
+(*pAux).der $\leftarrow$ NULL \tcp*{O(1)}
+(*pAux).izq $\leftarrow$ NULL \tcp*{O(1)}
+
 \end{algorithm}
 
 
@@ -141,22 +143,22 @@ i $\leftarrow$ 0
 \textbf{var} pRes: puntero(interfaz)\\
 \textbf{var} pResProvisorio: puntero(interfaz)\\
 \textbf{var} pAux puntero(estr) 	\\
-pRes $\leftarrow$ NULL
-pResProvisorio $\leftarrow$ NULL
-pAux $\leftarrow$ NULL
-i $\leftarrow$ 0
+pRes $\leftarrow$ NULL \tcp*{O(1)}
+pResProvisorio $\leftarrow$ NULL \tcp*{O(1)}
+pAux $\leftarrow$ NULL \tcp*{O(1)}
+i $\leftarrow$ 0 \tcp*{O(1)}
 \BlankLine 
-\While{pRes = NULL}{
-	\If{(pAux$\rightarrow$inter) $\neq$ NULL}{pResProvisorio $\leftarrow$ (pAux $\rightarrow$ inter)}
+\While{pRes = NULL \tcp*{O(version(d))}}{
+	\If{(pAux$\rightarrow$inter) $\neq$ NULL \tcp*{O(1)}}{pResProvisorio $\leftarrow$ (pAux $\rightarrow$ inter) \tcp*{O(1)}}
 	
-	\eIf{d[i] = true}{
-		\eIf{(pAux$\rightarrow$der) = NULL}{pRes $\leftarrow$ pResProvisorio}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
+	\eIf{d[i] = true \tcp*{O(1)}}{
+		\eIf{(pAux$\rightarrow$der) = NULL \tcp*{O(1)}}{pRes $\leftarrow$ pResProvisorio \tcp*{O(1)}}{pAux $\leftarrow$ (pAux$\rightarrow$der) \tcp*{O(1)}}
 	}{
-		\eIf{(pAux$\rightarrow$izq) = NULL}{pRes $\leftarrow$ pResProvisorio}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
+		\eIf{(pAux$\rightarrow$izq) = NULL \tcp*{O(1)}}{pRes $\leftarrow$ pResProvisorio \tcp*{O(1)}}{pAux $\leftarrow$ (pAux$\rightarrow$der) \tcp*{O(1)}}
 	}
-	i $\leftarrow$  i + 1
+	i $\leftarrow$  i + 1 \tcp*{O(1)}
 }
-res $\leftarrow$ *(pRes)
+res $\leftarrow$ *(pRes) \tcp*{O(1)}
 \caption{interfazDeSalida}
 \end{algorithm}
 
@@ -169,26 +171,28 @@ res $\leftarrow$ *(pRes)
 \textbf{var} pAux : puntero(estr) 	\\
 \textbf{var} sePuedeSeguir : bool	\\
 \BlankLine
-pAux $\leftarrow$ p\\
-i $\leftarrow$ 0\\
-sePuedeSeguir $\leftarrow$ true\\
-res $\leftarrow$ false\\
+pAux $\leftarrow$ p \tcp*{O(1)}
+i $\leftarrow$ 0 \tcp*{O(1)}
+sePuedeSeguir $\leftarrow$ true \tcp*{O(1)}
+res $\leftarrow$ false \tcp*{O(1)}
 \BlankLine
-\If {pAux = NULL}{res $\leftarrow$ false\\sePuedeSeguir $\leftarrow$ false}
+\If {pAux = NULL \tcp*{O(1)}}{
+res $\leftarrow$ false \tcp*{O(1)}
+ sePuedeSeguir $\leftarrow$ false \tcp*{O(1)}}
 \BlankLine
 \BlankLine
-\While{res = false $\wedge$ sePuedeSeguir = true}{
-	\eIf{d[i] = true}{
-		\eIf{(pAux$\rightarrow$der) = NULL}{sePuedeSeguir $\leftarrow$ false}{pAux $\leftarrow$ (pAux$\rightarrow$der)}
+\While{res = false $\wedge$ sePuedeSeguir = true \tcp*{O(version(d))}}{
+	\eIf{d[i] = true \tcp*{O(1)}}{
+		\eIf{(pAux$\rightarrow$der) = NULL \tcp*{O(1)}}{sePuedeSeguir $\leftarrow$ false \tcp*{O(1)}}{pAux $\leftarrow$ (pAux$\rightarrow$der) \tcp*{O(1)}}
 	}{
-		\eIf{(pAux$\rightarrow$izq) = NULL}{sePuedeSeguir $\leftarrow$ false}{pAux $\leftarrow$ (pAux$\rightarrow$izq)}
+		\eIf{(pAux$\rightarrow$izq) = NULL \tcp*{O(1)}}{sePuedeSeguir $\leftarrow$ false \tcp*{O(1)}}{pAux $\leftarrow$ (pAux$\rightarrow$izq) \tcp*{O(1)}}
 	}
 	
-	i $\leftarrow$  i + 1
+	i $\leftarrow$  i + 1 \tcp*{O(1)}
 \BlankLine
-\If{(pAux$\rightarrow$inter) $\neq$ NULL}{res $\leftarrow$ true}
+\If{(pAux$\rightarrow$inter) $\neq$ NULL \tcp*{O(1)}}{res $\leftarrow$ true \tcp*{O(1)}}
 }
-\caption{tieneRegla}
+
 \end{algorithm}
 
       
@@ -199,23 +203,23 @@ res $\leftarrow$ false\\
 \textbf{var} a : arreglo\_dinamico de bool\\
 \textbf{var} i, j, aux : nat	\\
 \BlankLine
-a $\leftarrow$ crearArrego(8*version(d))\\
-i $\leftarrow$ 7\\
-j $\leftarrow$ 0\\
+a $\leftarrow$ crearArrego(8*version(d)) \tcp*{O(version(d))}
+i $\leftarrow$ 7 \tcp*{O(1)}
+j $\leftarrow$ 0 \tcp*{O(1)}
 \BlankLine
-\While{(j $<$ version(d))}{
-	aux $\leftarrow$ d[j]
+\While{(j $<$ version(d)) \tcp*{O(version(d))}}{
+	aux $\leftarrow$ d[j] \tcp*{O(1)}
 	\BlankLine
-	\While{(i $\geq$ 8*j)}{
-		\eIf{aux mod 2 = 1}{a[i] $\leftarrow$ true}{a[i] $\leftarrow$ false}
+	\While{(i $\geq$ 8*j) \tcp*{O(1)}}{
+		\eIf{aux mod 2 = 1 \tcp*{O(1)}}{a[i] $\leftarrow$ true \tcp*{O(1)}}{a[i] $\leftarrow$ false \tcp*{O(1)}}
 		\BlankLine
-		aux $\leftarrow$ aux / 2\\
-		i $\leftarrow$ i $-$ 1
+		aux $\leftarrow$ aux / 2 \tcp*{O(1)}
+		i $\leftarrow$ i $-$ 1 \tcp*{O(1)}
 	}	
 	\BlankLine
-	i $\leftarrow$ i $+$ 15\\
-	j $\leftarrow$ j $+$ 1	
+	i $\leftarrow$ i $+$ 15 \tcp*{O(1)}
+	j $\leftarrow$ j $+$ 1	 \tcp*{O(1)}
 }
-res	$\leftarrow$ a
+res	$\leftarrow$ a \tcp*{O(1)}
 \caption{pasarABits}
 \end{algorithm}
