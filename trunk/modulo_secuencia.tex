@@ -9,35 +9,35 @@
 
 \textbf{operaciones}\\
 
-$<>$()$\longrightarrow$ res: secuOrdSinRep($\alpha$)\\
+$<>$()$\longrightarrow$ res: secuOrdSinRep($\alpha$) \hfill (O(1))\\
 $\{$true$\}$\\
 $\{\sombreritoWide{res}\}$\\
 
-insertar(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$))\\
+insertar(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$)) \hfill (O(posicionRelativa(a)))\\
 $\{\sombreritoWide{s}\ \igobs\ s_0\ \wedge$ ordenada($s_0$)$\}$\\
 $\{\sombreritoWide{s}\ \igobs$ agregarOrdenado($\sombreritoWide{a}$,$s_0$)$\}$\\
 
-vacia?(in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: bool\\
+vacia?(in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: bool\hfill (O(1))\\
 $\{$true$\}$\\
 $\{\sombreritoWide{res}\ \igobs$ vacia?($\sombreritoWide{a}$,$\sombreritoWide{s}$)$\}$\\
 
-esta?(in a: $\alpha$, in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: bool\\
+esta?(in a: $\alpha$, in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: bool\hfill (O(posicionRelativa(a)))\\
 $\{$true$\}$\\
 $\{\sombreritoWide{res}\ \igobs$ esta?($\sombreritoWide{a}$,$\sombreritoWide{s}$)$\}$\\
 
-crearIt(in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: itOrd($\alpha$)\\
+crearIt(in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: itOrd($\alpha$)\hfill (O(1))\\
 $\{$true$\}$\\
 $\{\sombreritoWide{res}\ \igobs$ crearIt($\sombreritoWide{s}$)$\}$\\
 
-actual(in it: itOrd($\alpha$))$\longrightarrow$ res: $\alpha$\\
+actual(in it: itOrd($\alpha$))$\longrightarrow$ res: $\alpha$\hfill (O(1))\\
 $\{\neg$vacia?(verSecuSuby(it))$\}$\\
 $\{$prim(verSecuSuby(it))$\}$\\
 
-tieneProximo?(in it: itOrd($\alpha$))$\longrightarrow$ res: bool\\
+tieneProximo?(in it: itOrd($\alpha$))$\longrightarrow$ res: bool\hfill (O(1))\\
 $\{$true$\}$\\
 $\{\sombreritoWide{res}\ \igobs\ \neg$vacia?(verSecuSuby(it))$\}$\\
 
-avanzar(inout it: itOrd($\alpha$))\\
+avanzar(inout it: itOrd($\alpha$))\hfill (O(1))\\
 $\{\sombreritoWide{it}\ \igobs\ it_0\ \wedge$ tieneProximo?($it_0$)$\}$\\
 $\{$verSecuSuby(it) $\igobs$ fin(verSecuSuby($it_0$))$\}$\\
 

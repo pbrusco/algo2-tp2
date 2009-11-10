@@ -213,11 +213,12 @@ it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
 v  $\leftarrow$ u.version \tcp*{O(1)}
 \BlankLine
 \While{(actual(it).version $\neq$ v) \tcp*{O(version(dirIp(u))))}}
-{avanzar(it)\tcp*{O(1)}}
+{avanzar(it)}
 agRegla(actual(it).aR, v) \tcp*{O(cantBits(u))}
 \end{algorithm}
 
 \vspace{11pt}
+
 
 \textit{i}agEvento(inout e: estr, in m: evento)\\
 \begin{algorithm}[H]
@@ -252,6 +253,7 @@ it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 		\BlankLine 
 		\If{($\neg$m.estaCaida? $\wedge$ estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc - (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}}}
 \end{algorithm}
+
 
 \vspace{11pt}
 
