@@ -239,11 +239,10 @@ agRegla(actual(it).aR, v) \tcp*{O(cantBits(u))}
 \BlankLine
 \textbf{var} i: interfaz\\
 \textbf{var} tc: nat\\
-\textbf{var} evento$\_$prev: evento\\
-\textbf{var} evento$\_$post: evento\\
+\textbf{var} evento$\_$prev,evento$\_$post: evento\\
 \textbf{var} it: itOrd(secuOrdSinRep(evento)) \\
 \BlankLine
-i $\leftarrow$ m.interfaz \tcp*{O(1)}
+i $\leftarrow$ m.inter \tcp*{O(1)}
 \BlankLine
 tc $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida \tcp*{O(1)}
 \BlankLine
@@ -257,13 +256,14 @@ it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \Else{\If{(tieneProximo(it)?)\tcp*{O(1)}}{\While{(actual(it) $\neq$ m)\tcp*{O(a)}}
 		{estado$\_$post $\leftarrow$ actual(it) \tcp*{O(1)} avanzar(it)\tcp*{O(1)}}
 	\BlankLine
-	\If{($\neg$tieneProximo?(it))\tcp*{O(1)}}{\If{(m.estaCaida?)\tcp*{O(1)}}{tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}
+	\If{($\neg$tieneProximo?(it))\tcp*{O(1)}}{\If{(m.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}
 	\Else{avanzar(it)\tcp*{O(1)} 
 		estado$\_$prev $\leftarrow$ actual(it)\tcp*{O(1)}
 		\BlankLine 
-		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}
+		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}
 		\BlankLine 
-		\If{($\neg$m.estaCaida? $\wedge$ estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc - (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}}}
+		\If{($\neg$m.estaCaida? $\wedge$ estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc - (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}}}
+(e.status$\_$inter[i]).tiempoCaida $\leftarrow$ tc
 \end{algorithm}
 
 
