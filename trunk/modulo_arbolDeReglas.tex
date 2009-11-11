@@ -4,7 +4,7 @@
 \subsection*{Interfaz}
 \textbf{interfaz} \textit{arbolDeReglas}\\
 \textbf{se explica con la especificaci\'on de} \textit{arbolDeReglas}\\
-\textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}\\
+\textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}, \nombretad{dirIp},\nombretad{ReglaDir}\\
 \textbf{genero} \textit{abr}\\
 
 \textbf{operaciones}\\
@@ -48,13 +48,13 @@ $\{\sombreritoWide{res}\igobs$ $interfazDeSalida(\sombreritoWide{a},\sombreritoW
 \vspace{11pt}
 ($\forall$ p: puntero(estr)) Abs(p) = a: abr/ \\
 \\
-($\forall$ d: dirIp) (tieneRegla(a,d) $=$ existeRegla(p,pasarABits(d),0) $\yluego$\\
+($\forall$ d: dirIp) ((tieneRegla(a,d) $=$ existeRegla(p,pasarABits(d),0) $\yluego$\\
 \\
-(tieneRegla(a,d) $\impluego$ interfazDeSalida(a,d) = dameSalida(p,pasarABits(d),0,null)))
+(tieneRegla(a,d) $\impluego$ (interfazDeSalida(a,d) = dameSalida(p,pasarABits(d),0,null)))))
 \vspace{33pt}
 \alinearfuncs{existeReglala}{\hspace{11.2cm}}
 \alinearaxiomas{dameSalida(p,a,n,pi)}
-\func{existeRegla}{puntero(estr)/p,arreglo de bool, nat}{bool}{Rep(p)}
+\func{existeRegla}{puntero(estr)/p,arregloDeBool, nat}{bool}{Rep(p)}
 \axioma{existeRegla(p,a,n)}{\lif n $=$ tam(a) $\vee$ e $=$ null \lthen \false\\
 			    \hspace*{-0.85cm}\lelse \lif (*p).inter $=$ null \lthen\\
 			    \hspace*{1cm}\lif a[n] $=$ \true \lthen existeRegla((*e).der,a,n+1)\\
@@ -65,7 +65,7 @@ $\{\sombreritoWide{res}\igobs$ $interfazDeSalida(\sombreritoWide{a},\sombreritoW
 
 \vspace{15pt}
 
-\func{dameSalida}{puntero(estr)/p, arreglo de bool/a, nat, puntero(estr)}{interfaz}{Rep(p) $\yluego$ existeRegla(p,a,0)}
+\func{dameSalida}{puntero(estr)/p, arregloDeBool/a, nat, puntero(estr)}{interfaz}{Rep(p) $\yluego$ existeRegla(p,a,0)}
 \axioma{dameSalida(p,a,n,pi)}{\lif n $=$ tam(a) $\vee$ p $=$ null \lthen *pi\\
 			      \hspace*{-0.85cm}\lelse \lif a[n] $=$ true \lthen\\
 			      \hspace*{1cm}\lif pi $\neq$ null \lthen dameSalida((*p).der,a,n+1,pi)\\
