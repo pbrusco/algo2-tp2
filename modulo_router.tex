@@ -251,15 +251,14 @@ insertar(m, (e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
 it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
-\If{(actual(it) $=$ m) $\wedge$ tieneProximo?(it)\tcp*{O(1)}}
+\If{(actual(it) $=$ m) $\wedge$ tieneProximo?(it))\tcp*{O(1)}}
 	{avanzar(it) \tcp*{O(1)}
 	 \If{(actual(it).estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (m.timestamp - actual(it).timestamp)\tcp*{O(1)}}}
 \Else{\If{(tieneProximo(it)?)\tcp*{O(1)}}{\While{(actual(it) $\neq$ m)\tcp*{O(a)}}
 		{estado$\_$post $\leftarrow$ actual(it) \tcp*{O(1)} avanzar(it)\tcp*{O(1)}}
 	\BlankLine
-	\eIf{($\neg$tieneProximo?(it) $\wedge$ m.estaCaida?)\tcp*{O(1)}}
-		{tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}{
-		avanzar(it)\tcp*{O(1)} 
+	\If{($\neg$tieneProximo?(it))\tcp*{O(1)}}{\If{(m.estaCaida?)\tcp*{O(1)}}{tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}
+	\Else{avanzar(it)\tcp*{O(1)} 
 		estado$\_$prev $\leftarrow$ actual(it)\tcp*{O(1)}
 		\BlankLine 
 		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}
