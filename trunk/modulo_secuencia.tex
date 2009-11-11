@@ -34,8 +34,8 @@ $\{\neg$vacia?(verSecuSuby(it))$\}$\\
 $\{$prim(verSecuSuby(it))$\}$\\
 
 tieneProximo?(in it: itOrd($\alpha$))$\longrightarrow$ res: bool\hfill (O(1))\\
-$\{$true$\}$\\
-$\{\sombreritoWide{res}\ \igobs\ \neg$vacia?(verSecuSuby(it))$\}$\\
+\{$\neg$vacia?(verSecuSuby(it))\}\\
+\{$\sombreritoWide{res}$ \igobs $\neg$vacia?(fin(verSecuSuby(it)))\}\\
 
 avanzar(inout it: itOrd($\alpha$))\hfill (O(1))\\
 $\{\sombreritoWide{it}\ \igobs\ it_0\ \wedge$ tieneProximo?($it_0$)$\}$\\
@@ -111,9 +111,9 @@ it2 $\leftarrow$ NULL \tcp*{O(1)}
 it2 $\leftarrow$ it \tcp*{O(1)}
 avanzar(it) \tcp*{O(1)}} 
 \BlankLine
-\eIf{(a $\opsub{<}{\alpha}$ actual(it))\tcp*{O(1)}}{
+\eIf{(a $\opsub{<}{\alpha}$ actual(it) $\vee$ a $\neq_\alpha$ actual(it))\tcp*{O(1)}}{
 (it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}
-(nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it\tcp*{O(1)}}{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}}}
+(nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it\tcp*{O(1)}}{\If{($\neg$ tieneProximo?(it))\tcp*{O(1)}}{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}}}}
 \end{algorithm}
 
 \textit{i}vacia?(in e: estrSecuOrdSinRep) $\longrightarrow$ res: bool\\
