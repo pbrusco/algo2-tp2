@@ -63,7 +63,8 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 \subsection*{Invariante\ de \ Representaci\'on}
 \func{Rep}{estr}{bool}{}
 ($\forall$ e:estr)Rep(e) = versionesDeReglasValidas(e.reglas, e.versiones)\\
-\hspace*{3.2cm} $\wedge$ interfacesDeArbolesValidas(e.reglas, e.cantInterfaces)\\
+\hspace*{3.2cm} $\wedge$ noFaltanVersionesEnReglas(e)\\
+\hspace*{3.2cm} $\yluego$ interfacesDeArbolesValidas(e.reglas, e.cantInterfaces)\\
 \hspace*{3.2cm} $\wedge$ alturaDeArbolesValida(e.reglas)\\
 \hspace*{3.2cm} $\wedge$ longitudDeEventosValida(e.status$\_$inter, e.cantInterfaces)\\ %aca ya se que  se puede hacer de una pero queda mas declarativo asi
 \hspace*{3.2cm} $\yluego$ interfazDeEventosCorrecta(e.cantInterfaces, e.status$\_$inter)\\
@@ -82,19 +83,24 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 
 \vspace{15pt}
 
+\func{noFaltanVersionesEnReglas}{estr}{bool}{}
+\axioma{noFaltanVersionesEnReglas(e)}{($\forall$ v: version)(v $\in$ e.versiones \impluego estaVersionEnTupla(v,e.reglas))}
+
+\vspace{15pt}
+
 \func{interfacesDeArbolesValidas}{secuOrdSinRep(tupla(version,abr)),nat}{bool}{}
-\axioma{interfacesDeArbolesValidas(s,n)}{($\forall$ d: dirIp) (estaVersionEnTupla(d,s) \impluego \\
+\axioma{interfacesDeArbolesValidas(s,n)}{($\forall$ d: dirIp) (estaVersionEnTupla(version(d),s) \impluego \\
 											interValidasAux(s,n,d))}
 
 \vspace{15pt}
 
-\func{estaVersionEnTupla}{dirIp,secuOrdSinRep(tupla(version,abr))}{bool}{}
-\axioma{estaVersionEnTupla(d,s)}{\lif vacia?(s) \lthen \false\\
-								\hspace*{-0.85cm}\lelse $\Pi_1$(prim(s)) $=$ version(d) $\vee$ estaVersionEnTupla(d,fin(s))}
+\func{estaVersionEnTupla}{version,secuOrdSinRep(tupla(version,abr))}{bool}{}
+\axioma{estaVersionEnTupla(v,s)}{\lif vacia?(s) \lthen \false\\
+								\hspace*{-0.85cm}\lelse $\Pi_1$(prim(s)) $=$ v $\vee$ estaVersionEnTupla(v,fin(s))}
 
 \vspace{15pt}
 
-\func{interValidasAux}{secuOrdSinRep(tupla(version,abr))/s,nat,dirIp/d}{bool}{estaVersionEnTupla(d,s)}
+\func{interValidasAux}{secuOrdSinRep(tupla(version,abr))/s,nat,dirIp/d}{bool}{estaVersionEnTupla(version(d),s)}
 \axioma{interValidasAux(s,n,d)}{\lif $\Pi_1$(prim(s)) $=$ version(d) \\
 								\hspace*{0.6cm}\lthen interfazDeSalida($\Pi_2$(prim(s)),d) $<$ n\\
 								\hspace*{-0.85cm}\lelse interValidasAux(fin(s),n,d)}
