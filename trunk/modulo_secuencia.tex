@@ -14,7 +14,7 @@ $\{$true$\}$\\
 $\{\sombreritoWide{res} \igobs <> \}$\\
 
 insertar(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$)) \hfill (O(posicionRelativa(a)))\\
-$\{\sombreritoWide{s}\ \igobs\ s_0\ \}$\\
+$\{\sombreritoWide{s}\ \igobs\ s_0\ \wedge \neg esta?(a,s) \}$\\
 $\{\sombreritoWide{s}\ \igobs$ agregarOrdenado($\sombreritoWide{a}$,$s_0$)$\}$\\
 
 vacia?(in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: bool\hfill (O(1))\\
