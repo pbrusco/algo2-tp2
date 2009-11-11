@@ -1,5 +1,9 @@
 \section*{Aclaraciones}
 
+\subsection*{Extension del Secu($\alpha$)}
+\paragraph{}
+El Tad SecuOrdSinRep($\alpha$) es una extension del Tad Secu($\alpha$) en la cual se agregan algunas operaciones y se reemplaza el generador $\puntito$ por agregarOdenado. En consecuencia, las operaciones hechas sobre el operador puntito pierden validez.
+
 \subsection*{Ordenes de los elementos $\alpha$}
 \paragraph{}
 Durante este trabajo pr\'actico se di\'o por sentado que se ten\'ian los siguientes \'ordenes totales:
@@ -10,7 +14,6 @@ tupla $\langle$ caida?: bool  $\times$ timestamp: nat $\times$ inter: interfaz  
 Un evento EV1 se considera mayor que otro evento EV2 si EV1.timestamp $<$ EV2.timestamp.
 \item En la estructura del enrutador, el campo \textit{reglas} es de tipo secuOrdSinRep. Las tuplas que esta contiene, se ordenan por versi\'on, es decir, se ordenan seg\'un el orden dado por el primer campo de cada tupla.
 \end{itemize}
-
 
 \input{aliasing_router.tex}
 \input{aliasing_secuencia.tex}
