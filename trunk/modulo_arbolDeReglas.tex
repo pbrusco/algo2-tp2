@@ -55,7 +55,7 @@ $\{\sombreritoWide{res}\igobs$ $interfazDeSalida(\sombreritoWide{a},\sombreritoW
 \alinearfuncs{existeReglala}{\hspace{11.2cm}}
 \alinearaxiomas{dameSalida(p,a,n,pi)}
 \func{existeRegla}{puntero(estr)/p,arregloDeBool, nat}{bool}{Rep(p)}
-\axioma{existeRegla(p,a,n)}{\lif n $=$ tam(a) $\vee$ e $=$ null \lthen \false\\
+\axioma{existeRegla(p,a,n)}{\lif n $=$ tam(a) $\vee$ p $=$ null \lthen \false\\
 			    \hspace*{-0.85cm}\lelse \lif (*p).inter $=$ null \lthen\\
 			    \hspace*{1cm}\lif a[n] $=$ \true \lthen existeRegla((*e).der,a,n+1)\\
 			    \hspace*{1cm}\lelse existeRegla((*e).izq,a,n+1)\\
@@ -89,7 +89,7 @@ $\{\sombreritoWide{res}\igobs$ $interfazDeSalida(\sombreritoWide{a},\sombreritoW
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ null \\
+res $\leftarrow$ NULL \\
 \caption{crear}
 \end{algorithm}
 
