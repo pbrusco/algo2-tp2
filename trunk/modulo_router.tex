@@ -316,7 +316,7 @@ res $\leftarrow$ (e.status$\_$inter[i]).eventos\tcp*{O(1)}
 \BlankLine
 it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
-res $\rightarrow$ actual(it).estaCaida? \tcp*{O(1)}
+\eIf{(it == NULL)\tcp*{O(1)}}{res $\leftarrow$ false\tcp*{O(1)}}{res $\rightarrow$ actual(it).estaCaida? \tcp*{O(1)}}
 \end{algorithm}
 
 
