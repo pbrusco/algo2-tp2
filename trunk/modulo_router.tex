@@ -4,7 +4,7 @@
 \subsection*{Interfaz}
 \textbf{interfaz} \textit{Router}\\
 \textbf{se explica con la especificaci\'on de} \textit{Router}\\
-\textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}, \nombretad{Conjunto(versi\'on)}, \nombretad{Secuencia(Evento)}, \nombretad{ReglaDir}, \nombretad{RespuestaDir}, \nombretad{Evento}, \nombretad{versi\'on}, \nombretad{DirIp}\\
+\textbf{usa interfaces} \nombretad{Bool}, \nombretad{Nat}, \nombretad{Conjunto(versi\'on)}, \nombretad{Secuencia(Evento)}, \nombretad{ReglaDir}, \nombretad{RespuestaDir}, \nombretad{Evento}, \nombretad{versi\'on}, \nombretad{Interfaz,} \nombretad{DirIp}\\
 \textbf{genero} \textit{router}\\
 
 \textbf{operaciones}\\
@@ -22,7 +22,7 @@ $\{$($\sombreritoWide{r} \igobs\ r_0$) $\wedge$ (versi\'on(dirIp($\sombreritoWid
 $\{\sombreritoWide{r} \igobs$ agRegla($r_0$,$\sombreritoWide{u}$)$\}$\\
 
 agEvento(inout r: router, in e :evento)\hfill(O(a)) \\
-$\{$($\sombreritoWide{r} \igobs\ r_0$) $\wedge$ ($\neg \exists$ i: interfaz)(i $<$ interfaces($\sombreritoWide{r}$)) $\wedge_L$ existeTimestamp?(eventos($\sombreritoWide{r}$,i),timestam($\sombreritoWide{e}$)))$\}$\\
+$\{$($\sombreritoWide{r} \igobs\ r_0$) $\wedge$ ($\neg \exists$ i: interfaz)(i $<$ interfaces($\sombreritoWide{r}$)) $\wedge_L$ existeTimestamp?(eventos($\sombreritoWide{r}$,i),timestamp($\sombreritoWide{e}$)))$\}$\\
 $\{\sombreritoWide{r}\igobs$ agEvento($r_0$,$\sombreritoWide{e}$)$\}$\\
 
 versiones(in r: router)$\longrightarrow$ res: conj(versi\'on)\hfill(O(1)) \\
@@ -55,9 +55,9 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 \textit{enrutador} \textbf{se representa con} \textit{estr}\\
 \textbf{donde} \textit{estr} \textbf{es} \textit{tupla $\langle$ versiones: conj(versi\'on)\\
 \hspace*{3.5cm} $\times$  cantInterfaces: nat\\
-\hspace*{3.5cm} $\times$  reglas: secuOrdSinRep(tupla$\langle$version: version, aR: arbolDeReglas$\rangle$)\\ %aca hay que decir como se ordena
+\hspace*{3.5cm} $\times$  reglas: secuOrdSinRep(tupla$\langle$version: version, aR: abr$\rangle$)\\ %aca hay que decir como se ordena
 \hspace*{3.5cm} $\times$  status$\_$inter: ad(tupla$\langle$tiempoCaida: nat, eventos: secuOrdSinRep(evento)$\rangle$) $\rangle$}
-\vspace{33pt}
+\vspace{22pt}
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante\ de \ Representaci\'on}
@@ -77,7 +77,7 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 
 \vspace{11pt}
 
-\func{versionesDeReglasValidas}{secuOrdSinRep(tupla(version,abr)),cto(version)}{bool}{}
+\func{versionesDeReglasValidas}{secuOrdSinRep(tupla(version,abr)),conj(version)}{bool}{}
 \axioma{versionesDeReglasValidas(s,c)}{\lif vacia?(s) \lthen \true\\
 										\hspace*{-0.85cm}\lelse $\Pi_1$(prim(s)) $\in$ c $\wedge$ versionesDeReglasValidas(fin(s),c)}
 
@@ -221,7 +221,7 @@ insertar($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
 \begin{algorithm}[H]
 \Orden{O(version(dirIp(u)))}
 \BlankLine
-\textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$version, arbolDeReglas$\rangle$))\\
+\textbf{var} it: itOrd(secuOrdSinRep(tupla $\langle$version, abr$\rangle$))\\
 \textbf{var} v: version\\
 \BlankLine
 it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
@@ -246,7 +246,7 @@ i $\leftarrow$ m.inter \tcp*{O(1)}
 \BlankLine
 tc $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida \tcp*{O(1)}
 \BlankLine
-insertar(m, (e.status$\_$inter[i]).eventos) \tcp*{O(1)}
+insertar(m, (e.status$\_$inter[i]).eventos) \tcp*{O(a)}
 \BlankLine
 it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
@@ -290,11 +290,11 @@ res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 \Orden{O(version(d))}
 \BlankLine
 \eIf{(version(d) $\notin$ e.versiones) \tcp*{O(1)}}{res $\leftarrow$ direccionNoSoportada() \tcp*{O(1)} }{
-\textbf{var} it: itOrd(secuOrdSinRep(evento))\\ 
+\textbf{var} it: itOrd(secuOrdSinRep(tupla$\langle$version, abr$\rangle$))\\ 
 it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
 \While{(actual(it).version $\neq$ version(d)) \tcp*{O(version(d))}}{avanzar(it)\tcp*{O(1)}}
-\eIf{($\neg$ tieneRegla(actual(it).aR,d)) \tcp*{O(version(d))}}{res $\leftarrow$ interfazDeSalidaNoEncontrada()\tcp*{O(1)}}{
-\eIf{(estaCaida?(e,interfazDeSalida(actual(it).aR,d)))\tcp*{O(version(d))}}{interfazDeSalidaCaida(interfazDeSalida(actual(it).aR,d))\tcp*{O(version(d))}}{salidaPorInterfaz(interfazDeSalida(actual(it).aR,d))\tcp*{O(version(d))}}
+\eIf{($\neg$ tieneRegla(actual(it).aR, d)) \tcp*{O(version(d))}}{res $\leftarrow$ interfazDeSalidaNoEncontrada()\tcp*{O(1)}}{
+\eIf{(estaCaida?(e, interfazDeSalida(actual(it).aR, d)))\tcp*{O(version(d))}}{interfazDeSalidaCaida(interfazDeSalida(actual(it).aR, d))\tcp*{O(version(d))}}{res $\leftarrow$ salidaPorInterfaz(interfazDeSalida(actual(it).aR, d))\tcp*{O(version(d))}}
 }}
 \end{algorithm}
 
