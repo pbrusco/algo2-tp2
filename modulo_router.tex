@@ -73,11 +73,11 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 \textbf{funciones auxiliares:} 
 
 \alinearaxiomas{interfacesDeArbolesValidas(s,n)}{\hspace{5cm}}
-\alinearfuncs{interfacesDeArbolesValidasLA}{\hspace{9.5cm}}
+\alinearfuncs{interfacesDeArbolesValidas}{\hspace{11.0cm}}
 
 \vspace{11pt}
 
-\func{versionesDeReglasValidas}{secuOrdSinRep(tupla(version,abr)),conj(version)}{bool}{}
+\func{versionesDeReglasValidas}{secuOrdSinRep(tupla$\langle$version: version, aR: abr$\rangle$),conj(version)}{bool}{}
 \axioma{versionesDeReglasValidas(s,c)}{\lif vacia?(s) \lthen \true\\
 										\hspace*{-0.85cm}\lelse prim(s).version $\in$ c $\wedge$ versionesDeReglasValidas(fin(s),c)}
 
@@ -88,26 +88,26 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 
 \vspace{15pt}
 
-\func{interfacesDeArbolesValidas}{secuOrdSinRep(tupla(version,abr)),nat}{bool}{}
+\func{interfacesDeArbolesValidas}{secuOrdSinRep(tupla$\langle$version: version, aR: abr$\rangle$),nat}{bool}{}
 \axioma{interfacesDeArbolesValidas(s,n)}{($\forall$ d: dirIp) (estaVersionEnTupla(version(d),s) \impluego \\
 											interValidasAux(s,n,d))}
 
 \vspace{15pt}
 
-\func{estaVersionEnTupla}{version,secuOrdSinRep(tupla(version,abr))}{bool}{}
+\func{estaVersionEnTupla}{version,secuOrdSinRep(tupla$\langle$version: version, aR: abr$\rangle$)}{bool}{}
 \axioma{estaVersionEnTupla(v,s)}{\lif vacia?(s) \lthen \false\\
 								\hspace*{-0.85cm}\lelse prim(s).version $=$ v $\vee$ estaVersionEnTupla(v,fin(s))}
 
 \vspace{15pt}
 
-\func{interValidasAux}{secuOrdSinRep(tupla(version,abr))/s,nat,dirIp/d}{bool}{estaVersionEnTupla(version(d),s)}
+\func{interValidasAux}{secuOrdSinRep(tupla$\langle$version: version, aR: abr$\rangle$)/s,nat,dirIp/d}{bool}{estaVersionEnTupla(version(d),s)}
 \axioma{interValidasAux(s,n,d)}{\lif prim(s).version $=$ version(d) \\
 								\hspace*{0.6cm}\lthen interfazDeSalida(prim(s).aR,d) $<$ n\\
 								\hspace*{-0.85cm}\lelse interValidasAux(fin(s),n,d)}
 
 \vspace{15pt}
 
-\func{alturaDeArbolesValida}{secuOrdSinRep(tupla(version,abr))}{bool}{}
+\func{alturaDeArbolesValida}{secuOrdSinRep(tupla$\langle$version: version, aR: abr$\rangle$)}{bool}{}
 \axioma{alturaDeArbolesValida(s)}{\lif vacia?(s) \lthen true\\
 				\hspace*{-0.85cm}\lelse 8 * prim(s).version $\geq$ altura(prim(s).aR)\\
 				\hspace*{3cm}$\wedge$ alturaDeArbolesValida(fin(s))}
@@ -308,7 +308,7 @@ i $\leftarrow$ interfazDeSalida(actual(it).aR,d) \tcp*{O(version(d))}
 res $\leftarrow$ (e.status$\_$inter[i]).eventos\tcp*{O(1)}
 \end{algorithm}
 
-
+\newpage
 \textit{i}estaCaida?(in e: estr, in i: interfaz) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
 \Orden{O(1)}
