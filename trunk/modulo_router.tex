@@ -17,7 +17,7 @@ agVersi\'on(inout r: router, in v: versi\'on) \hfill(O(v))\\
 $\{$($\sombreritoWide{r} \igobs\ r_0$) $\wedge$ ($\sombreritoWide{v} \notin$ versiones($\sombreritoWide{r}$))$\}$\\
 $\{\sombreritoWide{r} \igobs$ agVersi\'on($r_0$,$\sombreritoWide{v}$)$\}$\\
 
-agRegla(inout r: router, in u: reglaDir) \hfill(O(version(u))) \\
+agRegla(inout r: router, in u: reglaDir) \hfill(O(version(dirIp(u)))) \\
 $\{$($\sombreritoWide{r} \igobs\ r_0$) $\wedge$ (versi\'on(dirIp($\sombreritoWide{u}$)) $\in$ versiones($\sombreritoWide{r}$)) $\wedge$ (inter($\sombreritoWide{u}$) interfaces($\sombreritoWide{r}$))$\}$\\
 $\{\sombreritoWide{r} \igobs$ agRegla($r_0$,$\sombreritoWide{u}$)$\}$\\
 
