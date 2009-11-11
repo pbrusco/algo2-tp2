@@ -46,6 +46,6 @@ tieneRegla(aR,d) \impluego interfazDeSalida(aR,d) \igobs interfazDeSalida(aR',d)
 	\axioma{tieneRegla(agRegla(a,r),d)}{If coincidenEnBits(cantBits(r),dirIp(r),d) then true else tieneRegla(a,d)}
 
 	\axioma{altura(nuevo())}{0}
-	\axioma{altura(agRegla(a,r),d)}{max{cantBits(r),altura(r)}}
+	\axioma{altura(agRegla(a,r),d)}{max(cantBits(r),altura(r))}
 
 \end{tad}
