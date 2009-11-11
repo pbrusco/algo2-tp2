@@ -162,9 +162,9 @@ versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \
 \alinearaxiomas{arbolDeLaVersion(v,s)}
 
 \func{dameRtaDir}{estr/e,dirIp}{respuestaDir}{Rep(e)}
-\axioma{dameRtaDir(e,d)}{\lif version(d) $\notin$ e.versiones \lthen DireccionNoSoportada \\
+\axioma{dameRtaDir(e,d)}{\lif version(d) $\notin$ e.versiones \lthen DireccionNoSoportada() \\
 						 \hspace*{-0.85cm}\lelse \lif $\neg$tieneRegla(arbolDeLaVersion(version(d),e.reglas),d) \\
-						 \hspace*{0.6cm}\lthen interfazDeSalidaNoEncontrada \\
+						 \hspace*{0.6cm}\lthen interfazDeSalidaNoEncontrada() \\
 						 \hspace*{-0.85cm}\lelse \lif estaCaida?(prim((e.status$\_$inter[queInterfaz(e,d)]).eventos)) \\
 						 \hspace*{0.6cm}\lthen interfazDeSalidaCaida(queInterfaz(e,d)) \\
 						 \hspace*{-0.85cm}\lelse SalidaPorInterfaz(queInterfaz(e,d))}
