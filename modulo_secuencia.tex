@@ -124,7 +124,7 @@ n.anterior $\leftarrow$ NULL \tcp*{O(1)}
 e.prim $\leftarrow$ $\&$n\tcp*{O(1)}
 e.ult $\leftarrow$ e.prim\tcp*{O(1)}}
 {\While{((s $\neq$ e.ult) $\wedge$ (a $\opsub{>}{\alpha}$ (*s).dato))\tcp*{O(posicionRelativaDe(e.prim,a))}}{
-s $\leftarrow$ (*s).proximo \tcp*{O(1)}}}
+s $\leftarrow$ (*s).proximo \tcp*{O(1)}}
 \BlankLine
 \eIf{(a $\opsub{\leq}{\alpha}$ (*s).dato)\tcp*{O(1)}}{
 n.proximo $\leftarrow$ s \tcp*{O(1)}
@@ -133,40 +133,41 @@ n.anterior $\leftarrow$ s \tcp*{O(1)}
 (*s).proximo $\leftarrow$ $\&$n\tcp*{O(1)}}{
 n.proximo $\leftarrow$ NULL \tcp*{O(1)}
 n.anterior $\leftarrow$ s \tcp*{O(1)}
-(*s).proximo $\leftarrow$ $\&$n\tcp*{O(1)}}
+(*s).proximo $\leftarrow$ $\&$n\tcp*{O(1)}}}
 \end{algorithm}
 
 
-textit{i}insertarOrdenadoDesdeAtras(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
+\textit{i}insertarOrdenadoDesdeAtras(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
-\Orden{O(longitud(Abs(e)) - posicionRelativa(Abs(a),Abs(e)))}
+\Orden{O(longitud(e) - posicionRelativa(a,e))}
 \BlankLine
 \textbf{var} n: nodo\\
 \BlankLine
 n.dato $\leftarrow$ a \tcp*{O(1)}
 \BlankLine
 \eIf{($\neg$ vacia?(e))}{
-	\eIf{(s.prim $=$ s.ult $\vee$ ($*$s.prim).dato $>$ a $\vee$ ($*$s.ult).dato $<$ a)}{
-		\eIf{(($\*$s.prim).dato $>$ a)}{
-			($\*$s.prim).anterior $\leftarrow$ $\&$n\\
+	\eIf{(e.prim = e.ult $\vee$ (*e.prim).dato $>$ a $\vee$ (*e.ult).dato $<$ a)}{
+		\eIf{((*e.prim).dato $>$ a)}{
+			(*e.prim).anterior $\leftarrow$ $\&$n\\
 			n.anterior $\leftarrow$ NULL\\
-			n.siguiente $\leftarrow$ s.prim\\
-			s.prim $\leftarrow$ $\&$n}{
-				\If{(($\*$s.prim).dato $<$ a)}{
-					($\*$s.ult).siguiente $\leftarrow$ $\&$n\\
-					n.anterior $\leftarrow$ s.ult\\
+			n.siguiente $\leftarrow$ e.prim\\
+			e.prim $\leftarrow$ $\&$n}{
+				\If{((*e.prim).dato $<$ a)}{
+					(*e.ult).siguiente $\leftarrow$ $\&$n\\
+					n.anterior $\leftarrow$ e.ult\\
 					n.siguiente $\leftarrow$ NULL\\
-					s.ult $\leftarrow$ $\&$n}}}{
+					e.ult $\leftarrow$ $\&$n}}}{
 	\textbf{var} aux: puntero(nodo)\\
-	aux $\leftarrow$ s.ult\\
-	\While{(($*$($*$aux).anterior).dato $>$ a)}{aux $\leftarrow$ ($*$aux).anterior}
-	\If{(($*$($*$aux).anterior).dato $<$ a)}{
-		($*$($*$aux).anterior).siguiente $\leftarrow$ $\&$n\\
-		n.anterior $\leftarrow$ ($*$aux).anterior\\
+	aux $\leftarrow$ e.ult\\
+	\While{((*(*aux).anterior).dato $>$ a)}{aux $\leftarrow$ (*aux).anterior}
+		(*(*aux).anterior).siguiente $\leftarrow$ $\&$n\\
+		n.anterior $\leftarrow$ (*aux).anterior\\
 		n.siguiente $\leftarrow$ aux\\
-		($*$aux).anterior $\leftarrow$ $\&$n}}}{
-s.prim $\leftarrow$ s.ult $\leftarrow$ $\&$n\\
-n.anterior $\leftarrow$ n.siguiente $\leftarrow$ NULL}
+		(*aux).anterior $\leftarrow$ $\&$n}}{
+e.prim $\leftarrow$ $\&$n\\
+e.ult $\leftarrow$ $\&$n\\
+n.anterior $\leftarrow$ NULL\\
+n.siguiente $\leftarrow$ NULL}
 \end{algorithm}
 
 
