@@ -110,7 +110,7 @@ res $\leftarrow$ $\langle$ NULL, NULL $\rangle$  \tcp*{O(1)}
 
 \textit{i}insertarOrdenadoDesdeAdelante(in elem: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
-\Orden{O(posicionRelativa(elem,e))}
+\Orden{O(posicionRelativa(e,elem))}
 \BlankLine
 \textbf{var} n: nodo\\
 \BlankLine
@@ -130,7 +130,7 @@ n.dato $\leftarrow$ elem \tcp*{O(1)}
 					e.ult $\leftarrow$ $\&$n\tcp*{O(1)}}}}{
 	\textbf{var} aux: puntero(nodo)\tcp*{O(1)}
 	aux $\leftarrow$ e.prim\tcp*{O(1)}
-	\While{((*(*aux).proximo).dato $\opsub{<}{\alpha}$ elem)\tcp*{O(posicionRelativa(elem,e))}}{aux $\leftarrow$ (*aux).proximo\tcp*{O(1)}}
+	\While{((*(*aux).proximo).dato $\opsub{<}{\alpha}$ elem)\tcp*{O(posicionRelativa(e,elem))\footnote{El ciclo se ejecuta tantas veces como la cantidad de elementos menores al que estoy agregando haya en la secuencia. Por lo tanto, al no haber elementos repetidos, como m\'aximo se va a recorrer posicionRelativa(e,elem) veces}}}{aux $\leftarrow$ (*aux).proximo\tcp*{O(1)}}
 		(*(*aux).proximo).anterior $\leftarrow$ $\&$n\tcp*{O(1)}
 		n.proximo $\leftarrow$ (*aux).proximo\tcp*{O(1)}
 		n.anterior $\leftarrow$ aux\tcp*{O(1)}
@@ -144,7 +144,7 @@ n.proximo $\leftarrow$ NULL\tcp*{O(1)}}
 
 \textit{i}insertarOrdenadoDesdeAtras(in elem: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
-\Orden{O(a)\footnote{a = longitud(e) - posicionRelativa(elem,e)}}
+\Orden{O(a)\footnote{a = longitud(e) - posicionRelativa(e,elem)}}
 \BlankLine
 \textbf{var} n: nodo\\
 \BlankLine
@@ -164,7 +164,7 @@ n.dato $\leftarrow$ elem \tcp*{O(1)}
 					e.ult $\leftarrow$ $\&$n\tcp*{O(1)}}}}{
 	\textbf{var} aux: puntero(nodo)\tcp*{O(1)}
 	aux $\leftarrow$ e.ult\tcp*{O(1)}
-	\While{((*(*aux).anterior).dato $\opsub{>}{\alpha}$ elem)\tcp*{O(a)}}{aux $\leftarrow$ (*aux).anterior\tcp*{O(1)}}
+	\While{((*(*aux).anterior).dato $\opsub{>}{\alpha}$ elem)\tcp*{O(a)\footnote{El ciclo se ejecuta tantas veces como la cantidad de elementos mayores al que estoy agregando haya en la secuencia. Por lo tanto, al no haber elementos repetidos, como m\'aximo se va a recorrer longitud(e) - posicionRelativa(e,elem) veces}}}{aux $\leftarrow$ (*aux).anterior\tcp*{O(1)}}
 		(*(*aux).anterior).proximo $\leftarrow$ $\&$n\tcp*{O(1)}
 		n.anterior $\leftarrow$ (*aux).anterior\tcp*{O(1)}
 		n.proximo $\leftarrow$ aux\tcp*{O(1)}
