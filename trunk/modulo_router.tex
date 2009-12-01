@@ -287,7 +287,7 @@ res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 \begin{algorithm}[H]
 \Orden{O(version(d))}
 \BlankLine
-\eIf{(version(d) $\notin$ e.versiones) \tcp*{O(1)}}{res $\leftarrow$ direccionNoSoportada() \tcp*{O(1)} }{
+\eIf{(version(d) $\notin$ e.versiones) \tcp*{O(1)}}{res $\leftarrow$ direccionNoSoportada() \tcp*{O(PosicionRelativa(e.versiones,version(d))} }{
 \textbf{var} it: itOrd(secuOrdSinRep(tupla$\langle$version, abr$\rangle$))\\ 
 \textbf{var} i: interfaz\\ 
 it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
