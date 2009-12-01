@@ -253,15 +253,15 @@ it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 	{retroceder(it) \tcp*{O(1)}
 	 \If{(actualAtras(it).estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (m.timestamp - actualAtras(it).timestamp)\tcp*{O(1)}}}
 \Else{\If{(tieneAnterior(it)?)\tcp*{O(1)}}{\While{(actualAtras(it) $\neq$ m)\tcp*{O(a)}}
-		{estado$\_$post $\leftarrow$ actualAtras(it) \tcp*{O(1)} retroceder(it)\tcp*{O(1)}}
+		{evento$\_$post $\leftarrow$ actualAtras(it) \tcp*{O(1)} retroceder(it)\tcp*{O(1)}}
 	\BlankLine
-	\If{($\neg$tieneAnterior?(it))\tcp*{O(1)}}{\If{(m.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}
+	\If{($\neg$tieneAnterior?(it))\tcp*{O(1)}}{\If{(m.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (evento$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}
 	\Else{retroceder(it)\tcp*{O(1)} 
-		estado$\_$prev $\leftarrow$ actualAtras(it)\tcp*{O(1)}
+		evento$\_$prev $\leftarrow$ actualAtras(it)\tcp*{O(1)}
 		\BlankLine 
-		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}
+		\If{(m.estaCaida? $\wedge\ \neg$evento$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (evento$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}
 		\BlankLine 
-		\If{($\neg$m.estaCaida? $\wedge$ estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc - (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}}}
+		\If{($\neg$m.estaCaida? $\wedge$ evento$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc - (evento$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}}}
 (e.status$\_$inter[i]).tiempoCaida $\leftarrow$ tc
 \end{algorithm}
 
