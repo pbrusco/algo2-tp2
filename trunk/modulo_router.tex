@@ -226,10 +226,12 @@ insertarOrdenadoDesdeAdelante($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
 it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
 v  $\leftarrow$ u.version \tcp*{O(1)}
 \BlankLine
-\While{(actualAdelante(it).version $\neq$ v) \tcp*{O(version(dirIp(u))))}}
+\While{(actualAdelante(it).version $\neq$ v) \tcp*{O(version(dirIp(u))))\footnote{El ciclo se ejecuta tantas veces como la cantidad de versiones menores a la de la regla que estoy agregando haya en las tuplas de e.reglas. Por lo tanto, al no haber versiones repetidas, como m\'aximo se va a recorrer version(u) veces la secuencia}}}
 {avanzar(it)}
-agRegla(actualAdelante(it).aR, u) \tcp*{O(cantBits(u))}
+agRegla(actualAdelante(it).aR, u) \tcp*{O(cantBits(u))\footnote{Este orden de complejidad temporal se obtiene de la interfaz del M\'odulo ArbolDeReglas}}
 \end{algorithm}
+
+
 
 \newpage
 \textit{i}agEvento(inout e: estr, in m: evento)\\
@@ -252,7 +254,7 @@ it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \If{(actualAtras(it) $=$ m) $\wedge$ tieneAnterior?(it))\tcp*{O(1)}}
 	{retroceder(it) \tcp*{O(1)}
 	 \If{(actualAtras(it).estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (m.timestamp - actualAtras(it).timestamp)\tcp*{O(1)}}}
-\Else{\If{(tieneAnterior(it)?)\tcp*{O(1)}}{\While{(actualAtras(it) $\neq$ m)\tcp*{O(a)}}
+\Else{\If{(tieneAnterior(it)?)\tcp*{O(1)}}{\While{(actualAtras(it) $\neq$ m)\tcp*{O(a)}\footnote{El ciclo se ejecuta a lo sumo ``a'' veces, dado que la secuencia se recorre de atras hacia adelante. Es decir, que el costo temporal del ciclo es igual a la cantidad de eventos en la secuencia con interfaz mayor que la del evento que quiero agregar}}
 		{evento$\_$post $\leftarrow$ actualAtras(it) \tcp*{O(1)} retroceder(it)\tcp*{O(1)}}
 	\BlankLine
 	\If{($\neg$tieneAnterior?(it))\tcp*{O(1)}}{\If{(m.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (evento$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}
