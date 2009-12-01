@@ -56,14 +56,15 @@ $res\leftarrow <>$
 
 $\textit{i}agregar$(in $a$: $\alpha$, inout $s$: SecuOrdSinRep($\alpha$))\\
 \begin{algorithm}[H]
-\Orden{O(posicionRelativa(a))}
+\Orden{O(posicionRelativa(s,a))}
 \BlankLine
-$insertar(n,s)$
+\If{$\neg$ esta?(a,s)\tcp*{O(posicionRelativa(s,a))\footnote{Esta complejidad se cumple por la informaci\'on que brinda la interfaz de SecuOrdSinRep}}}{insertarOrdenadoDesdeAdelante(a,s)\tcp*{O(posicionRelativa(s,a))\footnote{Esta complejidad se cumple por la informaci\'on que brinda la interfaz de SecuOrdSinRep}}} 
+
 \end{algorithm}
 
 $ipertenece$(in $a$: $\alpha$, in $s$: SecuOrdSinRep($\alpha$))\\
 \begin{algorithm}[H]
-\Orden{O(posicionRelativa(a))}
+\Orden{O(posicionRelativa(s,a))\footnote{Esta complejidad se cumple por la informaci\'on que brinda la interfaz de SecuOrdSinRep}}
 \BlankLine
-$res\leftarrow esta?(a,s)$
+res$\leftarrow$ esta?(a,s)
 \end{algorithm}

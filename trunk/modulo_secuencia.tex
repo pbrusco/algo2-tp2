@@ -72,13 +72,13 @@ $\{$verSecuSuby(it) $\igobs$ com(verSecuSuby($it_0$))$\}$\\
 \alinearfuncs{Rep}{}
 \func{Rep}{estrSecuOrdSinRep}{bool}{}
 \vspace{11pt}
-($\forall$ e: estrSecuOrdSinRep) Rep(e) = No hay ciclos en la secuencia $\wedge$ La secuencia est\'a ordenada $\wedge$ No hay repetidos en la secuencia
+($\forall$ e: estrSecuOrdSinRep) Rep(e) = No hay ciclos en la secuencia $\wedge$ La secuencia est\'a ordenada $\wedge$ No hay repetidos en la secuencia $\wedge$ Recorriendo desde el primero de la secuencia se puede llegar al ultimo y viceversa.
 
 \vspace{22pt}
 
 \func{Rep}{estrIterOrd}{bool}{}
 \vspace{11pt}
-($\forall$ e: estrIterOrd) Rep(e) = No hay ciclos en la secuencia $\wedge$ La secuencia est\'a ordenada $\wedge$ No hay repetidos en la secuencia
+($\forall$ e: estrIterOrd) Rep(e) = No hay ciclos en la secuencia $\wedge$ La secuencia est\'a ordenada $\wedge$ No hay repetidos en la secuencia $\wedge$ Recorriendo desde el primero de la secuencia se puede llegar al ultimo y viceversa.
 
 \vspace{33pt}
 
@@ -88,9 +88,18 @@ $\{$verSecuSuby(it) $\igobs$ com(verSecuSuby($it_0$))$\}$\\
 \func{Abs}{estrSecuOrdSinRep/e}{secuOrdSinRep($\alpha$)}{Rep(e)}
 \vspace{11pt}
 ($\forall$ e: estrSecuOrdSinRep) Abs(e) = s: secuOrdSinRep($\alpha$)/\\
-(vacia?(s) $\equiv$ (e == NULL)) $\yluego$ $\neg$vacia?(s) $\impluego$ ((prim(s) $\equiv$ (e $\rightarrow$ dato)) $\wedge$ (fin(s) $\equiv$ (e $\rightarrow$ proximo)) $\wedge$ Abs(e $\rightarrow$ proximo ))
-
+(vacia?(s) $\equiv$ (e.prim == NULL)$\wedge$(e.ult == NULL) ) $\yluego$ $\neg$vacia?(s) $\impluego$ ((prim(s) $\equiv$ (e.prim $\rightarrow$ dato)) $\wedge$ (fin(s) $\equiv$ (final(e))) 
 \vspace{22pt}
+
+\textbf{funciones auxiliares}
+\alinearfuncs{final}{\hspace{4cm}}
+\alinearaxiomas{final(e)}
+
+\func{final}{estr}{estr}{}
+\axioma{final(e)}{
+$\langle$(e.prim)$\rightarrow$ proximo, e.ult$\rangle$
+}
+
 
 \func{Abs}{estrIterOrd/e}{itOrd($\alpha$)}{Rep(e)}
 \vspace{11pt}
