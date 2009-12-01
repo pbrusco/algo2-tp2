@@ -64,7 +64,7 @@ $\{\sombreritoWide{res}\igobs$ $interfazDeSalida(\sombreritoWide{a},\sombreritoW
 			    \hspace*{-0.85cm}\lfi}
 
 \vspace{15pt}
-
+\footnote{dameSalida funciona dado que asumimos que el Arbol se poda cada vez que agregamos una regla como lo indica el algor\'itmo}
 \func{dameSalida}{puntero(estr)/p, arregloDeBool/a, nat, puntero(estr)}{interfaz}{Rep(p) $\yluego$ existeRegla(p,a,0)}
 \axioma{dameSalida(p,a,n,pi)}{\lif n $=$ tam(a) $\vee$ p $=$ null \lthen *pi\\
 			      \hspace*{-0.85cm}\lelse \lif a[n] $=$ true \lthen\\
@@ -125,28 +125,30 @@ x $\leftarrow$ inter(r) \tcp*{O(1)}
 (*pAux).inter $\leftarrow$ $\&$x \tcp*{O(1)}}{*((*pAux).inter) $\leftarrow$ inter(r)\tcp*{O(1)}}
 \BlankLine 
 (*pAux).der $\leftarrow$ NULL \tcp*{O(1)}
-(*pAux).izq $\leftarrow$ NULL \tcp*{O(1)}
+(*pAux).izq $\leftarrow$ NULL \tcp*{O(1)\footnote{En estas lineas podamos el arbol sin pensar el la etapa implementativa ya que ser\'ia un desperdicio de memoria. En ese momento se resolvera de alguna manera que emule la poda.}}
 
 \end{algorithm}
 
 
 \textit{i}InterfazDeSalida(in $p$ : puntero(estr),in $d$ : dirIp)   $\longrightarrow$	$res$ : interfaz\\
 \begin{algorithm}[H]
-\Orden{O(version(d)}
+\Orden{O(version(d))}
 \BlankLine
 \textbf{var} i : int\\
 \textbf{var} pRes: puntero(interfaz)\\
 \textbf{var} pResProvisorio: puntero(interfaz)\\
 \textbf{var} pAux puntero(estr) 	\\
+\textbf{var} dBits: arreglo dinamico de bool\\
 pRes $\leftarrow$ NULL \tcp*{O(1)}
+dBits $\leftarrow$ pasarABits(d) \tcp*{O(version(d))}
 pResProvisorio $\leftarrow$ NULL \tcp*{O(1)}
-pAux $\leftarrow$ NULL \tcp*{O(1)}
+pAux $\leftarrow$ p \tcp*{O(1)}
 i $\leftarrow$ 0 \tcp*{O(1)}
 \BlankLine 
-\While{pRes = NULL \tcp*{O(version(d))}}{
+\While{pRes = NULL \tcp*{O(version(d))\footnote{Esta complejidad se obtiene ya que se recorre el arbol hasta como mucho 8*cantBits(version(d)) y esto es O(version(d))}}}{
 	\If{(pAux$\rightarrow$inter) $\neq$ NULL \tcp*{O(1)}}{pResProvisorio $\leftarrow$ (pAux $\rightarrow$ inter) \tcp*{O(1)}}
 	
-	\eIf{d[i] = true \tcp*{O(1)}}{
+	\eIf{dBits[i] = true \tcp*{O(1)}}{
 		\eIf{(pAux$\rightarrow$der) = NULL \tcp*{O(1)}}{pRes $\leftarrow$ pResProvisorio \tcp*{O(1)}}{pAux $\leftarrow$ (pAux$\rightarrow$der) \tcp*{O(1)}}
 	}{
 		\eIf{(pAux$\rightarrow$izq) = NULL \tcp*{O(1)}}{pRes $\leftarrow$ pResProvisorio \tcp*{O(1)}}{pAux $\leftarrow$ (pAux$\rightarrow$der) \tcp*{O(1)}}
@@ -165,8 +167,10 @@ res $\leftarrow$ *(pRes) \tcp*{O(1)}
 \textbf{var} i : int\\
 \textbf{var} pAux : puntero(estr) 	\\
 \textbf{var} sePuedeSeguir : bool	\\
+\textbf{var} dBits: arreglo dinamico de bool\\
 \BlankLine
 pAux $\leftarrow$ p \tcp*{O(1)}
+dBits $\leftarrow$ pasarABits(d) \tcp*{O(version(d))}
 i $\leftarrow$ 0 \tcp*{O(1)}
 sePuedeSeguir $\leftarrow$ true \tcp*{O(1)}
 res $\leftarrow$ false \tcp*{O(1)}
@@ -176,8 +180,8 @@ res $\leftarrow$ false \tcp*{O(1)}
  sePuedeSeguir $\leftarrow$ false \tcp*{O(1)}}
 \BlankLine
 \BlankLine
-\While{res = false $\wedge$ sePuedeSeguir = true \tcp*{O(version(d))}}{
-	\eIf{d[i] = true \tcp*{O(1)}}{
+\While{res = false $\wedge$ sePuedeSeguir = true \tcp*{O(version(d))\footnote{Esta complejidad se obtiene ya que se recorre el arbol hasta como mucho 8*cantBits(version(d)) y esto es O(version(d))}}}{
+	\eIf{dBits[i] = true \tcp*{O(1)}}{
 		\eIf{(pAux$\rightarrow$der) = NULL \tcp*{O(1)}}{sePuedeSeguir $\leftarrow$ false \tcp*{O(1)}}{pAux $\leftarrow$ (pAux$\rightarrow$der) \tcp*{O(1)}}
 	}{
 		\eIf{(pAux$\rightarrow$izq) = NULL \tcp*{O(1)}}{sePuedeSeguir $\leftarrow$ false \tcp*{O(1)}}{pAux $\leftarrow$ (pAux$\rightarrow$izq) \tcp*{O(1)}}
