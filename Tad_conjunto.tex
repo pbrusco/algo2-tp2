@@ -1,0 +1,35 @@
+\section*{}
+
+\begin{tad}{\nombretad{Conjunto($\alpha$)}}
+
+\vspace*{11pt}
+
+\extiende{Conjunto($\alpha$)}
+
+\generos{conj($\alpha$)}
+
+	
+\alinearfuncs{posicionRelativa}{\hspace{5cm}}	
+	
+
+\alinearfuncs{posicionRelativa}{\hspace{5cm}}	
+
+
+\otrasops
+	\func{posicionRelativa}{conj($\alpha$),$\alpha$}{nat}{}
+
+
+	
+\axiomas{($\forall$ c: conj($\alpha$))($\forall$ a: $\alpha$)}
+
+		\axioma{posicionRelativa(c,a)}{\lif ($\emptyset$?(c))  \lthen 0 \\ \hspace*{-0.87cm} \lelse \lif (a $\leq_\alpha$ dameUno(c)) \lthen posicionRelativa(sinUno(c),a) \\ \hspace*{-0.87cm} \lelse 1 + posicionRelativa(sinUno(c),a)}
+
+		
+		
+\end{tad}
+
+
+
+		
+
+	
