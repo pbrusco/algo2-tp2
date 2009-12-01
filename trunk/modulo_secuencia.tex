@@ -13,7 +13,11 @@ $<>$()$\longrightarrow$ res: secuOrdSinRep($\alpha$) \hfill (O(1))\\
 $\{$true$\}$\\
 $\{\sombreritoWide{res} \igobs <> \}$\\
 
-insertar(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$)) \hfill (O(posicionRelativa(s,a)))\\
+insertarOrdenadoDesdeAdelante(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$)) \hfill (O(posicionRelativa(s,a)))\\
+$\{\sombreritoWide{s}\ \igobs\ s_0\ \wedge \neg esta?(a,s) \}$\\
+$\{\sombreritoWide{s}\ \igobs$ agregarOrdenado($\sombreritoWide{a}$,$s_0$)$\}$\\
+
+insertarOrdenadoDesdeAtras(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$)) \hfill (O(posicionRelativa(s,a)))\\
 $\{\sombreritoWide{s}\ \igobs\ s_0\ \wedge \neg esta?(a,s) \}$\\
 $\{\sombreritoWide{s}\ \igobs$ agregarOrdenado($\sombreritoWide{a}$,$s_0$)$\}$\\
 
@@ -21,7 +25,7 @@ vacia?(in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: bool\hfill (O(1))\\
 $\{$true$\}$\\
 $\{\sombreritoWide{res}\ \igobs$ vacia?($\sombreritoWide{a}$,$\sombreritoWide{s}$)$\}$\\
 
-esta?(in a: $\alpha$, in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: bool\hfill (O(posicionRelativa(as,)))\\
+esta?(in a: $\alpha$, in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: bool\hfill (O(posicionRelativa(s,a)))\\
 $\{$true$\}$\\
 $\{\sombreritoWide{res}\ \igobs$ esta?($\sombreritoWide{a}$,$\sombreritoWide{s}$)$\}$\\
 
@@ -29,17 +33,29 @@ crearIt(in s: secuOrdSinRep($\alpha$))$\longrightarrow$ res: itOrd($\alpha$)\hfi
 $\{$true$\}$\\
 $\{\sombreritoWide{res}\ \igobs$ crearIt($\sombreritoWide{s}$)$\}$\\
 
-actual(in it: itOrd($\alpha$))$\longrightarrow$ res: $\alpha$\hfill (O(1))\\
+actualAdelante(in it: itOrd($\alpha$))$\longrightarrow$ res: $\alpha$\hfill (O(1))\\
 $\{\neg$vacia?(verSecuSuby(it))$\}$\\
 $\{ $res$ \igobs $prim(verSecuSuby(it))$\}$\\
+
+actualAtras(in it: itOrd($\alpha$))$\longrightarrow$ res: $\alpha$\hfill (O(1))\\
+$\{\neg$vacia?(verSecuSuby(it))$\}$\\
+$\{ $res$ \igobs $ult(verSecuSuby(it))$\}$\\
 
 tieneProximo?(in it: itOrd($\alpha$))$\longrightarrow$ res: bool\hfill (O(1))\\
 \{$\neg$vacia?(verSecuSuby(it))\}\\
 \{$\sombreritoWide{res}$ \igobs $\neg$vacia?(fin(verSecuSuby(it)))\}\\
 
+tieneAnterior?(in it: itOrd($\alpha$))$\longrightarrow$ res: bool\hfill (O(1))\\
+\{$\neg$vacia?(verSecuSuby(it))\}\\
+\{$\sombreritoWide{res}$ \igobs $\neg$vacia?(com(verSecuSuby(it)))\}\\
+
 avanzar(inout it: itOrd($\alpha$))\hfill (O(1))\\
-$\{\sombreritoWide{it}\ \igobs\ it_0\ \wedge$ tieneProximo?($it_0$)$\}$\\
+$\{\sombreritoWide{it}\ \igobs\ it_0\ \wedge$ $\neg$vacia?(fin(verSecuSuby(it)))$\}$\\
 $\{$verSecuSuby(it) $\igobs$ fin(verSecuSuby($it_0$))$\}$\\
+
+retroceder(inout it: itOrd($\alpha$))\hfill (O(1))\\
+$\{\sombreritoWide{it}\ \igobs\ it_0\ \wedge$ $\neg$vacia?(com(verSecuSuby(it)))$\}$\\
+$\{$verSecuSuby(it) $\igobs$ com(verSecuSuby($it_0$))$\}$\\
 
 
 %REPRESENTACION
@@ -92,7 +108,7 @@ $\{$verSecuSuby(it) $\igobs$ fin(verSecuSuby($it_0$))$\}$\\
 res $\leftarrow$ NULL \tcp*{O(1)}
 \end{algorithm}
 
-\textit{i}insertar(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
+\textit{i}insertarOrdenadoDesdeAdelante(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
 \Orden{O(posicionRelativaDe(a))}
 \BlankLine
@@ -107,11 +123,11 @@ nodo $\leftarrow \langle$ a, NULL $\rangle$\tcp*{O(1)}
 it $\leftarrow$ creatIT(e) \tcp*{O(1)}
 it2 $\leftarrow$ NULL \tcp*{O(1)}
 \BlankLine
-\While{(tieneProximo?(it) $\wedge$ (a $\opsub{>}{\alpha}$ actual(it)))\tcp*{O(posicionRelativaDe(a))}}{
+\While{(tieneProximo?(it) $\wedge$ (a $\opsub{>}{\alpha}$ actualAdelante(it)))\tcp*{O(posicionRelativaDe(e,a))}}{
 it2 $\leftarrow$ it \tcp*{O(1)}
 avanzar(it) \tcp*{O(1)}} 
 \BlankLine
-\eIf{(a $\opsub{<}{\alpha}$ actual(it))\tcp*{O(1)}}{
+\eIf{(a $\opsub{<}{\alpha}$ actualAdelante(it))\tcp*{O(1)}}{
 (it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}
 (nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it\tcp*{O(1)}}{\If{($\neg$ tieneProximo?(it))\tcp*{O(1)}}{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}}}}
 \end{algorithm}
@@ -170,9 +186,9 @@ res $\leftarrow$ false \tcp*{O(1)}
 \BlankLine
 it $\leftarrow$ crearIt(e) \tcp*{O(1)}
 \BlankLine
-\While{(tieneProximo(it)? $\wedge$ actual(it) $<_\alpha$ a)\tcp*{O(posicionRelativa(a))}}{avanzar(it)\tcp*{O(1)}}
+\While{(tieneProximo(it)? $\wedge$ actualAdelante(it) $<_\alpha$ a)\tcp*{O(posicionRelativa(e,a))}}{avanzar(it)\tcp*{O(1)}}
 \BlankLine
-\If{(a $=_\alpha$ actual(it))\tcp*{O(1)}}{res $\leftarrow$ true\tcp*{O(1)}}}
+\If{(a $=_\alpha$ actualAdelante(it))\tcp*{O(1)}}{res $\leftarrow$ true\tcp*{O(1)}}}
 \end{algorithm}
 
 \textit{i}crearIT(in e: estrSecuOrdSinRep) $\longrightarrow$ res: estrIterOrd\\
@@ -182,7 +198,7 @@ it $\leftarrow$ crearIt(e) \tcp*{O(1)}
 res $\leftarrow$ e
 \end{algorithm}
 
-\textit{i}actual(in it: estrIterOrd) $\longrightarrow$ res: $\alpha$\\
+\textit{i}actualAdelante(in it: estrIterOrd) $\longrightarrow$ res: $\alpha$\\
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
