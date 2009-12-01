@@ -108,66 +108,71 @@ $\{$verSecuSuby(it) $\igobs$ com(verSecuSuby($it_0$))$\}$\\
 res $\leftarrow$ $\langle$ NULL, NULL $\rangle$  \tcp*{O(1)}
 \end{algorithm}
 
-\textit{i}insertarOrdenadoDesdeAdelante(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
+\textit{i}insertarOrdenadoDesdeAdelante(in elem: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
-\Orden{O(posicionRelativaDe(e.prim,a))}
+\Orden{O(posicionRelativa(elem,e))}
 \BlankLine
 \textbf{var} n: nodo\\
-\textbf{var} s: puntero(nodo)\\
 \BlankLine
-n.dato $\leftarrow$ a \tcp*{O(1)}
-s $\leftarrow$ e.prim \tcp*{O(1)}
+n.dato $\leftarrow$ elem \tcp*{O(1)}
 \BlankLine
-\eIf{(e.prim == NULL)\tcp*{O(1)}}{
-n.proximo $\leftarrow$ NULL \tcp*{O(1)}
-n.anterior $\leftarrow$ NULL \tcp*{O(1)}
+\eIf{($\neg$ vacia?(e))\tcp*{O(1)}}{
+	\eIf{((*e.prim).dato $\opsub{>}{\alpha}$ elem $\vee$ (*e.ult).dato $\opsub{<}{\alpha}$ elem)\tcp*{O(1)}}{
+		\eIf{((*e.prim).dato $\opsub{>}{\alpha}$ elem)\tcp*{O(1)}}{
+			(*e.prim).anterior $\leftarrow$ $\&$n\tcp*{O(1)}
+			n.anterior $\leftarrow$ NULL\tcp*{O(1)}
+			n.siguiente $\leftarrow$ e.prim\tcp*{O(1)}
+			e.prim $\leftarrow$ $\&$n\tcp*{O(1)}}{
+				\If{((*e.prim).dato $\opsub{<}{\alpha}$ elem)\tcp*{O(1)}}{
+					(*e.ult).siguiente $\leftarrow$ $\&$n\tcp*{O(1)}
+					n.anterior $\leftarrow$ e.ult\tcp*{O(1)}
+					n.siguiente $\leftarrow$ NULL\tcp*{O(1)}
+					e.ult $\leftarrow$ $\&$n\tcp*{O(1)}}}}{
+	\textbf{var} aux: puntero(nodo)\tcp*{O(1)}
+	aux $\leftarrow$ e.ult\tcp*{O(1)}
+	\While{((*(*aux).anterior).dato $\opsub{>}{\alpha}$ elem)\tcp*{O(posicionRelativa(elem,e))}}{aux $\leftarrow$ (*aux).anterior\tcp*{O(1)}}
+		(*(*aux).anterior).siguiente $\leftarrow$ $\&$n\tcp*{O(1)}
+		n.anterior $\leftarrow$ (*aux).anterior\tcp*{O(1)}
+		n.siguiente $\leftarrow$ aux\tcp*{O(1)}
+		(*aux).anterior $\leftarrow$ $\&$n\tcp*{O(1)}}}{
 e.prim $\leftarrow$ $\&$n\tcp*{O(1)}
-e.ult $\leftarrow$ e.prim\tcp*{O(1)}}
-{\While{((s $\neq$ e.ult) $\wedge$ (a $\opsub{>}{\alpha}$ (*s).dato))\tcp*{O(posicionRelativaDe(e.prim,a))}}{
-s $\leftarrow$ (*s).proximo \tcp*{O(1)}}
-\BlankLine
-\eIf{(a $\opsub{\leq}{\alpha}$ (*s).dato)\tcp*{O(1)}}{
-n.proximo $\leftarrow$ s \tcp*{O(1)}
-s $\leftarrow$ (*s).anterior \tcp*{O(1)}
-n.anterior $\leftarrow$ s \tcp*{O(1)}
-(*s).proximo $\leftarrow$ $\&$n\tcp*{O(1)}}{
-n.proximo $\leftarrow$ NULL \tcp*{O(1)}
-n.anterior $\leftarrow$ s \tcp*{O(1)}
-(*s).proximo $\leftarrow$ $\&$n\tcp*{O(1)}}}
+e.ult $\leftarrow$ $\&$n\tcp*{O(1)}
+n.anterior $\leftarrow$ NULL\tcp*{O(1)}
+n.siguiente $\leftarrow$ NULL\tcp*{O(1)}}
 \end{algorithm}
 
 
-\textit{i}insertarOrdenadoDesdeAtras(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
+\textit{i}insertarOrdenadoDesdeAtras(in elem: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
-\Orden{O(longitud(e) - posicionRelativa(a,e))}
+\Orden{O(a)\footnote{a = longitud(e) - posicionRelativa(elem,e)}}
 \BlankLine
 \textbf{var} n: nodo\\
 \BlankLine
-n.dato $\leftarrow$ a \tcp*{O(1)}
+n.dato $\leftarrow$ elem \tcp*{O(1)}
 \BlankLine
-\eIf{($\neg$ vacia?(e))}{
-	\eIf{(e.prim = e.ult $\vee$ (*e.prim).dato $\opsub{>}{\alpha}$ a $\vee$ (*e.ult).dato $\opsub{<}{\alpha}$ a)}{
-		\eIf{((*e.prim).dato $\opsub{>}{\alpha}$ a)}{
-			(*e.prim).anterior $\leftarrow$ $\&$n\\
-			n.anterior $\leftarrow$ NULL\\
-			n.siguiente $\leftarrow$ e.prim\\
-			e.prim $\leftarrow$ $\&$n}{
-				\If{((*e.prim).dato $\opsub{<}{\alpha}$ a)}{
-					(*e.ult).siguiente $\leftarrow$ $\&$n\\
-					n.anterior $\leftarrow$ e.ult\\
-					n.siguiente $\leftarrow$ NULL\\
-					e.ult $\leftarrow$ $\&$n}}}{
-	\textbf{var} aux: puntero(nodo)\\
-	aux $\leftarrow$ e.ult\\
-	\While{((*(*aux).anterior).dato $\opsub{>}{\alpha}$ a)}{aux $\leftarrow$ (*aux).anterior}
-		(*(*aux).anterior).siguiente $\leftarrow$ $\&$n\\
-		n.anterior $\leftarrow$ (*aux).anterior\\
-		n.siguiente $\leftarrow$ aux\\
-		(*aux).anterior $\leftarrow$ $\&$n}}{
-e.prim $\leftarrow$ $\&$n\\
-e.ult $\leftarrow$ $\&$n\\
-n.anterior $\leftarrow$ NULL\\
-n.siguiente $\leftarrow$ NULL}
+\eIf{($\neg$ vacia?(e))\tcp*{O(1)}}{
+	\eIf{((*e.prim).dato $\opsub{>}{\alpha}$ elem $\vee$ (*e.ult).dato $\opsub{<}{\alpha}$ elem)\tcp*{O(1)}}{
+		\eIf{((*e.prim).dato $\opsub{>}{\alpha}$ elem)\tcp*{O(1)}}{
+			(*e.prim).anterior $\leftarrow$ $\&$n\tcp*{O(1)}
+			n.anterior $\leftarrow$ NULL\tcp*{O(1)}
+			n.siguiente $\leftarrow$ e.prim\tcp*{O(1)}
+			e.prim $\leftarrow$ $\&$n\tcp*{O(1)}}{
+				\If{((*e.prim).dato $\opsub{<}{\alpha}$ elem)\tcp*{O(1)}}{
+					(*e.ult).siguiente $\leftarrow$ $\&$n\tcp*{O(1)}
+					n.anterior $\leftarrow$ e.ult\tcp*{O(1)}
+					n.siguiente $\leftarrow$ NULL\tcp*{O(1)}
+					e.ult $\leftarrow$ $\&$n\tcp*{O(1)}}}}{
+	\textbf{var} aux: puntero(nodo)\tcp*{O(1)}
+	aux $\leftarrow$ e.ult\tcp*{O(1)}
+	\While{((*(*aux).anterior).dato $\opsub{>}{\alpha}$ elem)\tcp*{O(a)}}{aux $\leftarrow$ (*aux).anterior\tcp*{O(1)}}
+		(*(*aux).anterior).siguiente $\leftarrow$ $\&$n\tcp*{O(1)}
+		n.anterior $\leftarrow$ (*aux).anterior\tcp*{O(1)}
+		n.siguiente $\leftarrow$ aux\tcp*{O(1)}
+		(*aux).anterior $\leftarrow$ $\&$n\tcp*{O(1)}}}{
+e.prim $\leftarrow$ $\&$n\tcp*{O(1)}
+e.ult $\leftarrow$ $\&$n\tcp*{O(1)}
+n.anterior $\leftarrow$ NULL\tcp*{O(1)}
+n.siguiente $\leftarrow$ NULL\tcp*{O(1)}}
 \end{algorithm}
 
 
