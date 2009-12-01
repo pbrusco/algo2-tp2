@@ -21,7 +21,7 @@ agRegla(inout r: router, in u: reglaDir) \hfill(O(version(dirIp(u)))) \\
 $\{$($\sombreritoWide{r} \igobs\ r_0$) $\wedge$ (versi\'on(dirIp($\sombreritoWide{u}$)) $\in$ versiones($\sombreritoWide{r}$)) $\wedge$ (inter($\sombreritoWide{u}$) interfaces($\sombreritoWide{r}$))$\}$\\
 $\{\sombreritoWide{r} \igobs$ agRegla($r_0$,$\sombreritoWide{u}$)$\}$\\
 
-agEvento(inout r: router, in e :evento)\hfill(O(a)) \\
+agEvento(inout r: router, in e :evento)\hfill(O(a)\footnote{a = longitud(eventos(r,inter(e)) - PosicionRelativa(eventos(r,inter(e)), e)}) \\
 $\{$($\sombreritoWide{r} \igobs\ r_0$) $\wedge$ ($\neg \exists$ i: interfaz)(i $<$ interfaces($\sombreritoWide{r}$)) $\wedge_L$ existeTimestamp?(eventos($\sombreritoWide{r}$,i),timestamp($\sombreritoWide{e}$)))$\}$\\
 $\{\sombreritoWide{r}\igobs$ agEvento($r_0$,$\sombreritoWide{e}$)$\}$\\
 
@@ -117,8 +117,8 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 
 \vspace{15pt}
 
-\func{interfazDeEventosCorrecta}{nat,ad(tupla(nat,secuOrdSinRep(evento)))}{bool}{}
-\axioma{interfazDeEventosCorrecta(n,a)}{($\forall$ i:interfaz) (i $<$ n \impluego\ 		sonEventosDeLaInterfaz(a[i].eventos,i))}
+\func{interfazDeEventosCorrecta}{ad(tupla(nat,secuOrdSinRep(evento)))}{bool}{}
+\axioma{interfazDeEventosCorrecta(a)}{($\forall$ i:interfaz) (i $<$ tam(a) \impluego\ 		sonEventosDeLaInterfaz(a[i].eventos,i))}
 
 \vspace{15pt}
 
@@ -129,7 +129,7 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 \vspace{15pt}
 
 \func{tiempoCaidaValido}{ad(tupla(nat,secu(evento)))}{bool}{}
-\axioma{tiempoCaidaValido(a)}{($\forall$ i:interfaz) (i $<$ n \impluego\ a[i].tiempoCaida $=$ sumarCaidas(a[i].eventos)}
+\axioma{tiempoCaidaValido(a)}{($\forall$ i:interfaz) (i $<$ tam(a) \impluego\ a[i].tiempoCaida $=$ sumarCaidas(a[i].eventos)}
 
 \vspace{15pt}
 
@@ -153,7 +153,7 @@ $\{\sombreritoWide{res} \igobs$ tiempocaida($\sombreritoWide{r}$,$\sombreritoWid
 \vspace{11pt}
 ($\forall$ e: estr) Abs(e) = r: router/ \\
 versiones(r) \igobs e.versiones $\wedge$ interfaces(r) \igobs e.cantInterfaces \yluego \\
-($\forall$ i: interfaz)(i $<$ interfaces(r) \impluego reverso(eventos(r,i)) \igobs (e.status$\_$inter[i]).eventos) $\wedge$ \\
+($\forall$ i: interfaz)(i $<$ interfaces(r) \impluego eventos(r,i) \igobs (e.status$\_$inter[i]).eventos) $\wedge$ \\
 ($\forall$ d: dirIp)(enrutar(r,d) \igobs dameRtaDir(e,d))\\
 
 \vspace{22pt}
@@ -245,7 +245,7 @@ i $\leftarrow$ m.inter \tcp*{O(1)}
 \BlankLine
 tc $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida \tcp*{O(1)}
 \BlankLine
-insertar(m, (e.status$\_$inter[i]).eventos) \tcp*{O(posicionRelativa(m))}
+insertar(m, (e.status$\_$inter[i]).eventos) \tcp*{O(a)}\footnote{a = longitud(e.status$\_$inter[i] - PosicionRelativa(e.status$\_$inter[i],m)}
 \BlankLine
 it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
@@ -264,7 +264,6 @@ it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 		\If{($\neg$m.estaCaida? $\wedge$ estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc - (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}}}
 (e.status$\_$inter[i]).tiempoCaida $\leftarrow$ tc
 \end{algorithm}
-
 
 
 \textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\\
