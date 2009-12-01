@@ -21,7 +21,7 @@ agRegla(inout r: router, in u: reglaDir) \hfill(O(version(dirIp(u)))) \\
 $\{$($\sombreritoWide{r} \igobs\ r_0$) $\wedge$ (versi\'on(dirIp($\sombreritoWide{u}$)) $\in$ versiones($\sombreritoWide{r}$)) $\wedge$ (inter($\sombreritoWide{u}$) interfaces($\sombreritoWide{r}$))$\}$\\
 $\{\sombreritoWide{r} \igobs$ agRegla($r_0$,$\sombreritoWide{u}$)$\}$\\
 
-agEvento(inout r: router, in e :evento)\hfill(O(a)\footnote{a = longitud(eventos(r,inter(e)) - posicionRelativa(eventos(r,inter(e)), e)}) \\
+agEvento(inout r: router, in e :evento)\hfill(O(a)\footnote{a = longitud(eventos(r,inter(e)) - PosicionRelativa(eventos(r,inter(e)), e)}) \\
 $\{$($\sombreritoWide{r} \igobs\ r_0$) $\wedge$ ($\neg \exists$ i: interfaz)(i $<$ interfaces($\sombreritoWide{r}$)) $\wedge_L$ existeTimestamp?(eventos($\sombreritoWide{r}$,i),timestamp($\sombreritoWide{e}$)))$\}$\\
 $\{\sombreritoWide{r}\igobs$ agEvento($r_0$,$\sombreritoWide{e}$)$\}$\\
 
@@ -212,7 +212,7 @@ res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$\tcp*{O(1)}
 \Orden{O(v)}
 \BlankLine
 agregar(v, e.versiones)\tcp*{O(v)}
-insertar($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
+insertarOrdenadoDesdeAdelante($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
 \end{algorithm}
 
 
@@ -226,9 +226,9 @@ insertar($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
 it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
 v  $\leftarrow$ u.version \tcp*{O(1)}
 \BlankLine
-\While{(actual(it).version $\neq$ v) \tcp*{O(version(dirIp(u))))}}
+\While{(actualAdelante(it).version $\neq$ v) \tcp*{O(version(dirIp(u))))}}
 {avanzar(it)}
-agRegla(actual(it).aR, u) \tcp*{O(cantBits(u))}
+agRegla(actualAdelante(it).aR, u) \tcp*{O(cantBits(u))}
 \end{algorithm}
 
 \newpage
@@ -245,19 +245,19 @@ i $\leftarrow$ m.inter \tcp*{O(1)}
 \BlankLine
 tc $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida \tcp*{O(1)}
 \BlankLine
-insertar(m, (e.status$\_$inter[i]).eventos) \tcp*{O(a)}\footnote{a = longitud(e.status$\_$inter[i] - posicionRelativa(e.status$\_$inter[i],m)}
+insertar(m, (e.status$\_$inter[i]).eventos) \tcp*{O(a)}\footnote{a = longitud(e.status$\_$inter[i] - PosicionRelativa(e.status$\_$inter[i],m)}
 \BlankLine
 it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
-\If{(actual(it) $=$ m) $\wedge$ tieneProximo?(it))\tcp*{O(1)}}
+\If{(actualAdelante(it) $=$ m) $\wedge$ tieneProximo?(it))\tcp*{O(1)}}
 	{avanzar(it) \tcp*{O(1)}
-	 \If{(actual(it).estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (m.timestamp - actual(it).timestamp)\tcp*{O(1)}}}
-\Else{\If{(tieneProximo(it)?)\tcp*{O(1)}}{\While{(actual(it) $\neq$ m)\tcp*{O(a)}}
-		{estado$\_$post $\leftarrow$ actual(it) \tcp*{O(1)} avanzar(it)\tcp*{O(1)}}
+	 \If{(actualAdelante(it).estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (m.timestamp - actualAdelante(it).timestamp)\tcp*{O(1)}}}
+\Else{\If{(tieneProximo(it)?)\tcp*{O(1)}}{\While{(actualAdelante(it) $\neq$ m)\tcp*{O(a)}}
+		{estado$\_$post $\leftarrow$ actualAdelante(it) \tcp*{O(1)} avanzar(it)\tcp*{O(1)}}
 	\BlankLine
 	\If{($\neg$tieneProximo?(it))\tcp*{O(1)}}{\If{(m.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}
 	\Else{avanzar(it)\tcp*{O(1)} 
-		estado$\_$prev $\leftarrow$ actual(it)\tcp*{O(1)}
+		estado$\_$prev $\leftarrow$ actualAdelante(it)\tcp*{O(1)}
 		\BlankLine 
 		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}
 		\BlankLine 
@@ -287,13 +287,13 @@ res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 \begin{algorithm}[H]
 \Orden{O(version(d))}
 \BlankLine
-\eIf{(version(d) $\notin$ e.versiones) \tcp*{O(1)}}{res $\leftarrow$ direccionNoSoportada() \tcp*{O(posicionRelativa(e.versiones,version(d))} }{
+\eIf{(version(d) $\notin$ e.versiones) \tcp*{O(1)}}{res $\leftarrow$ direccionNoSoportada() \tcp*{O(1)} }{
 \textbf{var} it: itOrd(secuOrdSinRep(tupla$\langle$version, abr$\rangle$))\\ 
 \textbf{var} i: interfaz\\ 
 it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
-\While{(actual(it).version $\neq$ version(d)) \tcp*{O(version(d))}}{avanzar(it)\tcp*{O(1)}}
-\eIf{($\neg$ tieneRegla(actual(it).aR,d)) \tcp*{O(version(d))}}{res $\leftarrow$ interfazDeSalidaNoEncontrada()\tcp*{O(1)}}{
-i $\leftarrow$ interfazDeSalida(actual(it).aR,d) \tcp*{O(version(d))}
+\While{(actualAdelante(it).version $\neq$ version(d)) \tcp*{O(version(d))}}{avanzar(it)\tcp*{O(1)}}
+\eIf{($\neg$ tieneRegla(actualAdelante(it).aR,d)) \tcp*{O(version(d))}}{res $\leftarrow$ interfazDeSalidaNoEncontrada()\tcp*{O(1)}}{
+i $\leftarrow$ interfazDeSalida(actualAdelante(it).aR,d) \tcp*{O(version(d))}
 \eIf{(estaCaida?(e,i))\tcp*{O(1)}}{res $\leftarrow$ interfazDeSalidaCaida(i)\tcp*{O(1)}}{res $\leftarrow$ salidaPorInterfaz(i)\tcp*{O(1)}}
 }}
 \end{algorithm}
@@ -318,7 +318,7 @@ res $\leftarrow$ false \tcp*{O(1)}
 \BlankLine
 it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
-res $\rightarrow$ actual(it).estaCaida? \tcp*{O(1)}}
+res $\rightarrow$ actualAdelante(it).estaCaida? \tcp*{O(1)}}
 \end{algorithm}
 
 
