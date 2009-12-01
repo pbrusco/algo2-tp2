@@ -211,8 +211,8 @@ res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$\tcp*{O(1)}
 \begin{algorithm}[H]
 \Orden{O(v)}
 \BlankLine
-agregar(v, e.versiones)\tcp*{O(v)}
-insertarOrdenadoDesdeAdelante($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)}
+agregar(v, e.versiones)\tcp*{O(v)\footnote{La complejidad es del orden del n\'umero de version ya que la interfaz de agregar de conjuntos asi lo indica}}
+insertarOrdenadoDesdeAdelante($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)\footnote{La complejidad es del orden del n\'umero de version ya que la interfaz de insertarOrdenadoDesdeAdelante de secuencias asi lo indica}}
 \end{algorithm}
 
 
@@ -289,13 +289,13 @@ res $\leftarrow$ e.cantInterfaces \tcp*{O(1)}
 \begin{algorithm}[H]
 \Orden{O(version(d))}
 \BlankLine
-\eIf{(version(d) $\notin$ e.versiones) \tcp*{O(1)}}{res $\leftarrow$ direccionNoSoportada() \tcp*{O(1)} }{
+\eIf{($\neg$ pertenece(version(d),e.versiones)) \tcp*{O(1)}}{res $\leftarrow$ direccionNoSoportada() \tcp*{O(posicionRelativa(version(v),e.versiones))\footnote{Cumple esta complejidad por la informac\'ion que aparece en la interfaz Conjunto}} }{
 \textbf{var} it: itOrd(secuOrdSinRep(tupla$\langle$version, abr$\rangle$))\\ 
 \textbf{var} i: interfaz\\ 
 it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
-\While{(actualAdelante(it).version $\neq$ version(d)) \tcp*{O(version(d))}}{avanzar(it)\tcp*{O(1)}}
-\eIf{($\neg$ tieneRegla(actualAdelante(it).aR,d)) \tcp*{O(version(d))}}{res $\leftarrow$ interfazDeSalidaNoEncontrada()\tcp*{O(1)}}{
-i $\leftarrow$ interfazDeSalida(actualAdelante(it).aR,d) \tcp*{O(version(d))}
+\While{(actualAdelante(it).version $\neq$ version(d)) \tcp*{O(version(d))\footnote{La complejidad se da porque avanzamos sobre la secuencia de versiones hasta encontrar las reglas que corresponden con la versi\'on de la dirIp y \'estas est\'an ordenadas}}}{avanzar(it)\tcp*{O(1)}}
+\eIf{($\neg$ tieneRegla(actualAdelante(it).aR,d)) \tcp*{O(version(d))\footnote{Cumple esta complejidad por la informac\'ion que aparece en la interfaz de ArbolDeReglas}}}{res $\leftarrow$ interfazDeSalidaNoEncontrada()\tcp*{O(1)}}{
+i $\leftarrow$ interfazDeSalida(actualAdelante(it).aR,d) \tcp*{O(version(d))\footnote{Cumple esta complejidad por la informac\'ion que aparece en la interfaz de ArbolDeReglas}}
 \eIf{(estaCaida?(e,i))\tcp*{O(1)}}{res $\leftarrow$ interfazDeSalidaCaida(i)\tcp*{O(1)}}{res $\leftarrow$ salidaPorInterfaz(i)\tcp*{O(1)}}
 }}
 \end{algorithm}
