@@ -231,9 +231,6 @@ v  $\leftarrow$ u.version \tcp*{O(1)}
 agRegla(actualAdelante(it).aR, u) \tcp*{O(cantBits(u))\footnote{Este orden de complejidad temporal se obtiene de la interfaz del M\'odulo ArbolDeReglas}}
 \end{algorithm}
 
-
-
-\newpage
 \textit{i}agEvento(inout e: estr, in m: evento)\\
 \begin{algorithm}[H]
 \Orden{O(a)\footnote{a = longitud(e.status$\_$inter[i] - posicionRelativa(e.status$\_$inter[i],m)}}
