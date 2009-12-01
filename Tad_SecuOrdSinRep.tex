@@ -17,9 +17,7 @@
 
 \vspace*{11pt}
 
-\otrasops
-		\func{ordenada}{secuOrdSinRep($\alpha$)}{bool}{}
-		\func{posicionRelativa}{secuOrdSinRep($\alpha$),$\alpha$}{nat}{}
+
 
 \vspace*{11pt}
 
@@ -38,13 +36,6 @@
 
 		\vspace{11pt}		
 		
-		\axioma{ordenada($<>$)}{true}
-		\axioma{ordenada(agregarOrdenado(a, s))}{(a $<_\alpha$ prim(s))) $\wedge$ ordenada(s))}
-		
-
-		\vspace{11pt}		
-
-		\axioma{posicionRelativa(s,a)}{\lif (vacia?(s) \oluego  a $\leq_\alpha$ prim(s)) \lthen 0 \\ \lelse 1 + posicionRelativa(fin(s),a)}
-
+	
 		
 \end{tad}

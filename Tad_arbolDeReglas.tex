@@ -17,7 +17,7 @@ tieneRegla(aR,d) \impluego interfazDeSalida(aR,d) \igobs interfazDeSalida(aR',d)
 	
 \usa{Bool, Nat, ReglaDir, DirIp}
 
-\exporta{g\'enero, generadores, observadores b\'asicos, altura}
+\exporta{g\'enero, generadores, observadores b\'asicos}
 
 \alinearfuncs{primerosBitsIguales?}{\hspace{5cm}}
 \generadores
@@ -33,7 +33,6 @@ tieneRegla(aR,d) \impluego interfazDeSalida(aR,d) \igobs interfazDeSalida(aR',d)
 \vspace*{11pt}
 
 \otrasops
-	\func{altura}{ArbolDeReglas}{nat}{}
 	\func{primerosBitsIguales?}{dirIP/d1, dirIP/d2, nat)}{bool}{((version(d1) = (version(d2)) $\wedge$ (version(d1)*8 $\geq$ n))}
 
 \vspace*{11pt}
@@ -46,8 +45,7 @@ tieneRegla(aR,d) \impluego interfazDeSalida(aR,d) \igobs interfazDeSalida(aR',d)
 	\axioma{tieneRegla(nuevo(),d)}{false}
 	\axioma{tieneRegla(agRegla(a,r),d)}{If primerosBitsIguales?(dirIp(r),d, cantBits(r)) then true else tieneRegla(a,d)}
 
-	\axioma{altura(nuevo())}{0}
-	\axioma{altura(agRegla(a,r),d)}{max(cantBits(r),altura(r))}
+
 
 	\axioma{primerosBitsIguales?(d,d',n)}{\lif (n=0) \lthen \true\\ 
 \lelse pasarA8Bits(d[n/8])[n mod 8] = pasarA8Bits(d'[n/8])[n mod 8] $\wedge$ primerosBitsIguales?(d,d',pred(n))}
