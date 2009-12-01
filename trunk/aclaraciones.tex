@@ -9,9 +9,6 @@ El Tad SecuOrdSinRep($\alpha$) es una extension del Tad Secu($\alpha$) en la cua
 Durante este trabajo pr\'actico se di\'o por sentado que se ten\'ian los siguientes \'ordenes totales:
 
 \begin{itemize}
- \item Un evento es una tupla, representada de la siguiente forma: \\
-tupla $\langle$ caida?: bool  $\times$ timestamp: nat $\times$ inter: interfaz  $\rangle$.\\
-Un evento EV1 se considera mayor que otro evento EV2 si EV1.timestamp $<$ EV2.timestamp.
 \item En la estructura del enrutador, el campo \textit{reglas} es de tipo secuOrdSinRep. Las tuplas que esta contiene, se ordenan por versi\'on, es decir, se ordenan seg\'un el orden dado por el primer campo de cada tupla.
 \end{itemize}
 
@@ -26,29 +23,7 @@ Las siguientes funciones fueron utilizadas para describir Ordenes de complejidad
 
 
 \alinearfuncs{posicionRelativa}{\hspace{5cm}}	
-\alinearaxiomas{ordenada(agregarOrdenado(a,s)}{\hspace{3cm}}
-
-
-		\func{ordenada}{secuOrdSinRep($\alpha$)}{bool}{}
-
-		\axioma{ordenada($<>$)}{true}
-		\axioma{ordenada(agregarOrdenado(a,s))}{(a $<_\alpha$ prim(s))) $\wedge$ ordenada(s))}
-		
-		\vspace{11pt}		
-
-		\func{posicionRelativa}{secuOrdSinRep($\alpha$),$\alpha$}{nat}{}
-
-		\axioma{posicionRelativa(s,a)}{\lif (vacia?(s) \oluego  a $\leq_\alpha$ prim(s)) \lthen 0 \\ \hspace*{-0.87cm} \lelse 1 + posicionRelativa(fin(s),a)}
-
-		\vspace{11pt}		
-
-		\func{posicionRelativa}{conj($\alpha$),$\alpha$}{nat}{}
-
-		\axioma{posicionRelativa(c,a)}{\lif ($\emptyset$?(c))  \lthen 0 \\ \hspace*{-0.87cm} \lelse \lif (a $\leq_\alpha$ dameUno(c)) \lthen posicionRelativa(sinUno(c),a) \\ \hspace*{-0.87cm} \lelse 1 + posicionRelativa(sinUno(c),a)}
-
-
-		\vspace{11pt}		
-
-		\func{altura}{ArbolDeReglas}{nat}{}
-		\axioma{altura(nuevo())}{0}
-		\axioma{altura(agRegla(a,r),d)}{max(cantBits(r),altura(r))}
+	\func{ordenada}{secuOrdSinRep($\alpha$)}{bool}{}
+	\func{posicionRelativa}{secuOrdSinRep($\alpha$),$\alpha$}{nat}{}
+	\func{posicionRelativa}{conj($\alpha$),$\alpha$}{nat}{}
+	\func{altura}{ArbolDeReglas}{nat}{}
