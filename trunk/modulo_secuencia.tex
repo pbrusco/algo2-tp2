@@ -105,7 +105,7 @@ $\{$verSecuSuby(it) $\igobs$ com(verSecuSuby($it_0$))$\}$\\
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ NULL \tcp*{O(1)}
+res $\leftarrow$ $\langle$ NULL, NULL $\rangle$  \tcp*{O(1)}
 \end{algorithm}
 
 \textit{i}insertarOrdenadoDesdeAdelante(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
@@ -146,20 +146,20 @@ n.anterior $\leftarrow$ s \tcp*{O(1)}
 n.dato $\leftarrow$ a \tcp*{O(1)}
 \BlankLine
 \eIf{($\neg$ vacia?(e))}{
-	\eIf{(e.prim = e.ult $\vee$ (*e.prim).dato $>$ a $\vee$ (*e.ult).dato $<$ a)}{
-		\eIf{((*e.prim).dato $>$ a)}{
+	\eIf{(e.prim = e.ult $\vee$ (*e.prim).dato $\opsub{>}{\alpha}$ a $\vee$ (*e.ult).dato $\opsub{<}{\alpha}$ a)}{
+		\eIf{((*e.prim).dato $\opsub{>}{\alpha}$ a)}{
 			(*e.prim).anterior $\leftarrow$ $\&$n\\
 			n.anterior $\leftarrow$ NULL\\
 			n.siguiente $\leftarrow$ e.prim\\
 			e.prim $\leftarrow$ $\&$n}{
-				\If{((*e.prim).dato $<$ a)}{
+				\If{((*e.prim).dato $\opsub{<}{\alpha}$ a)}{
 					(*e.ult).siguiente $\leftarrow$ $\&$n\\
 					n.anterior $\leftarrow$ e.ult\\
 					n.siguiente $\leftarrow$ NULL\\
 					e.ult $\leftarrow$ $\&$n}}}{
 	\textbf{var} aux: puntero(nodo)\\
 	aux $\leftarrow$ e.ult\\
-	\While{((*(*aux).anterior).dato $>$ a)}{aux $\leftarrow$ (*aux).anterior}
+	\While{((*(*aux).anterior).dato $\opsub{>}{\alpha}$ a)}{aux $\leftarrow$ (*aux).anterior}
 		(*(*aux).anterior).siguiente $\leftarrow$ $\&$n\\
 		n.anterior $\leftarrow$ (*aux).anterior\\
 		n.siguiente $\leftarrow$ aux\\
@@ -175,18 +175,18 @@ n.siguiente $\leftarrow$ NULL}
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ (e == NULL)
+res $\leftarrow$ (e.prim == NULL)
 \end{algorithm}
 
 \newpage 
 
 \textit{i}esta?(in a: $\alpha$, e: estrSecuOrdSinRep) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
-\Orden{O(posicionRelativa(a))}
+\Orden{O(posicionRelativa(e,a))}
 \BlankLine
 res $\leftarrow$ false \tcp*{O(1)}
 \BlankLine
-\If{(e $\neq$ NULL) \tcp*{O(1)}}{
+\If{($\neg$vacia?(e)) \tcp*{O(1)}}{
 \textbf{var} it: itOrd(secuOrdSinRep($\alpha$))\\
 \BlankLine
 it $\leftarrow$ crearIt(e) \tcp*{O(1)}
@@ -207,19 +207,40 @@ res $\leftarrow$ e
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ (it $\rightarrow$ dato)
+res $\leftarrow$ ((it.prim) $\rightarrow$ dato)
+\end{algorithm}
+
+\textit{i}actualAtras(in it: estrIterOrd) $\longrightarrow$ res: $\alpha$\\
+\begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
+res $\leftarrow$ ((it.ult) $\rightarrow$ dato)
 \end{algorithm}
 
 \textit{i}tieneProximo?(in it: estrIterOrd) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ (it $\rightarrow$ proximo $\neq$ NULL)
+res $\leftarrow$ ((it.prim) $\rightarrow$ proximo $\neq$ NULL)
+\end{algorithm}
+
+\textit{i}tieneAnterior?(in it: estrIterOrd) $\longrightarrow$ res: bool\\
+\begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
+res $\leftarrow$ ((it.ult) $\rightarrow$ anterior $\neq$ NULL)
 \end{algorithm}
 
 \textit{i}avanzar(inout it: estrIterOrd)\\
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-it $\leftarrow$ (it $\rightarrow$ proximo)
+it.prim $\leftarrow$ ((it.prim) $\rightarrow$ proximo)
+\end{algorithm}
+
+\textit{i}retroceder(inout it: estrIterOrd)\\
+\begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
+it.ult $\leftarrow$ ((it.ult) $\rightarrow$ anterior)
 \end{algorithm}
