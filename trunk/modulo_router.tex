@@ -234,7 +234,7 @@ agRegla(actualAdelante(it).aR, u) \tcp*{O(cantBits(u))}
 \newpage
 \textit{i}agEvento(inout e: estr, in m: evento)\\
 \begin{algorithm}[H]
-\Orden{O(a)}
+\Orden{O(a)\footnote{a = longitud(e.status$\_$inter[i] - PosicionRelativa(e.status$\_$inter[i],m)}}
 \BlankLine
 \textbf{var} i: interfaz\\
 \textbf{var} tc: nat\\
@@ -245,7 +245,7 @@ i $\leftarrow$ m.inter \tcp*{O(1)}
 \BlankLine
 tc $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida \tcp*{O(1)}
 \BlankLine
-insertarOrdenadoDesdeAtras(m, (e.status$\_$inter[i]).eventos) \tcp*{O(a)\footnote{a = longitud(e.status$\_$inter[i] - PosicionRelativa(e.status$\_$inter[i],m)}}
+insertarOrdenadoDesdeAtras(m, (e.status$\_$inter[i]).eventos) \tcp*{O(a)}
 \BlankLine
 it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
