@@ -245,19 +245,19 @@ i $\leftarrow$ m.inter \tcp*{O(1)}
 \BlankLine
 tc $\leftarrow$ (e.status$\_$inter[i]).tiempoCaida \tcp*{O(1)}
 \BlankLine
-insertar(m, (e.status$\_$inter[i]).eventos) \tcp*{O(a)}\footnote{a = longitud(e.status$\_$inter[i] - PosicionRelativa(e.status$\_$inter[i],m)}
+insertarOrdenadoDesdeAtras(m, (e.status$\_$inter[i]).eventos) \tcp*{O(a)\footnote{a = longitud(e.status$\_$inter[i] - PosicionRelativa(e.status$\_$inter[i],m)}}
 \BlankLine
 it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \BlankLine
-\If{(actualAdelante(it) $=$ m) $\wedge$ tieneProximo?(it))\tcp*{O(1)}}
-	{avanzar(it) \tcp*{O(1)}
-	 \If{(actualAdelante(it).estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (m.timestamp - actualAdelante(it).timestamp)\tcp*{O(1)}}}
-\Else{\If{(tieneProximo(it)?)\tcp*{O(1)}}{\While{(actualAdelante(it) $\neq$ m)\tcp*{O(a)}}
-		{estado$\_$post $\leftarrow$ actualAdelante(it) \tcp*{O(1)} avanzar(it)\tcp*{O(1)}}
+\If{(actualAtras(it) $=$ m) $\wedge$ tieneAnterior?(it))\tcp*{O(1)}}
+	{retroceder(it) \tcp*{O(1)}
+	 \If{(actualAtras(it).estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (m.timestamp - actualAtras(it).timestamp)\tcp*{O(1)}}}
+\Else{\If{(tieneAnterior(it)?)\tcp*{O(1)}}{\While{(actualAtras(it) $\neq$ m)\tcp*{O(a)}}
+		{estado$\_$post $\leftarrow$ actualAtras(it) \tcp*{O(1)} retroceder(it)\tcp*{O(1)}}
 	\BlankLine
-	\If{($\neg$tieneProximo?(it))\tcp*{O(1)}}{\If{(m.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}
-	\Else{avanzar(it)\tcp*{O(1)} 
-		estado$\_$prev $\leftarrow$ actualAdelante(it)\tcp*{O(1)}
+	\If{($\neg$tieneAnterior?(it))\tcp*{O(1)}}{\If{(m.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}
+	\Else{retroceder(it)\tcp*{O(1)} 
+		estado$\_$prev $\leftarrow$ actualAtras(it)\tcp*{O(1)}
 		\BlankLine 
 		\If{(m.estaCaida? $\wedge\ \neg$estado$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (estado$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}
 		\BlankLine 

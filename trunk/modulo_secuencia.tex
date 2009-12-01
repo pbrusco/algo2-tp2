@@ -65,7 +65,7 @@ $\{$verSecuSuby(it) $\igobs$ com(verSecuSuby($it_0$))$\}$\\
 \textbf{donde} \textit{nodo} \textbf{es} \textit{tupla $\langle$ dato: $\alpha$, proximo: puntero(nodo), anterior: puntero(nodo)$\rangle$}\\
 
 \textit{itOrd($\alpha$)} \textbf{se representa con} \textit{estrIterOrd}\\
-\textbf{donde} \textit{estrIterOrd} \textbf{es} \textit{puntero(nodo)}\\
+\textbf{donde} \textit{estrIterOrd} \textbf{es} \textit{tupla $\langle$ prim: puntero(nodo), ult: puntero(nodo) $\rangle$}\\
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante de Representaci\'on}
@@ -202,19 +202,40 @@ res $\leftarrow$ e
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ (it $\rightarrow$ dato)
+res $\leftarrow$ ((it.prim) $\rightarrow$ dato)
+\end{algorithm}
+
+\textit{i}actualAtras(in it: estrIterOrd) $\longrightarrow$ res: $\alpha$\\
+\begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
+res $\leftarrow$ ((it.ult) $\rightarrow$ dato)
 \end{algorithm}
 
 \textit{i}tieneProximo?(in it: estrIterOrd) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ (it $\rightarrow$ proximo $\neq$ NULL)
+res $\leftarrow$ ((it.prim) $\rightarrow$ proximo $\neq$ NULL)
+\end{algorithm}
+
+\textit{i}tieneAnterior?(in it: estrIterOrd) $\longrightarrow$ res: bool\\
+\begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
+res $\leftarrow$ ((it.ult) $\rightarrow$ anterior $\neq$ NULL)
 \end{algorithm}
 
 \textit{i}avanzar(inout it: estrIterOrd)\\
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-it $\leftarrow$ (it $\rightarrow$ proximo)
+it.prim $\leftarrow$ ((it.prim) $\rightarrow$ proximo)
+\end{algorithm}
+
+\textit{i}retroceder(inout it: estrIterOrd)\\
+\begin{algorithm}[H]
+\Orden{O(1)}
+\BlankLine
+it.ult $\leftarrow$ ((it.ult) $\rightarrow$ anterior)
 \end{algorithm}
