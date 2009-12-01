@@ -130,7 +130,7 @@ n.dato $\leftarrow$ elem \tcp*{O(1)}
 					e.ult $\leftarrow$ $\&$n\tcp*{O(1)}}}}{
 	\textbf{var} aux: puntero(nodo)\tcp*{O(1)}
 	aux $\leftarrow$ e.prim\tcp*{O(1)}
-	\While{((*(*aux).proximo).dato $\opsub{>}{\alpha}$ elem)\tcp*{O(posicionRelativa(elem,e))}}{aux $\leftarrow$ (*aux).proximo\tcp*{O(1)}}
+	\While{((*(*aux).proximo).dato $\opsub{<}{\alpha}$ elem)\tcp*{O(posicionRelativa(elem,e))}}{aux $\leftarrow$ (*aux).proximo\tcp*{O(1)}}
 		(*(*aux).proximo).anterior $\leftarrow$ $\&$n\tcp*{O(1)}
 		n.proximo $\leftarrow$ (*aux).proximo\tcp*{O(1)}
 		n.anterior $\leftarrow$ aux\tcp*{O(1)}

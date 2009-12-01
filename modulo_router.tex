@@ -254,7 +254,7 @@ it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 \If{(actualAtras(it) $=$ m) $\wedge$ tieneAnterior?(it))\tcp*{O(1)}}
 	{retroceder(it) \tcp*{O(1)}
 	 \If{(actualAtras(it).estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (m.timestamp - actualAtras(it).timestamp)\tcp*{O(1)}}}
-\Else{\If{(tieneAnterior(it)?)\tcp*{O(1)}}{\While{(actualAtras(it) $\neq$ m)\tcp*{O(a)}\footnote{El ciclo se ejecuta a lo sumo ``a'' veces, dado que la secuencia se recorre de atras hacia adelante. Es decir, que el costo temporal del ciclo es igual a la cantidad de eventos en la secuencia con interfaz mayor que la del evento que quiero agregar}}
+\Else{\If{(tieneAnterior(it)?)\tcp*{O(1)}}{\While{(actualAtras(it) $\neq$ m)\tcp*{O(a)\footnote{El ciclo se ejecuta a lo sumo ``a'' veces, dado que la secuencia se recorre de atras hacia adelante. Es decir, que el costo temporal del ciclo es igual a la cantidad de eventos en la secuencia con interfaz mayor que la del evento que quiero agregar}}}
 		{evento$\_$post $\leftarrow$ actualAtras(it) \tcp*{O(1)} retroceder(it)\tcp*{O(1)}}
 	\BlankLine
 	\If{($\neg$tieneAnterior?(it))\tcp*{O(1)}}{\If{(m.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (evento$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}
