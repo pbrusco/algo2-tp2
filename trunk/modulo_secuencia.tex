@@ -65,7 +65,7 @@ $\{$verSecuSuby(it) $\igobs$ com(verSecuSuby($it_0$))$\}$\\
 \textbf{donde} \textit{nodo} \textbf{es} \textit{tupla $\langle$ dato: $\alpha$, proximo: puntero(nodo), anterior: puntero(nodo)$\rangle$}\\
 
 \textit{itOrd($\alpha$)} \textbf{se representa con} \textit{estrIterOrd}\\
-\textbf{donde} \textit{estrIterOrd} \textbf{es} \textit{tupla $\langle$ prim: puntero(nodo), ult: puntero(nodo) $\rangle$}\\
+\textbf{donde} \textit{estrIterOrd} \textbf{es} \textit{puntero(nodo)}\\
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante de Representaci\'on}
@@ -110,30 +110,34 @@ res $\leftarrow$ NULL \tcp*{O(1)}
 
 \textit{i}insertarOrdenadoDesdeAdelante(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
-\Orden{O(posicionRelativaDe(a))}
+\Orden{O(posicionRelativaDe(e.prim,a))}
 \BlankLine
-\textbf{var} nodo: tupla $\langle$ $\alpha$ $\times$ puntero(tupla) $\rangle$
+\textbf{var} n: nodo\\
+\textbf{var} s: puntero(nodo)\\
 \BlankLine
-nodo $\leftarrow \langle$ a, NULL $\rangle$\tcp*{O(1)}
+n.dato $\leftarrow$ a \tcp*{O(1)}
+s $\leftarrow$ e.prim \tcp*{O(1)}
 \BlankLine
-\eIf{(e == NULL)\tcp*{O(1)}}{e $\leftarrow$ $\&$nodo\tcp*{O(1)}}{
-\textbf{var} it: itOrd(secuOrdSinRep($\alpha$))\\
-\textbf{var} i2: itOrd(secuOrdSinRep($\alpha$))\\
+\eIf{(e.prim == NULL)\tcp*{O(1)}}{
+n.proximo $\leftarrow$ NULL \tcp*{O(1)}
+n.anterior $\leftarrow$ NULL \tcp*{O(1)}
+e.prim $\leftarrow$ $\&$n\tcp*{O(1)}
+e.ult $\leftarrow$ e.prim\tcp*{O(1)}}
+{\While{((s $\neq$ e.ult) $\wedge$ (a $\opsub{>}{\alpha}$ (*s).dato))\tcp*{O(posicionRelativaDe(e.prim,a))}}{
+s $\leftarrow$ (*s).proximo \tcp*{O(1)}}}
 \BlankLine
-it $\leftarrow$ creatIT(e) \tcp*{O(1)}
-it2 $\leftarrow$ NULL \tcp*{O(1)}
-\BlankLine
-\While{(tieneProximo?(it) $\wedge$ (a $\opsub{>}{\alpha}$ actualAdelante(it)))\tcp*{O(posicionRelativaDe(e,a))}}{
-it2 $\leftarrow$ it \tcp*{O(1)}
-avanzar(it) \tcp*{O(1)}} 
-\BlankLine
-\eIf{(a $\opsub{<}{\alpha}$ actualAdelante(it))\tcp*{O(1)}}{
-(it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}
-(nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it\tcp*{O(1)}}{\If{($\neg$ tieneProximo?(it))\tcp*{O(1)}}{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}}}}
+\eIf{(a $\opsub{\leq}{\alpha}$ (*s).dato)\tcp*{O(1)}}{
+n.proximo $\leftarrow$ s \tcp*{O(1)}
+s $\leftarrow$ (*s).anterior \tcp*{O(1)}
+n.anterior $\leftarrow$ s \tcp*{O(1)}
+(*s).proximo $\leftarrow$ $\&$n\tcp*{O(1)}}{
+n.proximo $\leftarrow$ NULL \tcp*{O(1)}
+n.anterior $\leftarrow$ s \tcp*{O(1)}
+(*s).proximo $\leftarrow$ $\&$n\tcp*{O(1)}}
 \end{algorithm}
 
 
-\textit{i}insertarOrdenadoDesdeAtras(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
+textit{i}insertarOrdenadoDesdeAtras(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
 \begin{algorithm}[H]
 \Orden{O(longitud(Abs(e)) - posicionRelativa(Abs(a),Abs(e)))}
 \BlankLine
@@ -202,40 +206,19 @@ res $\leftarrow$ e
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ ((it.prim) $\rightarrow$ dato)
-\end{algorithm}
-
-\textit{i}actualAtras(in it: estrIterOrd) $\longrightarrow$ res: $\alpha$\\
-\begin{algorithm}[H]
-\Orden{O(1)}
-\BlankLine
-res $\leftarrow$ ((it.ult) $\rightarrow$ dato)
+res $\leftarrow$ (it $\rightarrow$ dato)
 \end{algorithm}
 
 \textit{i}tieneProximo?(in it: estrIterOrd) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-res $\leftarrow$ ((it.prim) $\rightarrow$ proximo $\neq$ NULL)
-\end{algorithm}
-
-\textit{i}tieneAnterior?(in it: estrIterOrd) $\longrightarrow$ res: bool\\
-\begin{algorithm}[H]
-\Orden{O(1)}
-\BlankLine
-res $\leftarrow$ ((it.ult) $\rightarrow$ anterior $\neq$ NULL)
+res $\leftarrow$ (it $\rightarrow$ proximo $\neq$ NULL)
 \end{algorithm}
 
 \textit{i}avanzar(inout it: estrIterOrd)\\
 \begin{algorithm}[H]
 \Orden{O(1)}
 \BlankLine
-it.prim $\leftarrow$ ((it.prim) $\rightarrow$ proximo)
-\end{algorithm}
-
-\textit{i}retroceder(inout it: estrIterOrd)\\
-\begin{algorithm}[H]
-\Orden{O(1)}
-\BlankLine
-it.ult $\leftarrow$ ((it.ult) $\rightarrow$ anterior)
+it $\leftarrow$ (it $\rightarrow$ proximo)
 \end{algorithm}
