@@ -45,8 +45,8 @@ $\{$verSecuSuby(it) $\igobs$ fin(verSecuSuby($it_0$))$\}$\\
 %REPRESENTACION
 \subsection*{Representaci\'on}
 \textit{secuOrdSinRep($\alpha$)} \textbf{se representa con} \textit{estrSecuOrdSinRep}\\
-\textbf{donde} \textit{estrSecuOrdSinRep} \textbf{es} \textit{puntero(nodo)}\\
-\textbf{donde} \textit{nodo} \textbf{es} \textit{tupla $\langle$ dato: $\alpha$, proximo: puntero(nodo)$\rangle$}\\
+\textbf{donde} \textit{estrSecuOrdSinRep} \textbf{es} \textit{tupla $\langle$ prim: puntero(nodo), ult: puntero(nodo) $\rangle$}\\
+\textbf{donde} \textit{nodo} \textbf{es} \textit{tupla $\langle$ dato: $\alpha$, proximo: puntero(nodo), anterior: puntero(nodo)$\rangle$}\\
 
 \textit{itOrd($\alpha$)} \textbf{se representa con} \textit{estrIterOrd}\\
 \textbf{donde} \textit{estrIterOrd} \textbf{es} \textit{puntero(nodo)}\\
@@ -115,6 +115,40 @@ avanzar(it) \tcp*{O(1)}}
 (it2 $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}
 (nodo $\rightarrow$ proximo) $\leftarrow$ $\&$it\tcp*{O(1)}}{\If{($\neg$ tieneProximo?(it))\tcp*{O(1)}}{(it $\rightarrow$ proximo) $\leftarrow$ $\&$nodo \tcp*{O(1)}}}}
 \end{algorithm}
+
+
+\textit{i}insertarOrdenadoDesdeAtras(in a: $\alpha$, inout e: estrSecuOrdSinRep)\\
+\begin{algorithm}[H]
+\Orden{O(longitud(Abs(e)) - posicionRelativa(Abs(a),Abs(e)))}
+\BlankLine
+\textbf{var} n: nodo\\
+\BlankLine
+n.dato $\leftarrow$ a \tcp*{O(1)}
+\BlankLine
+\eIf{($\neg$ vacia?(e))}{
+	\eIf{(s.prim $=$ s.ult $\vee$ ($*$s.prim).dato $>$ a $\vee$ ($*$s.ult).dato $<$ a)}{
+		\eIf{(($\*$s.prim).dato $>$ a)}{
+			($\*$s.prim).anterior $\leftarrow$ $\&$n\\
+			n.anterior $\leftarrow$ NULL\\
+			n.siguiente $\leftarrow$ s.prim\\
+			s.prim $\leftarrow$ $\&$n}{
+				\If{(($\*$s.prim).dato $<$ a)}{
+					($\*$s.ult).siguiente $\leftarrow$ $\&$n\\
+					n.anterior $\leftarrow$ s.ult\\
+					n.siguiente $\leftarrow$ NULL\\
+					s.ult $\leftarrow$ $\&$n}}}{
+	\textbf{var} aux: puntero(nodo)\\
+	aux $\leftarrow$ s.ult\\
+	\While{(($*$($*$aux).anterior).dato $>$ a)}{aux $\leftarrow$ ($*$aux).anterior}
+	\If{(($*$($*$aux).anterior).dato $<$ a)}{
+		($*$($*$aux).anterior).siguiente $\leftarrow$ $\&$n\\
+		n.anterior $\leftarrow$ ($*$aux).anterior\\
+		n.siguiente $\leftarrow$ aux\\
+		($*$aux).anterior $\leftarrow$ $\&$n}}}{
+s.prim $\leftarrow$ s.ult $\leftarrow$ $\&$n\\
+n.anterior $\leftarrow$ n.siguiente $\leftarrow$ NULL}
+\end{algorithm}
+
 
 \textit{i}vacia?(in e: estrSecuOrdSinRep) $\longrightarrow$ res: bool\\
 \begin{algorithm}[H]
