@@ -211,8 +211,8 @@ res $\leftarrow \langle \emptyset$, n, $<>$, inter$\rangle$\tcp*{O(1)}
 \begin{algorithm}[H]
 \Orden{O(v)}
 \BlankLine
-agregar(v, e.versiones)\tcp*{O(v)\footnote{La complejidad es del orden del n\'umero de version ya que la interfaz de agregar de conjuntos asi lo indica}}
-insertarOrdenadoDesdeAdelante($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)\footnote{La complejidad es del orden del n\'umero de version ya que la interfaz de insertarOrdenadoDesdeAdelante de secuencias asi lo indica}}
+agregar(v, e.versiones)\tcp*{O(v)\footnote{La complejidad es del orden de posicionRelativa(e.versiones, v) como lo indica la interfaz de Conjunto, pero en el peor caso, posicionRelativa(e.versiones, v) = v}}
+insertarOrdenadoDesdeAdelante($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)\footnote{La complejidad es del orden de posicionRelativa(e.versiones, v) como lo indica la interfaz de SecuOrdSinRep, pero en el peor caso, posicionRelativa(e.reglas, $\langle$v, $<>\rangle$) = v}}
 \end{algorithm}
 
 
@@ -226,11 +226,13 @@ insertarOrdenadoDesdeAdelante($\langle$v, $<>\rangle$, e.reglas)\tcp*{O(v)\footn
 it $\leftarrow$ crearIt(e.reglas) \tcp*{O(1)}
 v  $\leftarrow$ u.version \tcp*{O(1)}
 \BlankLine
-\While{(actualAdelante(it).version $\neq$ v) \tcp*{O(version(dirIp(u))))\footnote{El ciclo se ejecuta tantas veces como la cantidad de versiones menores a la de la regla que estoy agregando haya en las tuplas de e.reglas. Por lo tanto, al no haber versiones repetidas, como m\'aximo se va a recorrer version(u) veces la secuencia}}}
+\While{(actualAdelante(it).version $\neq$ v) \tcp*{O(version(dirIp(u))))\footnote{El ciclo se ejecuta tantas veces como la cantidad de versiones menores a la de la regla que estoy agregando haya en las tuplas de e.reglas. Por lo tanto, al no haber versiones repetidas, como m\'aximo se va a recorrer version(dirIp(u)) veces la secuencia}}}
 {avanzar(it)}
 agRegla(actualAdelante(it).aR, u) \tcp*{O(cantBits(u))\footnote{Este orden de complejidad temporal se obtiene de la interfaz del M\'odulo ArbolDeReglas}}
 \end{algorithm}
 
+\newpage
+\begin{minipage}[b][14cm][t]{18cm}
 \textit{i}agEvento(inout e: estr, in m: evento)\\
 \begin{algorithm}[H]
 \Orden{O(a)\footnote{a = longitud(e.status$\_$inter[i].eventos) - posicionRelativa(e.status$\_$inter[i].eventos,m)}}
@@ -261,10 +263,11 @@ it $\leftarrow$ crearIt((e.status$\_$inter[i]).eventos) \tcp*{O(1)}
 		\If{(m.estaCaida? $\wedge\ \neg$evento$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc + (evento$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}
 		\BlankLine 
 		\If{($\neg$m.estaCaida? $\wedge$ evento$\_$prev.estaCaida?)\tcp*{O(1)}}{tc $\leftarrow$ tc - (evento$\_$post.timestamp - m.timestamp)\tcp*{O(1)}}}}}
-(e.status$\_$inter[i]).tiempoCaida $\leftarrow$ tc
+(e.status$\_$inter[i]).tiempoCaida $\leftarrow$ tc\tcp*{O(1)}
 \end{algorithm}
+\end{minipage}
 
-
+\newpage
 \textit{i}versiones(in e: estr) $\longrightarrow$ res: conj(version)\\
 \begin{algorithm}[H]
 \Orden{O(1)}
