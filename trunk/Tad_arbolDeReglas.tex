@@ -34,7 +34,6 @@ tieneRegla(aR,d) \impluego interfazDeSalida(aR,d) \igobs interfazDeSalida(aR',d)
 
 \otrasops
 	\func{primerosBitsIguales?}{dirIP/d1, dirIP/d2, nat}{bool}{((version(d1) = (version(d2)) $\wedge$ (version(d1)*8 $\geq$ n))}
-	\func{altura}{ArbolDeReglas}{nat}{}
 
 \vspace*{11pt}
 
@@ -50,15 +49,6 @@ tieneRegla(aR,d) \impluego interfazDeSalida(aR,d) \igobs interfazDeSalida(aR',d)
 
 	\axioma{primerosBitsIguales?(d,d',n)}{\lif (n=0) \lthen \true\\ 
 \lelse pasarA8Bits(d[n/8])[n mod 8] = pasarA8Bits(d'[n/8])[n mod 8] $\wedge$ primerosBitsIguales?(d,d',pred(n))}
-	
-
-
-		\vspace{11pt}		
-
-		\axioma{altura(nuevo())}{0}
-		\axioma{altura(agRegla(a,r),d)}{max(cantBits(r),altura(r))}
-
-\textit{Aclaraci\'on: Esta operaci\'on se utiliza s\'olo en el Rep del Enrutador}
 
 
 \end{tad}

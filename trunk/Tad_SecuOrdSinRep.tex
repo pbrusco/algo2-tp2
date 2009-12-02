@@ -20,6 +20,7 @@
 \otrasops
 	\func{ordenada}{secuOrdSinRep($\alpha$)}{bool}{}
 	\func{posicionRelativa}{secuOrdSinRep($\alpha$),$\alpha$}{nat}{}
+	\func{com}{secuOrdSinRep($\alpha$)/s}{secuOrdSinRep($\alpha$)}{$\neg$vacia?(s)}
 
 	
 
@@ -46,6 +47,13 @@
 
 		\axioma{ordenada($<>$)}{true}
 		\axioma{ordenada(agregarOrdenado(a,s))}{(a $<_\alpha$ prim(s))) $\wedge$ ordenada(s))}
+		
+		\vspace{11pt}		
+		
+	
+
+
+		\axioma{com(s)}{\lif (vacia?(fin(s))) \lthen $\<\>$ \\ \lelse agregarOrdenado(prim(s),com(fin(s)))}
 		
 		\vspace{11pt}		
 
