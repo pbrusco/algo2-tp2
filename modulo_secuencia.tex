@@ -17,7 +17,7 @@ insertarOrdenadoDesdeAdelante(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$)) 
 $\{\sombreritoWide{s}\ \igobs\ s_0\ \wedge \neg esta?(a,s) \}$\\
 $\{\sombreritoWide{s}\ \igobs$ agregarOrdenado($\sombreritoWide{a}$,$s_0$)$\}$\\
 
-insertarOrdenadoDesdeAtras(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$)) \hfill (O(posicionRelativa(s,a)))\\
+insertarOrdenadoDesdeAtras(in a: $\alpha$, inout s: secuOrdSinRep($\alpha$))  (O(longitud(s) - posicionRelativa(s,a)))\\
 $\{\sombreritoWide{s}\ \igobs\ s_0\ \wedge \neg esta?(a,s) \}$\\
 $\{\sombreritoWide{s}\ \igobs$ agregarOrdenado($\sombreritoWide{a}$,$s_0$)$\}$\\
 
@@ -65,7 +65,7 @@ $\{$verSecuSuby(it) $\igobs$ com(verSecuSuby($it_0$))$\}$\\
 \textbf{donde} \textit{nodo} \textbf{es} \textit{tupla $\langle$ dato: $\alpha$, proximo: puntero(nodo), anterior: puntero(nodo)$\rangle$}\\
 
 \textit{itOrd($\alpha$)} \textbf{se representa con} \textit{estrIterOrd}\\
-\textbf{donde} \textit{estrIterOrd} \textbf{es} \textit{puntero(nodo)}\\
+\textbf{donde} \textit{estrIterOrd} \textbf{es} \textit{tupla $\langle$ prim: puntero(nodo), ult: puntero(nodo) $\rangle$}\\
 
 %INVARIANTE DE REPRESENTACION
 \subsection*{Invariante de Representaci\'on}
@@ -99,7 +99,7 @@ $\{$verSecuSuby(it) $\igobs$ com(verSecuSuby($it_0$))$\}$\\
 \axioma{final(e)}{
 $\langle$(e.prim)$\rightarrow$ proximo, e.ult$\rangle$
 }
-
+\vspace{22pt}
 
 \func{Abs}{estrIterOrd/e}{itOrd($\alpha$)}{Rep(e)}
 \vspace{11pt}
@@ -205,7 +205,7 @@ res $\leftarrow$ false \tcp*{O(1)}
 \BlankLine
 it $\leftarrow$ crearIt(e) \tcp*{O(1)}
 \BlankLine
-\While{(tieneProximo(it)? $\wedge$ actualAdelante(it) $<_\alpha$ a)\tcp*{O(posicionRelativa(e,a))}}{avanzar(it)\tcp*{O(1)}}
+\While{(tieneProximo(it)? $\wedge$ actualAdelante(it) $<_\alpha$ a)\tcp*{O(posicionRelativa(e,a))\footnote{La secuencia se recorre hasta que se encuentra al elemento buscado, o se encuentre uno mayor o no queden m\'as elementos por recorrer. Por esto es que la complejidad del peor casi es posicionRelativa(e,a)}}}{avanzar(it)\tcp*{O(1)}}
 \BlankLine
 \If{(a $=_\alpha$ actualAdelante(it))\tcp*{O(1)}}{res $\leftarrow$ true\tcp*{O(1)}}}
 \end{algorithm}

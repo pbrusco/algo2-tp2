@@ -64,7 +64,7 @@ $\{\sombreritoWide{res}\igobs$ $interfazDeSalida(\sombreritoWide{a},\sombreritoW
 			    \hspace*{-0.85cm}\lfi}
 
 \vspace{15pt}
-\footnote{dameSalida funciona dado que asumimos que el Arbol se poda cada vez que agregamos una regla como lo indica el algor\'itmo}
+
 \func{dameSalida}{puntero(estr)/p, arregloDeBool/a, nat, puntero(estr)}{interfaz}{Rep(p) $\yluego$ existeRegla(p,a,0)}
 \axioma{dameSalida(p,a,n,pi)}{\lif n $=$ tam(a) $\vee$ p $=$ null \lthen *pi\\
 			      \hspace*{-0.85cm}\lelse \lif a[n] $=$ true \lthen\\
@@ -76,6 +76,8 @@ $\{\sombreritoWide{res}\igobs$ $interfazDeSalida(\sombreritoWide{a},\sombreritoW
 			      \hspace*{1cm}\lelse dameSalida((*p).izq,a,n+1,(*p).int)\\
 			      \hspace*{1cm}\lfi\\
 			      \hspace*{-0.85cm}\lfi}
+			      
+\textit{Aclaraci\'on: dameSalida funciona dado que asumimos que el \'arbol se poda cada vez que agregamos una regla como lo indica el algor\'itmo}
 
 \newpage
 %ALGORITMOS
@@ -104,7 +106,7 @@ res $\leftarrow$ NULL \\
 \BlankLine 
 a $\leftarrow$ CrearArreglo(version(dirIp(r))*8) \tcp*{O(version(dirIp(r)))}
 \BlankLine
-\If {p = NULL \tcp*{O(1)}}{p $\leftarrow$ $\&$$\langle$NULL,NULL,NULL$\rangle$ \tcp*{O(1)}}
+\If {p = NULL \tcp*{O(1)}}{p $\leftarrow$ $\&$ $\langle$NULL,NULL,NULL$\rangle$ \tcp*{O(1)}}
 \BlankLine 
 a $\leftarrow$ pasarABits(dirIP(r)) \tcp*{O(version(dirIp(r)))}
 pAux $\leftarrow$ p \tcp*{O(1)}
@@ -112,9 +114,9 @@ i $\leftarrow$ 0 \tcp*{O(1)}
 \BlankLine 
 \While{i $\neq$ cantBits(r) \tcp*{O(cantBits(r))}}{
 	\eIf {a[i] = true \tcp*{O(1)}}{
-		\If{(*pAux).der = NULL \tcp*{O(1)}}{(*pAux).der $\leftarrow$ $\&$$\langle$NULL,NULL,NULL$\rangle$ \tcp*{O(1)}}
+		\If{(*pAux).der = NULL \tcp*{O(1)}}{(*pAux).der $\leftarrow$ $\&$ $\langle$NULL,NULL,NULL$\rangle$ \tcp*{O(1)}}
 			 pAux $\leftarrow$ (*pAux).der \tcp*{O(1)}}{
-				 \If{(*pAux).izq = NULL \tcp*{O(1)}}{(*pAux).izq $\leftarrow$ $\&$$\langle$NULL,NULL,NULL$\rangle$ \tcp*{O(1)}}				 
+				 \If{(*pAux).izq = NULL \tcp*{O(1)}}{(*pAux).izq $\leftarrow$ $\&$ $\langle$NULL,NULL,NULL$\rangle$ \tcp*{O(1)}}				 
 				 pAux $\leftarrow$ (*pAux).izq \tcp*{O(1)}}
 
 		i $\leftarrow$ i + 1 \tcp*{O(1)}
@@ -145,7 +147,7 @@ pResProvisorio $\leftarrow$ NULL \tcp*{O(1)}
 pAux $\leftarrow$ p \tcp*{O(1)}
 i $\leftarrow$ 0 \tcp*{O(1)}
 \BlankLine 
-\While{pRes = NULL \tcp*{O(version(d))\footnote{Esta complejidad se obtiene ya que se recorre el arbol hasta como mucho 8*cantBits(version(d)) y esto es O(version(d))}}}{
+\While{pRes = NULL \tcp*{O(version(d))\footnote{Esta complejidad se obtiene ya que se recorre el \'arbol hasta como mucho 8*version(d) y esto es O(version(d))}}}{
 	\If{(pAux$\rightarrow$inter) $\neq$ NULL \tcp*{O(1)}}{pResProvisorio $\leftarrow$ (pAux $\rightarrow$ inter) \tcp*{O(1)}}
 	
 	\eIf{dBits[i] = true \tcp*{O(1)}}{
@@ -180,7 +182,7 @@ res $\leftarrow$ false \tcp*{O(1)}
  sePuedeSeguir $\leftarrow$ false \tcp*{O(1)}}
 \BlankLine
 \BlankLine
-\While{res = false $\wedge$ sePuedeSeguir = true \tcp*{O(version(d))\footnote{Esta complejidad se obtiene ya que se recorre el arbol hasta como mucho 8*cantBits(version(d)) y esto es O(version(d))}}}{
+\While{res = false $\wedge$ sePuedeSeguir = true \tcp*{O(version(d))\footnote{Esta complejidad se obtiene ya que se recorre el arbol hasta como mucho 8*version(d) y esto es O(version(d))}}}{
 	\eIf{dBits[i] = true \tcp*{O(1)}}{
 		\eIf{(pAux$\rightarrow$der) = NULL \tcp*{O(1)}}{sePuedeSeguir $\leftarrow$ false \tcp*{O(1)}}{pAux $\leftarrow$ (pAux$\rightarrow$der) \tcp*{O(1)}}
 	}{
@@ -207,10 +209,10 @@ a $\leftarrow$ crearArrego(8*version(d)) \tcp*{O(version(d))}
 i $\leftarrow$ 7 \tcp*{O(1)}
 j $\leftarrow$ 0 \tcp*{O(1)}
 \BlankLine
-\While{(j $<$ version(d)) \tcp*{O(version(d))}}{
+\While{(j $<$ version(d)) \tcp*{O(version(d))\footnote{Esto se ejecuta version(d) veces. Esto tambi\'en podr\'ia haberse implementado con un ``for'' en vez de con un ``while''. Por cada iteraci\'on de ``j'' se itera 8 veces con ``i'', por lo que la complejidad total es O(8*version(d)), pero asint\'oticamente es O(version(d))}}}{
 	aux $\leftarrow$ d[j] \tcp*{O(1)}
 	\BlankLine
-	\While{(i $\geq$ 8*j) \tcp*{O(1)}}{
+	\While{(i $\geq$ 8*j) \tcp*{O(1)\footnote{Esto se ejecuta 8 veces, porque cuando se entra aqu\'i por primera vez vale que i = j+7. Esto tambi\'en podr\'ia haberse implementado con un ``for'' en vez de con un ``while''}}}{
 		\eIf{aux mod 2 = 1 \tcp*{O(1)}}{a[i] $\leftarrow$ true \tcp*{O(1)}}{a[i] $\leftarrow$ false \tcp*{O(1)}}
 		\BlankLine
 		aux $\leftarrow$ aux / 2 \tcp*{O(1)}
