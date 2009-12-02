@@ -205,7 +205,7 @@ res $\leftarrow$ false \tcp*{O(1)}
 \BlankLine
 it $\leftarrow$ crearIt(e) \tcp*{O(1)}
 \BlankLine
-\While{(tieneProximo(it)? $\wedge$ actualAdelante(it) $<_\alpha$ a)\tcp*{O(posicionRelativa(e,a))\footnote{La secuencia se recorre hasta que se encuentra al elemento buscado, o se encuentre uno mayor o no queden m\'as elementos por recorrer. Por esto es que la complejidad del peor casi es posicionRelativa(e,a)}}}{avanzar(it)\tcp*{O(1)}}
+\While{(tieneProximo(it)? $\wedge$ actualAdelante(it) $<_\alpha$ a)\tcp*{O(posicionRelativa(e,a))\footnote{La secuencia se recorre hasta que se encuentra al elemento buscado, o se encuentre uno mayor o no queden m\'as elementos por recorrer. Por esto es que la complejidad del peor caso es posicionRelativa(e,a)}}}{avanzar(it)\tcp*{O(1)}}
 \BlankLine
 \If{(a $=_\alpha$ actualAdelante(it))\tcp*{O(1)}}{res $\leftarrow$ true\tcp*{O(1)}}}
 \end{algorithm}
